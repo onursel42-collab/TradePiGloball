@@ -352,3 +352,47 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("supabase tanımsız, membership_plans yüklenemedi.");
   }
 });
+// Satıcı Tiplerini yükle
+async function loadSellerTypes() {
+    const selectBox = document.getElementById("seller-type");
+
+    if (!selectBox) {
+        console.warn("seller-type alanı bulunamadı.");
+        return;
+    }
+
+    // Yükleniyor bilgisi
+    selectBox.innerHTML = `<option>Yükleniyor...</option>`;
+
+    try {
+        const { data, error } = await supabase
+            .from("seller_types")
+            .select("*")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true });
+
+        if (error) {
+            console.error("Satıcı tipleri alınamadı:", error);
+            selectBox.innerHTML = `<option>Hata oluştu</option>`;
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            selectBox.innerHTML = `<option>Kayıtlı satıcı tipi yok</option>`;
+            return;
+        }
+
+        // Listeyi doldur
+        selectBox.innerHTML = "";
+        data.forEach((type) => {
+            const opt = document.createElement("option");
+            opt.value = type.id;
+            opt.textContent = type.name;
+            selectBox.appendChild(opt);
+        });
+
+    } catch (err) {
+        console.error("loadSellerTypes genel hata:", err);
+        selectBox.innerHTML = `<option>Hata oluştu</option>`;
+    }
+}
