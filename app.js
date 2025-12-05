@@ -1,167 +1,129 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const test = await supabase.from("app_users").select("*").limit(1);
-
-  if (test.error) {
-    alert("❌ Supabase bağlanmadı:\n" + test.error.message);
-  } else {
-    alert("✅ Supabase çalışıyor!");
-  }
-});
-console.log("Supabase bağlanıyor...", SUPABASE_URL);
-
-supabase.from("app_users").select("*").limit(1).then(({ data, error }) => {
-  if (error) {
-    console.error("Supabase HATA ‼️", error);
-  } else {
-    console.log("Supabase OK ✔️ Çalıştı!", data);
-  }
-});
 // app.js
 
-// Supabase JS'yi ESM olarak doğrudan CDN'den çekiyoruz
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// 🔐 Supabase bilgilerini kendi projenden al:
+// Supabase → Project Settings → API
+const SUPABASE_URL = "https://gndyovpbppnjwicfetnf.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImduZHlvdnBicHBuandpY2ZldG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4ODk5MTcsImV4cCI6MjA4MDQ2NTkxN30.1_IAX8FVlvuTFp1ZhQZb-IaaPxfM3Mq4Rquj6to5EfU";
 
-// 🔐 Supabase bağlantı bilgilerini BURAYA YAZ
-const SUPABASE_URL = 'https://gndyovpbppnjwicfetnf.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImduZHlvdnBicHBuandpY2ZldG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4ODk5MTcsImV4cCI6MjA4MDQ2NTkxN30.1_IAX8FVlvuTFp1ZhQZb-IaaPxfM3Mq4Rquj6to5EfU';
+// CDN ile gelen global supabase nesnesi (index.html'de ekledik)
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// Küçük yardımcı: form altında mesaj göster
+// Küçük yardımcı fonksiyon: form mesajı yaz / renk ver
 function showMessage(el, type, text) {
   if (!el) return;
-  el.textContent = text;
-  el.classList.remove('success', 'error');
-  if (type) el.classList.add(type);
+  el.textContent = text || "";
+  el.classList.remove("success", "error");
+  if (type === "success") el.classList.add("success");
+  if (type === "error") el.classList.add("error");
 }
 
-/* ===========================
-   ALICI ÜYELİĞİ (ÜCRETSİZ)
-   form id: buyer-form
-=========================== */
+/* ----------------------------------------
+   ALICI ÜYELİĞİ (ÜCRETSİZ) → buyers tablosu
+   form id: buyer-signup-form
+---------------------------------------- */
 
-const buyerForm = document.getElementById('buyer-form');
+const buyerForm = document.getElementById("buyer-signup-form");
+const buyerMsg = document.getElementById("buyer-message");
+
 if (buyerForm) {
-  const buyerMsg = document.getElementById('buyer-message');
-
-  buyerForm.addEventListener('submit', async (e) => {
+  buyerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('buyer-name')?.value.trim();
-    const email = document.getElementById('buyer-email')?.value.trim();
+    const name = document.getElementById("buyer-name").value.trim();
+    const email = document.getElementById("buyer-email").value.trim();
+    const password = document
+      .getElementById("buyer-password")
+      .value.trim(); // Şimdilik tabloda saklamıyoruz
 
     if (!name || !email) {
-      showMessage(buyerMsg, 'error', 'İsim ve e-posta zorunlu.');
+      showMessage(buyerMsg, "error", "Ad soyad ve e-posta zorunlu.");
       return;
     }
 
-    showMessage(buyerMsg, null, 'Kayıt yapılıyor...');
+    showMessage(buyerMsg, null, "İşleniyor...");
 
-    // 🔸 app_users tablosundaki kolonlar:
-    // id (uuid, default) | full_name (text) | email (text, unique) | role (text)
-    const { error } = await supabase.from('app_users').insert({
+    // buyers tablosuna yazıyoruz (şifreyi şu an saklamıyoruz)
+    const { error } = await supabase.from("buyers").insert({
       full_name: name,
-      email,
-      role: 'buyer', // sadece burası alıcı
+      email: email,
+      // password alanı istersen tabloya ekleriz, şimdilik sadece auth mantığı düşünmüyoruz
     });
 
     if (error) {
-      console.error(error);
-      showMessage(buyerMsg, 'error', 'Bir hata oluştu: ' + error.message);
+      console.error("Buyer insert error:", error);
+      showMessage(buyerMsg, "error", "Hata: " + error.message);
     } else {
       showMessage(
         buyerMsg,
-        'success',
-        'Alıcı üyeliğiniz oluşturuldu. E-postanızı kontrol edin.'
+        "success",
+        "Alıcı üyeliğiniz kaydedildi. Ekibimiz uygun olduğunda sisteme erişim açılacak."
       );
       buyerForm.reset();
     }
   });
 }
 
-/* ===========================
-   SATICI BAŞVURUSU (ÜCRETLİ)
-   form id: seller-form
-=========================== */
+/* ----------------------------------------
+   SATICI BAŞVURUSU → seller_applications tablosu
+   form id: seller-apply-form
+---------------------------------------- */
 
-const sellerForm = document.getElementById('seller-form');
+const sellerForm = document.getElementById("seller-apply-form");
+const sellerMsg = document.getElementById("seller-message");
+
 if (sellerForm) {
-  const sellerMsg = document.getElementById('seller-message');
-
-  sellerForm.addEventListener('submit', async (e) => {
+  sellerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const fullName = document.getElementById('seller-name')?.value.trim();
-    const email = document.getElementById('seller-email')?.value.trim();
-    const companyName = document.getElementById('seller-company')?.value.trim();
-    const taxNumber = document.getElementById('seller-tax')?.value.trim();
-    const website = document.getElementById('seller-website')?.value.trim();
-    const country = document.getElementById('seller-country')?.value.trim();
-    const city = document.getElementById('seller-city')?.value.trim();
-    const products = document.getElementById('seller-products')?.value.trim();
+    const company = document
+      .getElementById("seller-company")
+      .value.trim();
+    const name = document.getElementById("seller-name").value.trim();
+    const email = document.getElementById("seller-email").value.trim();
+    const phone = document.getElementById("seller-phone").value.trim();
+    const country = document
+      .getElementById("seller-country")
+      .value.trim();
+    const city = document.getElementById("seller-city").value.trim();
+    const products = document
+      .getElementById("seller-products")
+      .value.trim();
 
-    if (!fullName || !email || !companyName) {
+    if (!company || !name || !email || !products) {
       showMessage(
         sellerMsg,
-        'error',
-        'İsim, e-posta ve firma adı zorunlu alanlardır.'
+        "error",
+        "Firma adı, yetkili, e-posta ve ürün grupları zorunlu."
       );
       return;
     }
 
-    showMessage(sellerMsg, null, 'Başvurunuz gönderiliyor...');
+    showMessage(sellerMsg, null, "Başvurunuz gönderiliyor...");
 
-    // 1) Önce kullanıcıyı app_users tablosuna yaz (rol: seller)
-    const { data: userRow, error: userError } = await supabase
-      .from('app_users')
-      .insert({
-        full_name: fullName,
-        email,
-        role: 'seller',
-      })
-      .select('id')
-      .single();
-
-    if (userError) {
-      console.error(userError);
-      showMessage(
-        sellerMsg,
-        'error',
-        'Kullanıcı kaydedilemedi: ' + userError.message
-      );
-      return;
-    }
-
-    const userId = userRow.id;
-
-    // 2) Sonra sellers tablosuna başvuru kaydını at
-    // ⚠️ Buradaki kolon isimlerini kendi Supabase tablonla eşle:
-    // id | user_id | company_name | tax_number | website | country | city | main_products | status | created_at | approved_at
-    const { error: sellerError } = await supabase.from('sellers').insert({
-      user_id: userId,
-      company_name: companyName,
-      tax_number: taxNumber,
-      website,
+    const { error } = await supabase.from("seller_applications").insert({
+      company_name: company,
+      contact_name: name,
+      email,
+      phone,
       country,
       city,
       main_products: products,
-      status: 'pending', // ilk durum: beklemede
+      status: "pending",
     });
 
-    if (sellerError) {
-      console.error(sellerError);
-      showMessage(
-        sellerMsg,
-        'error',
-        'Satıcı kaydedilemedi: ' + sellerError.message
-      );
+    if (error) {
+      console.error("Seller insert error:", error);
+      showMessage(sellerMsg, "error", "Hata: " + error.message);
     } else {
       showMessage(
         sellerMsg,
-        'success',
-        'Başvurunuz alındı. En kısa sürede değerlendirilecektir.'
+        "success",
+        "Başvurunuz alındı. Değerlendirme sonucunda sizinle iletişime geçilecektir."
       );
       sellerForm.reset();
     }
   });
-}
+      }
