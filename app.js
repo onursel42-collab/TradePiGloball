@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  const test = await supabase.from("app_users").select("*").limit(1);
+
+  if (test.error) {
+    alert("❌ Supabase bağlanmadı:\n" + test.error.message);
+  } else {
+    alert("✅ Supabase çalışıyor!");
+  }
+});
 console.log("Supabase bağlanıyor...", SUPABASE_URL);
 
 supabase.from("app_users").select("*").limit(1).then(({ data, error }) => {
