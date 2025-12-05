@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>TradePiGlobal - B2B Ticaret Pazaryeri</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <span class="logo">TradePiGlobal</span>
+      <nav class="nav-links">
+        <a href="#buyer-benefits">Alıcı Avantajları</a>
+        <a href="#categories">Kategoriler</a>
+        <a href="#how-it-works">Nasıl Çalışır?</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <a href="#buyer-signup" class="btn ghost">Alıcı Üyeliği (Ücretsiz)</a>
+      <a href="#seller-apply" class="btn primary">Satıcı Başvurusu</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Küresel Ticaretin Yeni Merkezi: TradePiGlobal</h1>
+      <p>
+        Doğrudan üreticilerden tedarik, güvenli ödeme altyapısı ve gerçek B2B iş ortaklıkları.
+        Alıcılar için ücretsiz üyelik, satıcılar için başvuru ve premium planlar.
+      </p>
+      <div class="hero-actions">
+        <a href="#buyer-signup" class="btn primary">Alıcı Üyeliği Aç (Ücretsiz)</a>
+        <a href="#seller-apply" class="btn outline">Satıcı Başvurusu Yap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALICI AVANTAJLARI -->
+  <section id="buyer-benefits" class="section">
+    <h2>Alıcı Avantajları</h2>
+    <div class="grid cards-3">
+      <div class="card">
+        <h3>Ücretsiz Üyelik</h3>
+        <p>Binlerce doğrulanmış satıcıya ve ürüne ücretsiz erişim.</p>
+      </div>
+      <div class="card">
+        <h3>Güvenli Ödeme</h3>
+        <p>Anlaşmalı bankalar ve güvenli ödeme koruması.</p>
+      </div>
+      <div class="card">
+        <h3>Küresel Tedarik</h3>
+        <p>Dünya çapında üreticilerden direkt tedarik imkânı.</p>
+      </div>
+      <div class="card">
+        <h3>7/24 Destek</h3>
+        <p>Alım sürecinde 7/24 profesyonel destek.</p>
+      </div>
+      <div class="card">
+        <h3>Veri Analitiği</h3>
+        <p>Pazar analizi ve satın alma raporları.</p>
+      </div>
+      <div class="card">
+        <h3>Sipariş Yönetimi</h3>
+        <p>Tüm siparişlerini tek panelden yönet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATEGORİLER -->
+  <section id="categories" class="section">
+    <h2>Kategoriler</h2>
+    <div class="grid cards-4">
+      <div class="card small">Endüstriyel Ürünler</div>
+      <div class="card small">Gıda & Tarım</div>
+      <div class="card small">Tekstil & Konfeksiyon</div>
+      <div class="card small">Makine & Ekipman</div>
+    </div>
+  </section>
+
+  <!-- NASIL ÇALIŞIR -->
+  <section id="how-it-works" class="section">
+    <h2>Nasıl Çalışır?</h2>
+    <div class="grid steps-3">
+      <div class="step">
+        <span class="step-badge">1</span>
+        <h3>Kayıt Ol</h3>
+        <p>Alıcı olarak ücretsiz kayıt ol veya satıcı olmak için başvur.</p>
+      </div>
+      <div class="step">
+        <span class="step-badge">2</span>
+        <h3>Teklif Al / Ver</h3>
+        <p>Ürün ve hizmetlerin için tedarikçilerden teklif iste ya da teklif sun.</p>
+      </div>
+      <div class="step">
+        <span class="step-badge">3</span>
+        <h3>Güvenle İşlemi Tamamla</h3>
+        <p>Ödemeni güvenli altyapı üzerinden yap, sevkiyatını takip et.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALICI ÜYELİK FORMU -->
+  <section id="buyer-signup" class="section form-section">
+    <h2>Alıcı Üyeliği Aç (Ücretsiz)</h2>
+    <form id="buyer-signup-form" class="form">
+      <label>
+        Ad Soyad
+        <input type="text" id="buyer-name" required />
+      </label>
+      <label>
+        E-posta
+        <input type="email" id="buyer-email" required />
+      </label>
+      <label>
+        Şifre
+        <input type="password" id="buyer-password" required />
+      </label>
+      <button type="submit" class="btn primary full">Ücretsiz Üyelik Oluştur</button>
+      <div class="form-message" id="buyer-message"></div>
+    </form>
+  </section>
+
+  <!-- SATICI BAŞVURU FORMU -->
+  <section id="seller-apply" class="section form-section">
+    <h2>Satıcı Başvurusu</h2>
+    <form id="seller-apply-form" class="form">
+      <label>
+        Firma Adı
+        <input type="text" id="seller-company" required />
+      </label>
+      <label>
+        Yetkili Ad Soyad
+        <input type="text" id="seller-name" required />
+      </label>
+      <label>
+        E-posta
+        <input type="email" id="seller-email" required />
+      </label>
+      <label>
+        Telefon
+        <input type="tel" id="seller-phone" required />
+      </label>
+      <label>
+        Ülke
+        <input type="text" id="seller-country" value="Türkiye" />
+      </label>
+      <label>
+        Şehir
+        <input type="text" id="seller-city" />
+      </label>
+      <label>
+        Ana Ürün Grupları
+        <textarea id="seller-products" rows="3" placeholder="Örn: Tekstil, Gıda, Kimya..." required></textarea>
+      </label>
+      <button type="submit" class="btn primary full">Başvuruyu Gönder</button>
+      <div class="form-message" id="seller-message"></div>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2025 TradePiGlobal • Güvenli B2B Ticaret Pazaryeri</p>
+  </footer>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Uygulama JS -->
+  <script src="app.js"></script>
+</body>
+</html>
