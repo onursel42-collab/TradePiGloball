@@ -2,215 +2,254 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>TradePiGlobal – Tanrı Üstü B2B Ticaret Platformu</title>
+  <title>TradePiGlobal – Pi Odaklı Küresel B2B Platformu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="nav-left">
-      <span class="logo">TradePiGlobal</span>
-      <nav class="nav-links">
-        <a href="#hero">Ana Sayfa</a>
-        <a href="#comfort">Konfor</a>
-        <a href="#plans">Üyelikler</a>
-        <a href="#how">Süreç</a>
-      </nav>
-    </div>
-
-    <div class="nav-right">
-      <div class="pi-badge">
-        <span class="pi-symbol">π</span>
-        <span class="pi-text">Pi akıllı fiyat asistanı</span>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="logo">TradePi<span>Global</span></span>
+        <nav class="nav-links">
+          <a href="#hero">Ana Sayfa</a>
+          <a href="#comfort">Konfor</a>
+          <a href="#flow">Süreç</a>
+          <a href="#trust">Güven</a>
+        </nav>
       </div>
-      <a href="portal.html#login" class="nav-btn nav-btn-secondary">Giriş Yap</a>
-      <a href="portal.html#register" class="nav-btn nav-btn-primary">Üye Ol</a>
+      <div class="nav-right">
+        <button class="btn ghost">Giriş Yap</button>
+        <button class="btn primary">Ücretsiz Üye Ol</button>
+      </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <h1>
-        <span class="hero-kicker">Küresel B2B · Pi Odaklı · Ultra Konfor</span>
-        Dünyanın en akıllı tedarik & ticaret platformuna hoş geldin.
-      </h1>
-      <p class="hero-sub">
-        TradePiGlobal, satıcıya ve alıcıya hiçbir sitede olmayan konforu sunar:
-        195 ülke için vergi + gümrük + kargo + komisyon hesaplayan
-        <strong>AI destekli fiyat asistanı</strong> ve tamamen paket tabanlı görünürlük sistemi.
-      </p>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="pill">Pi Odaklı • Küresel B2B • Akıllı Platform</span>
+        <h1>
+          Doğru fiyat, düşük risk, yüksek kâr.<br />
+          <span>TradePiGlobal</span> ile tanış.
+        </h1>
+        <p>
+          Üretici, toptancı ve kurumsal alıcıları; 195 ülke için vergi, gümrük,
+          kargo ve komisyonu hesaba katan Pi destekli akıllı fiyat asistanı ile bir araya getiren
+          yeni nesil B2B platform.
+        </p>
 
-      <div class="hero-actions">
-        <a href="portal.html#register" class="btn btn-primary btn-big">Ücretsiz Üye Ol</a>
-        <a href="portal.html#login" class="btn btn-secondary btn-big">Giriş Yap</a>
+        <div class="hero-actions">
+          <button class="btn primary big">Ücretsiz Üye Ol</button>
+          <button class="btn outline big">Platformu Keşfet</button>
+        </div>
+
+        <div class="hero-meta">
+          <div>
+            <strong>100.000+</strong>
+            <span>Hedeflenen satıcı</span>
+          </div>
+          <div>
+            <strong>195</strong>
+            <span>Ülke için maliyet hesabı</span>
+          </div>
+          <div>
+            <strong>Pi + Fiat</strong>
+            <span>Hibrit fiyat altyapısı</span>
+          </div>
+        </div>
       </div>
 
-      <p class="hero-note">
-        Hedefimiz: 100.000 satıcıyı, gerçek alıcılarla konforlu ve şeffaf bir yapıda buluşturmak.
+      <div class="hero-panel">
+        <h3>Canlı Fiyat Asistanı (Örnek)</h3>
+        <p class="hero-panel-text">
+          Tek ekranda ürünün <strong>vergisi</strong>, <strong>gümrüğü</strong>,
+          <strong>kargosu</strong> ve <strong>komisyonu</strong> hesaplanır;
+          satıcıya önerilen minimum ve hedef satış fiyatı gösterilir.
+        </p>
+
+        <div class="assistant-box">
+          <div class="assistant-row">
+            <span>Hedef Ülke</span>
+            <span>Almanya (DE)</span>
+          </div>
+          <div class="assistant-row">
+            <span>Ürün Maliyeti</span>
+            <span>₺ 1.000</span>
+          </div>
+          <div class="assistant-row">
+            <span>Vergi + Gümrük + Kargo</span>
+            <span>₺ 420</span>
+          </div>
+          <div class="assistant-row">
+            <span>Komisyon</span>
+            <span>%3,5</span>
+          </div>
+          <hr />
+          <div class="assistant-row highlight">
+            <span>Önerilen Minimum Fiyat</span>
+            <span>₺ 1.550</span>
+          </div>
+          <div class="assistant-row">
+            <span>Hedef Kâr Marjı</span>
+            <span>%25</span>
+          </div>
+        </div>
+
+        <p class="assistant-footnote">
+          Gerçek sistemde bu hesaplar Supabase + global vergi & kargo verileriyle
+          dinamik olarak güncellenecektir.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONFOR / ÖZELLİKLER -->
+  <section id="comfort" class="section">
+    <div class="section-header">
+      <h2>Hiçbir Sitede Olmayan Konfor</h2>
+      <p>
+        TradePiGlobal, satıcıya sadece <strong>"ürün ekle"</strong> demekle kalmaz;
+        ona 195 ülke için maliyet, risk ve görünürlük seviyesini de anlatır.
       </p>
     </div>
-  </section>
-
-  <!-- KONFOR & ÖZELLİKLER -->
-  <section id="comfort" class="section">
-    <h2 class="section-title center">Hiçbir Sitede Olmayan Konfor</h2>
-    <p class="section-subtitle center">
-      TradePiGlobal, satıcıya sadece “ürün ekle” değil, <strong>“doğru fiyatı bul, riski azalt, kârı büyüt”</strong> konforunu sunar.
-    </p>
 
     <div class="grid-4">
-      <article class="mini-card">
+      <article class="card">
         <h3>195 Ülke Analizi</h3>
         <p>
-          Ürün eklerken asistan; vergi, gümrük, kargo ve komisyon dahil olmak üzere 195 ülke için maliyet ve minimum satış fiyatını hesaplar.
+          Ürün eklerken 195 ülke için vergi, gümrük, kargo ve komisyon dâhil
+          minimum satış fiyatını hesaplar.
         </p>
       </article>
 
-      <article class="mini-card">
+      <article class="card">
         <h3>Akıllı Fiyat Önerisi</h3>
         <p>
-          AI, her ülke için optimum satış fiyatı ve beklenen kâr marjını önerir. Satıcı sadece onaylar.
+          Al asistanı, satıcının belirlediği kâr hedefine göre optimum
+          satış fiyatını önerir. Satıcı onaylar, sisteme işler.
         </p>
       </article>
 
-      <article class="mini-card">
+      <article class="card">
         <h3>Paket Bazlı Görünürlük</h3>
         <p>
-          Ne kadar güçlü paket, o kadar güçlü görünürlük. Ana sayfa, kategori banner’ı ve arama önceliği planına göre otomatik ayarlanır.
+          Satıcı üyelik paketi ne kadar güçlü ise, ana sayfa, kategori ve arama
+          sonuçlarındaki pozisyonu o kadar öne taşınır.
         </p>
       </article>
 
-      <article class="mini-card">
+      <article class="card">
         <h3>Alıcı İçin Şeffaflık</h3>
         <p>
-          Alıcı; tahmini vergi, kargo ve toplam maliyeti tek ekranda görür. Sürpriz yok, gizli masraf yok.
+          Alıcı, ürün sayfasında tahmini vergi, kargo ve toplam maliyeti tek ekranda görür.
+          Sürpriz yok, gizli masraf yok.
         </p>
       </article>
     </div>
   </section>
 
-  <!-- ÜYELİK PAKET ÖZETİ -->
-  <section id="plans" class="section section-plans">
-    <h2 class="section-title center">Satıcı Üyelik Seviyeleri</h2>
-    <p class="section-subtitle center">
-      Bütün konfor bu dört paket etrafında tasarlandı. <br />
-      Her paket; görünürlük, AI asistan ve ülke kapsamını farklı seviyede sunar.
-    </p>
-
-    <div class="grid-4 plans-grid">
-      <!-- Starter -->
-      <article class="card plan">
-        <div class="plan-header">
-          <h3>Starter</h3>
-          <p class="plan-price">690 TL / ay</p>
-        </div>
-        <ul class="plan-list">
-          <li>1 ülke için tam otomatik vergi + kargo + fiyat analizi</li>
-          <li>Sınırsız ürün listeleme</li>
-          <li>Aramada hafif görünürlük desteği</li>
-          <li>Standart destek</li>
-        </ul>
-        <p class="plan-tagline">Başlangıç için ideal.</p>
-        <a href="portal.html#seller" class="btn btn-outline full">Bu paketle başvur</a>
-      </article>
-
-      <!-- Growth -->
-      <article class="card plan">
-        <div class="plan-header">
-          <h3>Growth</h3>
-          <p class="plan-price">1.990 TL / ay</p>
-        </div>
-        <ul class="plan-list">
-          <li>20 ülke için tam otomatik maliyet & fiyat analizi</li>
-          <li>Aramada +%20 görünürlük</li>
-          <li>Ara sıra kategori üstü alanlarda yer alma</li>
-          <li>Hızlı e-posta desteği</li>
-        </ul>
-        <p class="plan-tagline">Büyümek isteyen satıcılar için.</p>
-        <a href="portal.html#seller" class="btn btn-outline full">Bu paketle başvur</a>
-      </article>
-
-      <!-- Premium -->
-      <article class="card plan plan-highlight">
-        <div class="plan-badge">En Popüler</div>
-        <div class="plan-header">
-          <h3>Premium</h3>
-          <p class="plan-price">6.900 TL / ay</p>
-        </div>
-        <ul class="plan-list">
-          <li>100 ülke için tam analiz + AI fiyat önerisi</li>
-          <li>Aramada +%50 görünürlük</li>
-          <li>Kategori banner’larında öne çıkar</li>
-          <li>AI destekli ürün metni & SEO yardımı</li>
-        </ul>
-        <p class="plan-tagline">Seri satış yapmak isteyen üreticiler için.</p>
-        <a href="portal.html#seller" class="btn btn-primary full">Bu paketle başvur</a>
-      </article>
-
-      <!-- Elite -->
-      <article class="card plan plan-elite">
-        <div class="plan-badge">Tanrı Modu</div>
-        <div class="plan-header">
-          <h3>Elite</h3>
-          <p class="plan-price">19.900 TL / ay</p>
-        </div>
-        <ul class="plan-list">
-          <li>195 ülke için tam vergi + gümrük + kargo + kâr analizi</li>
-          <li>AI kâr optimizasyonu ve risk analizi</li>
-          <li>Ana sayfada dev vitrin + en yüksek görünürlük</li>
-          <li>Sipariş başı komisyon avantajı & VIP destek</li>
-        </ul>
-        <p class="plan-tagline">Markasını globalde “KRAL” konuma getirmek isteyenler için.</p>
-        <a href="portal.html#seller" class="btn btn-outline full">Elite başvurusu yap</a>
-      </article>
+  <!-- SÜREÇ -->
+  <section id="flow" class="section section-alt">
+    <div class="section-header">
+      <h2>3 Adımda TradePiGlobal</h2>
+      <p>
+        Karmaşık entegrasyonlar yok; alıcı da satıcı da aynı akıştan geçer.
+      </p>
     </div>
-
-    <p class="section-note center">
-      Fiyatlar ve kapsam, işlem hacmine ve piyasa koşullarına göre dinamik olarak güncellenebilir.
-    </p>
-  </section>
-
-  <!-- NASIL ÇALIŞIR -->
-  <section id="how" class="section section-how">
-    <h2 class="section-title center">3 Adımda TradePiGlobal</h2>
 
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
         <h3>Üye Ol</h3>
-        <p>Alıcı veya satıcı olarak kaydol. Satıcıysan paket seç.</p>
+        <p>
+          Ücretsiz hesabını oluştur, satıcı veya alıcı rolünü seç.
+          Satıcı isen uygun üyelik paketini daha sonra belirle.
+        </p>
       </div>
       <div class="step">
         <div class="step-number">2</div>
-        <h3>Ürün ve Fiyatlandırma</h3>
-        <p>Ürününü ekle, AI asistanın 195 ülke için hesapladığı fiyatları incele.</p>
+        <h3>Ürün & Fiyatlandırma</h3>
+        <p>
+          Ürününü ekle, AI asistanın 195 ülke için hesapladığı maliyet ve fiyat önerilerini incele.
+        </p>
       </div>
       <div class="step">
         <div class="step-number">3</div>
         <h3>Güvenli Ticaret</h3>
-        <p>Alıcılarla eşleş, teklif al/ver ve süreci panelden yönet.</p>
+        <p>
+          Alıcılarla eşleş, teklif al/ver, süreci güvenli ödeme altyapısı üzerinden yönet.
+        </p>
       </div>
     </div>
+  </section>
 
-    <div class="center">
-      <a href="portal.html#register" class="btn btn-primary btn-big">Şimdi Başla</a>
+  <!-- GÜVEN / ŞEFFAFLIK -->
+  <section id="trust" class="section">
+    <div class="section-header">
+      <h2>Şeffaflık ve Güven Üzerine Kurulu</h2>
+      <p>
+        Platformun omurgası; açık komisyon oranı, net listeleme ücreti ve
+        Pi + fiat uyumlu hibrit yapıdır.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <article class="card mini">
+        <h3>Komisyon %3,5</h3>
+        <p>
+          Tüm satıcılar için sabit komisyon oranı. Gizli kesinti veya ekstra “hizmet bedeli” yok.
+        </p>
+      </article>
+      <article class="card mini">
+        <h3>Listeleme Ücreti 1 TL</h3>
+        <p>
+          Her eklenen ürün için sabit 1 TL listeleme ücreti. Sınırsız ürün yönetimi.
+        </p>
+      </article>
+      <article class="card mini">
+        <h3>Pi + Fiat Uyumu</h3>
+        <p>
+          Fiyatlar TL, USD veya Pi cinsinden gösterilebilir. Kur dönüşümleri canlı olarak güncellenecektir.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="cta">
+    <div class="cta-inner">
+      <div>
+        <h2>Hazırsan, sıradaki global tedarik platformun burası.</h2>
+        <p>
+          Üretici, ithalatçı, toptancı veya kurumsal alıcıysan; TradePiGlobal
+          senin için tasarlandı. Ücretsiz üyeliğini şimdi aç, paket seçimini
+          daha sonra yap.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn primary big">Ücretsiz Üye Ol</button>
+        <button class="btn outline big">Giriş Yap</button>
+      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© <span id="year"></span> TradePiGlobal · Küresel B2B & Pi Tabanlı Ticaret Platformu</p>
-    <p class="footer-sub">
-      Bu sayfa, projenin tanıtım amaçlı ön izleme arayüzüdür. Gerçek canlı sistem; Supabase, global vergi/kargo verileri
-      ve gelişmiş AI asistanıyla birlikte devreye alınacaktır.
+    <p>
+      © <span id="year"></span> TradePiGlobal – Küresel B2B & Pi Tabanlı Ticaret Platformu.
+    </p>
+    <p class="footer-note">
+      Bu site geliştirme önizlemesidir. Gerçek canlı sistem; Supabase, global vergi/kargo
+      verileri ve gelişmiş AI asistanı ile birlikte devreye alınacaktır.
     </p>
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
