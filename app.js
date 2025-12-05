@@ -235,7 +235,115 @@ async function loadMembershipPlans() {
     console.error("loadMembershipPlans genel hata:", err);
   }
 }
+// ========== SATICI TİPLERİNİ SUPABASE'DEN ÇEK ==========
+async function loadSellerTypes() {
+  try {
+    const container = document.getElementById("seller-types-list");
+    if (!container) return; // Bu sayfada ilgili alan yoksa boşver
 
+    container.innerHTML =
+      "<p style='font-size:0.85rem;color:#cbd5f5;'>Satıcı tipleri yükleniyor...</p>";
+
+    const { data, error } = await supabase
+      .from("seller_types")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      console.error("Satıcı tipleri alınırken hata:", error);
+      container.innerHTML =
+        "<p style='font-size:0.85rem;color:#fca5a5;'>Satıcı tipleri yüklenirken bir hata oluştu.</p>";
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı satıcı tipi bulunmuyor.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach((type) => {
+      const badge = document.createElement("span");
+      badge.style.padding = "0.25rem 0.6rem";
+      badge.style.borderRadius = "999px";
+      badge.style.border = "1px solid rgba(148,163,184,0.6)";
+      badge.style.fontSize = "0.8rem";
+      badge.style.color = "#e5e7eb";
+      badge.textContent = type.name;
+      container.appendChild(badge);
+    });
+  } catch (err) {
+    console.error("loadSellerTypes genel hata:", err);
+  }
+}
+
+// ========== REKLAM PAKETLERİNİ SUPABASE'DEN ÇEK ==========
+async function loadAdPackages() {
+  try {
+    const grid = document.getElementById("ad-packages-grid");
+    if (!grid) return;
+
+    grid.innerHTML =
+      "<p style='font-size:0.85rem;color:#cbd5f5;'>Reklam paketleri yükleniyor...</p>";
+
+    const { data, error } = await supabase
+      .from("ad_packages")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      console.error("Reklam paketleri alınırken hata:", error);
+      grid.innerHTML =
+        "<p style='font-size:0.85rem;color:#fca5a5;'>Reklam paketleri yüklenirken bir hata oluştu.</p>";
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      grid.innerHTML =
+        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı reklam paketi bulunmuyor.</p>";
+      return;
+    }
+
+    grid.innerHTML = "";
+
+    data.forEach((pack) => {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      card.innerHTML = `
+        <h3 class="card-title">${pack.name}</h3>
+        <p class="card-text" style="margin-bottom:0.4rem;">
+          ${pack.description || ""}
+        </p>
+        <p style="font-size:0.9rem;margin-bottom:0.3rem;">
+          Konum: <strong>${pack.placement || "-"}</strong>
+        </p>
+        <p style="font-size:0.9rem;margin-bottom:0.3rem;">
+          Aylık: ${
+            pack.price_monthly != null
+              ? "₺" + pack.price_monthly
+              : "Fiyat sorunuz"
+          }
+        </p>
+        <p style="font-size:0.8rem;color:#9ca3af;margin-bottom:0.6rem;">
+          Yıllık: ${
+            pack.price_yearly != null
+              ? "₺" + pack.price_yearly
+              : "Fiyat sorunuz"
+          }
+        </p>
+      `;
+
+      grid.appendChild(card);
+    });
+  } catch (err) {
+    console.error("loadAdPackages genel hata:", err);
+  }
+}
 // Sayfa yüklendiğinde paketleri çek
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof supabase !== "undefined") {
