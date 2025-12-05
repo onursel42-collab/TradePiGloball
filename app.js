@@ -1,3 +1,12 @@
+console.log("Supabase bağlanıyor...", SUPABASE_URL);
+
+supabase.from("app_users").select("*").limit(1).then(({ data, error }) => {
+  if (error) {
+    console.error("Supabase HATA ‼️", error);
+  } else {
+    console.log("Supabase OK ✔️ Çalıştı!", data);
+  }
+});
 // app.js
 
 // Supabase JS'yi ESM olarak doğrudan CDN'den çekiyoruz
