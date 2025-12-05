@@ -1,179 +1,177 @@
 // app.js
-// Supabase client
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+// TradePiGlobal - frontend JS (TEK DOSYA)
 
-// 🔐 Bunları Supabase > Settings > API ekranından al
+// ---------------- Supabase Bağlantısı ----------------
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+// TODO: Bunları kendi projenle değiştir
 const SUPABASE_URL = "https://gndyovpbppnjwicfetnf.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImduZHlvdnBicHBuandpY2ZldG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4ODk5MTcsImV4cCI6MjA4MDQ2NTkxN30.1_IAX8FVlvuTFp1ZhQZb-IaaPxfM3Mq4Rquj6to5EfU";
+const SUPABASE_KEY = " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImduZHlvdnBicHBuandpY2ZldG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4ODk5MTcsImV4cCI6MjA4MDQ2NTkxN30.1_IAX8FVlvuTFp1ZhQZb-IaaPxfM3Mq4Rquj6to5EfU";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// -----------------------------------------------------
-// Yardımcı: mesaj göster
-// -----------------------------------------------------
-function showMessage(el, type, text) {
+// ---------------- Genel Yardımcılar ----------------
+function setFormMessage(elementId, type, text) {
+  const el = document.getElementById(elementId);
   if (!el) return;
-  el.textContent = text;
-  el.classList.remove("success", "error");
-  el.classList.add(type);
+
+  el.textContent = text || "";
+  el.className = "form-message"; // temel class
+
+  if (type === "success") {
+    el.classList.add("success");
+  } else if (type === "error") {
+    el.classList.add("error");
+  }
 }
 
-// -----------------------------------------------------
-// Alıcı Formu
-// -----------------------------------------------------
-const buyerForm = document.getElementById("buyer-form");
-const buyerMessage = document.getElementById("buyer-message");
-
-if (buyerForm) {
-  buyerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    showMessage(buyerMessage, "info", "Kaydediliyor...");
-
-    const full_name = document.getElementById("buyer-full-name")?.value.trim();
-    const email = document.getElementById("buyer-email")?.value.trim();
-    const company_name = document.getElementById("buyer-company")?.value.trim();
-    const country = document.getElementById("buyer-country")?.value.trim();
-    const city = document.getElementById("buyer-city")?.value.trim();
-    const phone = document.getElementById("buyer-phone")?.value.trim();
-    const notes = document.getElementById("buyer-notes")?.value.trim();
-
-    if (!full_name || !email) {
-      showMessage(buyerMessage, "error", "Ad soyad ve e-posta zorunludur.");
-      return;
-    }
-
-    try {
-      // 👇 TABLO ve KOLON İSİMLERİ
-      // Supabase’deki "buyers" tablosu için kolonlarını bunlara göre ayarla:
-      // id (uuid, default), full_name (text), email (text), company_name (text),
-      // country (text), city (text), phone (text), notes (text), created_at (timestamptz, default now())
-      const { error } = await supabase.from("buyers").insert([
-        {
-          full_name,
-          email,
-          company_name,
-          country,
-          city,
-          phone,
-          notes,
-        },
-      ]);
-
-      if (error) {
-        console.error("Buyer insert error:", error);
-        showMessage(
-          buyerMessage,
-          "error",
-          "Kayıt sırasında bir hata oluştu. Kolon isimlerini kontrol et."
-        );
-        return;
-      }
-
-      buyerForm.reset();
-      showMessage(
-        buyerMessage,
-        "success",
-        "Alıcı kaydın alındı. Kısa süre içinde seninle iletişime geçeceğiz."
-      );
-    } catch (err) {
-      console.error(err);
-      showMessage(
-        buyerMessage,
-        "error",
-        "Beklenmeyen bir hata oluştu. Lütfen tekrar dene."
-      );
-    }
-  });
+function clearForm(formEl) {
+  if (!formEl) return;
+  formEl.reset();
 }
 
-// -----------------------------------------------------
-// Satıcı Formu
-// -----------------------------------------------------
-const sellerForm = document.getElementById("seller-form");
-const sellerMessage = document.getElementById("seller-message");
+// ---------------- Alıcı Formu (buyers) ----------------
+async function handleBuyerFormSubmit(e) {
+  e.preventDefault();
 
-if (sellerForm) {
-  sellerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    showMessage(sellerMessage, "info", "Başvurun gönderiliyor...");
+  const form = e.target;
+  const fullName = document.getElementById("buyer-full-name")?.value.trim();
+  const email = document.getElementById("buyer-email")?.value.trim();
+  const company = document.getElementById("buyer-company")?.value.trim();
+  const country = document.getElementById("buyer-country")?.value.trim();
+  const city = document.getElementById("buyer-city")?.value.trim();
+  const phone = document.getElementById("buyer-phone")?.value.trim();
+  const notes = document.getElementById("buyer-notes")?.value.trim();
 
-    const full_name = document.getElementById("seller-full-name")?.value.trim();
-    const email = document.getElementById("seller-email")?.value.trim();
-    const company_name =
-      document.getElementById("seller-company")?.value.trim();
-    const country = document.getElementById("seller-country")?.value.trim();
-    const city = document.getElementById("seller-city")?.value.trim();
-    const phone = document.getElementById("seller-phone")?.value.trim();
-    const products = document
-      .getElementById("seller-products")
-      ?.value.trim();
+  // basit kontrol
+  if (!fullName || !email) {
+    setFormMessage("buyer-message", "error", "Ad Soyad ve E-posta zorunlu.");
+    return;
+  }
 
-    if (!full_name || !email || !company_name) {
-      showMessage(
-        sellerMessage,
-        "error",
-        "Ad soyad, e-posta ve firma adı zorunludur."
-      );
-      return;
-    }
+  setFormMessage("buyer-message", null, "Kaydediliyor...");
 
-    try {
-      // 👇 TABLO ve KOLON İSİMLERİ
-      // Supabase’de "seller_applications" tablosu oluşturmanı öneriyorum:
-      // id (uuid, default), full_name (text), email (text), company_name (text),
-      // country (text), city (text), phone (text), products (text),
-      // status (text, default 'pending'), created_at (timestamptz, default now())
-      const { error } = await supabase.from("seller_applications").insert([
-        {
-          full_name,
-          email,
-          company_name,
-          country,
-          city,
-          phone,
-          products,
-          status: "pending",
-        },
-      ]);
-
-      if (error) {
-        console.error("Seller insert error:", error);
-        showMessage(
-          sellerMessage,
-          "error",
-          "Başvuru sırasında bir hata oluştu. Kolon isimlerini kontrol et."
-        );
-        return;
-      }
-
-      sellerForm.reset();
-      showMessage(
-        sellerMessage,
-        "success",
-        "Satıcı başvurun alındı. Değerlendirme sonrası seninle iletişime geçeceğiz."
-      );
-    } catch (err) {
-      console.error(err);
-      showMessage(
-        sellerMessage,
-        "error",
-        "Beklenmeyen bir hata oluştu. Lütfen tekrar dene."
-      );
-    }
-  });
-}
-// ========== ÜYELİK PAKETLERİNİ SUPABASE'DEN ÇEK ==========
-async function loadMembershipPlans() {
   try {
-    const pricingSection = document.getElementById("pricing");
-    if (!pricingSection) return; // bu sayfada pricing yoksa geç
+    const { error } = await supabase.from("buyers").insert([
+      {
+        full_name: fullName,
+        email,
+        company,
+        country,
+        city,
+        phone,
+        notes,
+      },
+    ]);
 
-    const grid = pricingSection.querySelector(".card-grid");
-    if (!grid) return;
+    if (error) {
+      console.error("buyer insert error:", error);
+      setFormMessage(
+        "buyer-message",
+        "error",
+        "Kayıt yapılırken bir hata oluştu. Daha sonra tekrar dene."
+      );
+      return;
+    }
 
-    // Yükleniyor bilgisi (istersen)
-    grid.innerHTML = "<p style='font-size:0.85rem;color:#cbd5f5;'>Paketler yükleniyor...</p>";
+    clearForm(form);
+    setFormMessage(
+      "buyer-message",
+      "success",
+      "Başvurun alındı. En kısa sürede seninle iletişime geçeceğiz."
+    );
+  } catch (err) {
+    console.error("buyer submit catch:", err);
+    setFormMessage(
+      "buyer-message",
+      "error",
+      "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar dene."
+    );
+  }
+}
 
+// ---------------- Satıcı Formu (sellers) ----------------
+async function handleSellerFormSubmit(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const fullName = document.getElementById("seller-full-name")?.value.trim();
+  const email = document.getElementById("seller-email")?.value.trim();
+  const company = document.getElementById("seller-company")?.value.trim();
+  const country = document.getElementById("seller-country")?.value.trim();
+  const city = document.getElementById("seller-city")?.value.trim();
+  const phone = document.getElementById("seller-phone")?.value.trim();
+  const products = document.getElementById("seller-products")?.value.trim();
+  const sellerType = document.getElementById("seller-type")?.value || null;
+  const membershipPlan = document.querySelector(
+    'input[name="membership-plan"]:checked'
+  )?.value || null;
+
+  if (!fullName || !email || !company) {
+    setFormMessage(
+      "seller-message",
+      "error",
+      "Ad Soyad, E-posta ve Firma Adı zorunlu."
+    );
+    return;
+  }
+
+  setFormMessage("seller-message", null, "Kaydediliyor...");
+
+  try {
+    const { error } = await supabase.from("sellers").insert([
+      {
+        full_name: fullName,
+        email,
+        company,
+        country,
+        city,
+        phone,
+        products,
+        seller_type_id: sellerType || null,
+        membership_plan_id: membershipPlan || null,
+      },
+    ]);
+
+    if (error) {
+      console.error("seller insert error:", error);
+      setFormMessage(
+        "seller-message",
+        "error",
+        "Başvuru kaydedilirken bir hata oluştu."
+      );
+      return;
+    }
+
+    clearForm(form);
+    setFormMessage(
+      "seller-message",
+      "success",
+      "Satıcı başvurun alındı. Doğrulama için seninle iletişime geçeceğiz."
+    );
+  } catch (err) {
+    console.error("seller submit catch:", err);
+    setFormMessage(
+      "seller-message",
+      "error",
+      "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar dene."
+    );
+  }
+}
+
+// ---------------- Üyelik Paketleri (membership_plans) ----------------
+async function loadMembershipPlans() {
+  const grid = document.getElementById("membership-grid");
+  if (!grid) {
+    console.warn("membership-grid elementi bulunamadı.");
+    return;
+  }
+
+  // İsteğe bağlı: yükleniyor yazısı
+  grid.innerHTML =
+    "<p style='font-size:0.85rem;color:#cbd5f5;'>Paketler yükleniyor...</p>";
+
+  try {
     const { data, error } = await supabase
       .from("membership_plans")
       .select("*")
@@ -181,19 +179,18 @@ async function loadMembershipPlans() {
       .order("sort_order", { ascending: true });
 
     if (error) {
-      console.error("Paketler alınırken hata:", error);
+      console.error("membership_plans error:", error);
       grid.innerHTML =
-        "<p style='font-size:0.85rem;color:#fca5a5;'>Paketler yüklenirken bir hata oluştu.</p>";
+        "<p style='font-size:0.85rem;color:#fca5a5;'>Paketler yüklenirken hata oluştu.</p>";
       return;
     }
 
     if (!data || data.length === 0) {
       grid.innerHTML =
-        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı satıcı üyelik paketi bulunmuyor.</p>";
+        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı üyelik paketi yok.</p>";
       return;
     }
 
-    // Kartları Supabase verisiyle doldur
     grid.innerHTML = "";
 
     data.forEach((plan) => {
@@ -213,12 +210,12 @@ async function loadMembershipPlans() {
         <p style="font-size:1rem;font-weight:600;margin-bottom:0.4rem;">
           ${monthly} <span style="font-size:0.8rem;font-weight:400;">/ ay</span>
         </p>
-        <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.5rem;">
+        <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.4rem;">
           Yıllık: ${yearly}
         </p>
         <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.6rem;">
           Para birimi: ${plan.currency || "TRY"} ${
-        plan.is_pi_enabled ? "• Pi ile de alınabilir" : ""
+        plan.is_pi_enabled ? " • Pi ile ödeme desteklenir" : ""
       }
         </p>
         <button
@@ -232,18 +229,23 @@ async function loadMembershipPlans() {
       grid.appendChild(card);
     });
   } catch (err) {
-    console.error("loadMembershipPlans genel hata:", err);
+    console.error("loadMembershipPlans catch:", err);
+    grid.innerHTML =
+      "<p style='font-size:0.85rem;color:#fca5a5;'>Paketler yüklenemedi.</p>";
   }
 }
-// ========== SATICI TİPLERİNİ SUPABASE'DEN ÇEK ==========
+
+// ---------------- Satıcı Tipleri (seller_types) ----------------
 async function loadSellerTypes() {
+  const selectBox = document.getElementById("seller-type");
+  if (!selectBox) {
+    console.warn("seller-type select elementi bulunamadı.");
+    return;
+  }
+
+  selectBox.innerHTML = "<option>Yükleniyor...</option>";
+
   try {
-    const container = document.getElementById("seller-types-list");
-    if (!container) return; // Bu sayfada ilgili alan yoksa boşver
-
-    container.innerHTML =
-      "<p style='font-size:0.85rem;color:#cbd5f5;'>Satıcı tipleri yükleniyor...</p>";
-
     const { data, error } = await supabase
       .from("seller_types")
       .select("*")
@@ -251,44 +253,41 @@ async function loadSellerTypes() {
       .order("sort_order", { ascending: true });
 
     if (error) {
-      console.error("Satıcı tipleri alınırken hata:", error);
-      container.innerHTML =
-        "<p style='font-size:0.85rem;color:#fca5a5;'>Satıcı tipleri yüklenirken bir hata oluştu.</p>";
+      console.error("seller_types error:", error);
+      selectBox.innerHTML = "<option>Hata oluştu</option>";
       return;
     }
 
     if (!data || data.length === 0) {
-      container.innerHTML =
-        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı satıcı tipi bulunmuyor.</p>";
+      selectBox.innerHTML = "<option>Kayıtlı satıcı tipi yok</option>";
       return;
     }
 
-    container.innerHTML = "";
-
+    selectBox.innerHTML = "";
     data.forEach((type) => {
-      const badge = document.createElement("span");
-      badge.style.padding = "0.25rem 0.6rem";
-      badge.style.borderRadius = "999px";
-      badge.style.border = "1px solid rgba(148,163,184,0.6)";
-      badge.style.fontSize = "0.8rem";
-      badge.style.color = "#e5e7eb";
-      badge.textContent = type.name;
-      container.appendChild(badge);
+      const opt = document.createElement("option");
+      opt.value = type.id;
+      opt.textContent = type.name;
+      selectBox.appendChild(opt);
     });
   } catch (err) {
-    console.error("loadSellerTypes genel hata:", err);
+    console.error("loadSellerTypes catch:", err);
+    selectBox.innerHTML = "<option>Hata oluştu</option>";
   }
 }
 
-// ========== REKLAM PAKETLERİNİ SUPABASE'DEN ÇEK ==========
+// ---------------- Reklam Paketleri (ad_packages) ----------------
 async function loadAdPackages() {
+  const grid = document.getElementById("ad-packages-grid");
+  if (!grid) {
+    // HTML’de henüz bu bölüm yoksa sessiz geç
+    return;
+  }
+
+  grid.innerHTML =
+    "<p style='font-size:0.85rem;color:#cbd5f5;'>Reklam paketleri yükleniyor...</p>";
+
   try {
-    const grid = document.getElementById("ad-packages-grid");
-    if (!grid) return;
-
-    grid.innerHTML =
-      "<p style='font-size:0.85rem;color:#cbd5f5;'>Reklam paketleri yükleniyor...</p>";
-
     const { data, error } = await supabase
       .from("ad_packages")
       .select("*")
@@ -296,15 +295,15 @@ async function loadAdPackages() {
       .order("sort_order", { ascending: true });
 
     if (error) {
-      console.error("Reklam paketleri alınırken hata:", error);
+      console.error("ad_packages error:", error);
       grid.innerHTML =
-        "<p style='font-size:0.85rem;color:#fca5a5;'>Reklam paketleri yüklenirken bir hata oluştu.</p>";
+        "<p style='font-size:0.85rem;color:#fca5a5;'>Reklam paketleri alınırken hata oluştu.</p>";
       return;
     }
 
     if (!data || data.length === 0) {
       grid.innerHTML =
-        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı reklam paketi bulunmuyor.</p>";
+        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı reklam paketi yok.</p>";
       return;
     }
 
@@ -317,82 +316,58 @@ async function loadAdPackages() {
       card.innerHTML = `
         <h3 class="card-title">${pack.name}</h3>
         <p class="card-text" style="margin-bottom:0.4rem;">
-          ${pack.description || ""}
+          ${pack.description || "Açıklama yakında eklenecek."}
         </p>
-        <p style="font-size:0.9rem;margin-bottom:0.3rem;">
-          Konum: <strong>${pack.placement || "-"}</strong>
+        <p style="font-size:1rem;font-weight:600;margin-bottom:0.4rem;">
+          ₺${pack.price} <span style="font-size:0.8rem;font-weight:400;">/ ${
+        pack.duration_days || "gün"
+      }</span>
         </p>
-        <p style="font-size:0.9rem;margin-bottom:0.3rem;">
-          Aylık: ${
-            pack.price_monthly != null
-              ? "₺" + pack.price_monthly
-              : "Fiyat sorunuz"
-          }
+        <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.6rem;">
+          Para birimi: ${pack.currency || "TRY"}
         </p>
-        <p style="font-size:0.8rem;color:#9ca3af;margin-bottom:0.6rem;">
-          Yıllık: ${
-            pack.price_yearly != null
-              ? "₺" + pack.price_yearly
-              : "Fiyat sorunuz"
-          }
-        </p>
+        <button
+          class="btn btn-outline"
+          onclick="document.getElementById('seller')?.scrollIntoView({behavior:'smooth'})"
+        >
+          Bu reklam paketini kullan
+        </button>
       `;
 
       grid.appendChild(card);
     });
   } catch (err) {
-    console.error("loadAdPackages genel hata:", err);
+    console.error("loadAdPackages catch:", err);
+    grid.innerHTML =
+      "<p style='font-size:0.85rem;color:#fca5a5;'>Reklam paketleri yüklenemedi.</p>";
   }
 }
-// Sayfa yüklendiğinde paketleri çek
+
+// ---------------- Sayfa Yüklenince ----------------
 document.addEventListener("DOMContentLoaded", () => {
+  // Form eventleri
+  const buyerForm = document.getElementById("buyer-form");
+  if (buyerForm) {
+    buyerForm.addEventListener("submit", handleBuyerFormSubmit);
+  }
+
+  const sellerForm = document.getElementById("seller-form");
+  if (sellerForm) {
+    sellerForm.addEventListener("submit", handleSellerFormSubmit);
+  }
+
+  // Supabase hazırsa verileri çek
   if (typeof supabase !== "undefined") {
-    loadMembershipPlans();
+    loadMembershipPlans(); // üyelik paketleri
+    loadSellerTypes(); // satıcı tipleri
+    loadAdPackages(); // reklam paketleri (varsa)
   } else {
-    console.warn("supabase tanımsız, membership_plans yüklenemedi.");
+    console.warn("Supabase tanımsız, veriler yüklenemedi.");
+  }
+
+  // Footer yıl güncelle
+  const yearEl = document.getElementById("year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
   }
 });
-// Satıcı Tiplerini yükle
-async function loadSellerTypes() {
-    const selectBox = document.getElementById("seller-type");
-
-    if (!selectBox) {
-        console.warn("seller-type alanı bulunamadı.");
-        return;
-    }
-
-    // Yükleniyor bilgisi
-    selectBox.innerHTML = `<option>Yükleniyor...</option>`;
-
-    try {
-        const { data, error } = await supabase
-            .from("seller_types")
-            .select("*")
-            .eq("is_active", true)
-            .order("sort_order", { ascending: true });
-
-        if (error) {
-            console.error("Satıcı tipleri alınamadı:", error);
-            selectBox.innerHTML = `<option>Hata oluştu</option>`;
-            return;
-        }
-
-        if (!data || data.length === 0) {
-            selectBox.innerHTML = `<option>Kayıtlı satıcı tipi yok</option>`;
-            return;
-        }
-
-        // Listeyi doldur
-        selectBox.innerHTML = "";
-        data.forEach((type) => {
-            const opt = document.createElement("option");
-            opt.value = type.id;
-            opt.textContent = type.name;
-            selectBox.appendChild(opt);
-        });
-
-    } catch (err) {
-        console.error("loadSellerTypes genel hata:", err);
-        selectBox.innerHTML = `<option>Hata oluştu</option>`;
-    }
-}
