@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>TradePiGlobal Portalı - Alıcı & Satıcı İşlemleri</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <span class="logo">TradePiGlobal</span>
+      <nav class="nav-links">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="#buyer">Alıcı Üyeliği</a>
+        <a href="#seller">Satıcı Başvurusu</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <a href="#buyer" class="nav-btn secondary">Alıcı</a>
+      <a href="#seller" class="nav-btn primary">Satıcı</a>
+    </div>
+  </header>
+
+  <!-- PORTAL HERO -->
+  <section class="hero hero-small">
+    <div class="hero-content">
+      <h1>TradePiGlobal Portalı</h1>
+      <p>
+        Aşağıdan alıcı veya satıcı türünü seçerek başvurunuzu oluşturun.
+        Formlar Supabase üzerinden güvenli şekilde kaydedilecektir.
+      </p>
+    </div>
+  </section>
+
+  <!-- ALICI FORMU -->
+  <section id="buyer" class="section form-section">
+    <h2>Alıcı Üyeliği Aç (Ücretsiz)</h2>
+    <p class="section-subtitle">
+      Tedarikçilere ulaşmak, teklif almak ve sipariş yönetmek için ücretsiz alıcı hesabı oluşturun.
+    </p>
+
+    <form id="buyer-form" class="form-card">
+      <div class="form-row">
+        <label>Ad Soyad
+          <input id="buyer-full-name" type="text" placeholder="Ad Soyad" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>E-posta
+          <input id="buyer-email" type="email" placeholder="ornek@firma.com" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Firma Adı
+          <input id="buyer-company" type="text" placeholder="Firma / Kurum Adı" />
+        </label>
+      </div>
+      <div class="form-row grid-2">
+        <label>Ülke
+          <input id="buyer-country" type="text" placeholder="Türkiye" />
+        </label>
+        <label>Şehir
+          <input id="buyer-city" type="text" placeholder="İstanbul" />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Telefon
+          <input id="buyer-phone" type="text" placeholder="+90 5xx xxx xx xx" />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Not
+          <textarea id="buyer-notes" rows="3" placeholder="Ürün talebiniz veya ek notlarınız"></textarea>
+        </label>
+      </div>
+      <button type="submit" class="btn primary full-width">
+        Ücretsiz Üyelik Oluştur
+      </button>
+      <div class="form-message" id="buyer-message"></div>
+    </form>
+  </section>
+
+  <!-- SATICI FORMU -->
+  <section id="seller" class="section form-section">
+    <h2>Satıcı Başvurusu</h2>
+    <p class="section-subtitle">
+      Ürünlerinizi dünya çapında alıcılara ulaştırmak için satıcı hesabı başvurusu yapın.
+    </p>
+
+    <form id="seller-form" class="form-card">
+      <div class="form-row">
+        <label>Ad Soyad
+          <input id="seller-full-name" type="text" placeholder="Ad Soyad" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>E-posta
+          <input id="seller-email" type="email" placeholder="ornek@firma.com" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Firma Adı
+          <input id="seller-company" type="text" placeholder="Üretici / Tedarikçi Firma Adı" required />
+        </label>
+      </div>
+      <div class="form-row grid-2">
+        <label>Ülke
+          <input id="seller-country" type="text" placeholder="Türkiye" />
+        </label>
+        <label>Şehir
+          <input id="seller-city" type="text" placeholder="İstanbul" />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Telefon
+          <input id="seller-phone" type="text" placeholder="+90 5xx xxx xx xx" />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Ana Ürün Grupları
+          <textarea id="seller-products" rows="3"
+            placeholder="Örn: Tekstil, Gıda, Kimya, Makine, Hırdavat..."></textarea>
+        </label>
+      </div>
+
+      <!-- İLERDE EKLEYECEĞİMİZ: satıcı tipi, paket seçimi vs. için select/checkbox alanları -->
+
+      <button type="submit" class="btn secondary full-width">
+        Başvuruyu Gönder
+      </button>
+      <div class="form-message" id="seller-message"></div>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© <span id="year"></span> TradePiGlobal · Portal</p>
+  </footer>
+
+  <!-- JS: Supabase + app.js -->
+  <script type="module" src="app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
