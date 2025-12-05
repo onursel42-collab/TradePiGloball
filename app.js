@@ -162,3 +162,85 @@ if (sellerForm) {
     }
   });
 }
+// ========== ÜYELİK PAKETLERİNİ SUPABASE'DEN ÇEK ==========
+async function loadMembershipPlans() {
+  try {
+    const pricingSection = document.getElementById("pricing");
+    if (!pricingSection) return; // bu sayfada pricing yoksa geç
+
+    const grid = pricingSection.querySelector(".card-grid");
+    if (!grid) return;
+
+    // Yükleniyor bilgisi (istersen)
+    grid.innerHTML = "<p style='font-size:0.85rem;color:#cbd5f5;'>Paketler yükleniyor...</p>";
+
+    const { data, error } = await supabase
+      .from("membership_plans")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      console.error("Paketler alınırken hata:", error);
+      grid.innerHTML =
+        "<p style='font-size:0.85rem;color:#fca5a5;'>Paketler yüklenirken bir hata oluştu.</p>";
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      grid.innerHTML =
+        "<p style='font-size:0.85rem;color:#cbd5f5;'>Henüz tanımlı satıcı üyelik paketi bulunmuyor.</p>";
+      return;
+    }
+
+    // Kartları Supabase verisiyle doldur
+    grid.innerHTML = "";
+
+    data.forEach((plan) => {
+      const monthly =
+        plan.price_monthly != null ? `₺${plan.price_monthly}` : "Fiyat sorunuz";
+      const yearly =
+        plan.price_yearly != null ? `₺${plan.price_yearly}` : "Fiyat sorunuz";
+
+      const card = document.createElement("article");
+      card.className = "card";
+
+      card.innerHTML = `
+        <h3 class="card-title">${plan.name}</h3>
+        <p class="card-text" style="margin-bottom:0.4rem;">
+          ${plan.description || "Bu paket için açıklama yakında eklenecek."}
+        </p>
+        <p style="font-size:1rem;font-weight:600;margin-bottom:0.4rem;">
+          ${monthly} <span style="font-size:0.8rem;font-weight:400;">/ ay</span>
+        </p>
+        <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.5rem;">
+          Yıllık: ${yearly}
+        </p>
+        <p style="font-size:0.75rem;color:#9ca3af;margin-bottom:0.6rem;">
+          Para birimi: ${plan.currency || "TRY"} ${
+        plan.is_pi_enabled ? "• Pi ile de alınabilir" : ""
+      }
+        </p>
+        <button
+          class="btn btn-outline"
+          onclick="document.getElementById('seller')?.scrollIntoView({behavior:'smooth'})"
+        >
+          Bu paketle başvur
+        </button>
+      `;
+
+      grid.appendChild(card);
+    });
+  } catch (err) {
+    console.error("loadMembershipPlans genel hata:", err);
+  }
+}
+
+// Sayfa yüklendiğinde paketleri çek
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof supabase !== "undefined") {
+    loadMembershipPlans();
+  } else {
+    console.warn("supabase tanımsız, membership_plans yüklenemedi.");
+  }
+});
