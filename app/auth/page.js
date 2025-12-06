@@ -1,22 +1,22 @@
-use client';
+'use client';
 
-import { createClient } from '../../lib/supabaseClient.js';
+import { useState } from 'react';
+import { createClient } from '../../lib/supabaseClient';
+
+const supabase = createClient();
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
 
-  // Supabase browser client
-  const supabase = createClient();
-
   const signIn = async () => {
     if (!email) {
-      alert('Lütfen e-postanı yaz 🙏');
+      alert('Lütfen e-posta yaz ✉️');
       return;
     }
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      // istersen redirect URL’ü burada da override edebiliriz
+      // istersen buradan özel redirect verebilirsin
       // options: { emailRedirectTo: 'https://www.tradepigloball.co/auth' },
     });
 
@@ -26,13 +26,12 @@ export default function AuthPage() {
       return;
     }
 
-    alert('Giriş linki e-postana gönderildi ✔');
+    alert('Giriş linki e-postana gönderildi ✅');
   };
 
   return (
     <div style={{ padding: 40 }}>
       <h1>Giriş Yap / Kayıt Ol</h1>
-
       <input
         type="email"
         placeholder="Email"
@@ -40,7 +39,6 @@ export default function AuthPage() {
         onChange={(e) => setEmail(e.target.value)}
         style={{ padding: 8, marginRight: 8 }}
       />
-
       <button onClick={signIn} disabled={!email}>
         Giriş Linki Gönder
       </button>
