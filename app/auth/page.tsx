@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabaseClient.js';
+import { createClient } from '../../lib/supabaseClient.js';
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
