@@ -1,14 +1,43 @@
 'use client';
 
 import { useState } from 'react';
+import { createClient } from '@/lib/supabaseClient';
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Buraya sonra Supabase ile gerçek login ekleyeceğiz
-    alert('Şimdilik demo ekran 🙂 Supabase auth birazdan bağlanacak.');
+    setLoading(true);
+    setMessage('');
+    setError('');
+
+    try {
+      const supabase = createClient();
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        // İstersen Supabase Auth → Redirect URL ayarına göre bırakabiliriz.
+        // emailRedirectTo: `${window.location.origin}/auth`,
+      });
+
+      if (error) {
+        console.error(error);
+        setError(error.message ?? 'Bir hata oluştu.');
+      } else {
+        setMessage(
+          'Giriş linki e-posta adresine gönderildi (Supabase ayarlarına bağlı).'
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Beklenmeyen bir hata oluştu.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -30,15 +59,18 @@ export default function AuthPage() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button type="submit" className="button">
-          Giriş linki gönder (demo)
+        <button type="submit" className="button" disabled={loading}>
+          {loading ? 'Gönderiliyor…' : 'Giriş linki gönder'}
         </button>
+
+        {message && <p className="small-text" style={{ color: '#22c55e' }}>{message}</p>}
+        {error && <p className="small-text" style={{ color: '#f97373' }}>{error}</p>}
       </form>
 
       <p className="small-text">
-        Bu ekran şimdilik taslak. Bir sonraki adımda Supabase ile gerçek giriş
-        & kayıt akışını bağlayacağız.
+        Not: Magic link’in çalışması için Supabase projesinde e-posta sağlayıcısı
+        ve redirect URL ayarlarının yapılmış olması gerekiyor.
       </p>
     </main>
   );
-}
+          }
