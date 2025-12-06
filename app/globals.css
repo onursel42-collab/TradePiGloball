@@ -1,1 +1,110 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+/* Body */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #020617; /* koyu lacivert */
+  color: #e5e7eb; /* açık gri */
+}
+
+/* Layout */
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+/* Typography */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  max-width: 26rem;
+}
+
+/* Card */
+.card {
+  margin-top: 0.5rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1rem;
+  background: #020617;
+  border: 1px solid #1f2937;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+  max-width: 26rem;
+  width: 100%;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.form label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.form input {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  outline: none;
+}
+
+.form input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px #38bdf8;
+}
+
+/* Button & link */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #38bdf8, #22c55e);
+  color: #020617;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.button:hover {
+  filter: brightness(1.05);
+}
+
+/* Extra */
+.small-text {
+  font-size: 0.8rem;
+  color: #6b7280;
+  max-width: 26rem;
+}
