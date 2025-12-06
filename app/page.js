@@ -1,14 +1,16 @@
 'use client';
 
-import { supabase } from '../../lib/supabaseClient';
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadProducts() {
+    const loadProducts = async () => {
       setLoading(true);
+
       const { data, error } = await supabase
         .from('products')
         .select('id, title, description, price, status')
@@ -17,12 +19,13 @@ export default function HomePage() {
 
       if (error) {
         console.error('Ürünleri çekerken hata:', error);
+        setProducts([]);
       } else {
-        setProducts(data || []);
+        setProducts(data ?? []);
       }
 
       setLoading(false);
-    }
+    };
 
     loadProducts();
   }, []);
@@ -38,7 +41,9 @@ export default function HomePage() {
       }}
     >
       <header style={{ marginBottom: '40px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>TradePi Global</h1>
+        <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>
+          TradePi Global
+        </h1>
         <p style={{ fontSize: '16px', opacity: 0.8 }}>
           Tanrı üstü B2B altyapı çalışıyor kanka 🚀
         </p>
@@ -61,46 +66,34 @@ export default function HomePage() {
               key={p.id}
               style={{
                 border: '1px solid #eee',
-                borderRadius: '12px',
+                borderRadius: '8px',
                 padding: '16px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
               }}
             >
-              <h2 style={{ fontSize: '18px', marginBottom: '8px' }}>{p.title}</h2>
-              {p.description && (
-                <p
-                  style={{
-                    fontSize: '14px',
-                    opacity: 0.8,
-                    marginBottom: '10px',
-                    minHeight: '40px',
-                  }}
-                >
-                  {p.description}
-                </p>
-              )}
+              <h2 style={{ fontSize: '18px', marginBottom: '8px' }}>
+                {p.title}
+              </h2>
+              <p
+                style={{
+                  fontSize: '14px',
+                  opacity: 0.8,
+                  marginBottom: '8px',
+                }}
+              >
+                {p.description}
+              </p>
               <p
                 style={{
                   fontWeight: 'bold',
-                  marginBottom: '4px',
+                  marginTop: '8px',
                 }}
               >
-                {p.price} ₺
+                {p.price} Pi
               </p>
-              <span
-                style={{
-                  fontSize: '12px',
-                  padding: '4px 8px',
-                  borderRadius: '999px',
-                  background: p.status === 'active' ? '#e0ffe6' : '#ffe0e0',
-                }}
-              >
-                {p.status === 'active' ? 'Aktif' : p.status}
-              </span>
             </div>
           ))}
         </div>
       )}
     </div>
   );
-              }
+}
