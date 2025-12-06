@@ -1,3 +1,4 @@
+// app/auth/page.js
 'use client';
 
 import { useState } from 'react';
@@ -5,70 +6,75 @@ import { supabase } from '../../lib/supabaseClient';
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState(null);
-  const [err, setErr] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [message, setMessage] = useState('');
 
   const signIn = async () => {
-    setErr(null);
-    setMsg(null);
-
     if (!email) {
-      setErr('Lütfen e-posta yaz 😅');
+      alert('Lütfen e-posta yaz ✉️');
       return;
     }
 
-    setLoading(true);
+    setSending(true);
+    setMessage('');
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        // Magic link tıklandığında döneceği URL
-        emailRedirectTo: 'https://tradepigloball.co/auth',
+        emailRedirectTo: 'https://tradepigloball.co/auth', // istersen render URL
       },
     });
 
-    setLoading(false);
-
     if (error) {
       console.error(error);
-      setErr('Bir hata oluştu: ' + error.message);
+      setMessage('Bir hata oluştu: ' + error.message);
     } else {
-      setMsg('Giriş linki e-postana gönderildi ✅');
+      setMessage('Giriş linki e-postana gönderildi ✅');
     }
+
+    setSending(false);
   };
 
   return (
-    <div style={{ padding: 40, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}>
+    <div style={{ padding: 40 }}>
       <h1>Giriş Yap / Kayıt Ol</h1>
-
+      <p style={{ fontSize: 14, marginBottom: 12 }}>
+        E-posta ile magic link gönderiyoruz. Owner, vendor, herkes aynı endpoint.
+      </p>
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ padding: 8, marginRight: 8, marginTop: 16, minWidth: 260 }}
+        style={{
+          padding: 8,
+          marginRight: 8,
+          borderRadius: 8,
+          border: '1px solid #4b5563',
+          background: '#020617',
+          color: '#f9fafb',
+        }}
       />
-
       <button
         onClick={signIn}
-        disabled={!email || loading}
-        style={{ padding: '8px 16px' }}
+        disabled={!email || sending}
+        style={{
+          padding: '8px 16px',
+          borderRadius: 999,
+          border: 'none',
+          background: '#f97316',
+          color: '#111827',
+          fontWeight: 600,
+          cursor: 'pointer',
+        }}
       >
-        {loading ? 'Gönderiliyor...' : 'Giriş Linki Gönder'}
+        {sending ? 'Gönderiliyor...' : 'Giriş Linki Gönder'}
       </button>
-
-      {err && (
-        <p style={{ color: 'red', marginTop: 16 }}>
-          {err}
-        </p>
-      )}
-
-      {msg && (
-        <p style={{ color: 'green', marginTop: 16 }}>
-          {msg}
+      {message && (
+        <p style={{ marginTop: 16, fontSize: 14, color: '#9ca3af' }}>
+          {message}
         </p>
       )}
     </div>
   );
-        }
+}
