@@ -1,76 +1,122 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabaseClient';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabaseClient";
 
 export default function AuthPage() {
-  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const supabase = createClient();
+
+  const [mode, setMode] = useState("login"); // "login" | "signup"
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [msg, setMsg] = useState(null); // { type: 'ok' | 'error', text: string }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
-    setError('');
+    setMsg(null);
 
     try {
-      const supabase = createClient();
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password
+        });
 
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        // İstersen Supabase Auth → Redirect URL ayarına göre bırakabiliriz.
-        // emailRedirectTo: `${window.location.origin}/auth`,
-      });
+        if (error) throw error;
 
-      if (error) {
-        console.error(error);
-        setError(error.message ?? 'Bir hata oluştu.');
+        setMsg({
+          type: "ok",
+          text: "Kayıt başarılı! Lütfen e-posta kutunu kontrol et."
+        });
       } else {
-        setMessage(
-          'Giriş linki e-posta adresine gönderildi (Supabase ayarlarına bağlı).'
-        );
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        setMsg({
+          type: "ok",
+          text: "Giriş başarılı! Ana sayfaya yönlendiriliyorsun..."
+        });
+
+        setTimeout(() => {
+          router.push("/");
+        }, 800);
       }
     } catch (err) {
-      console.error(err);
-      setError('Beklenmeyen bir hata oluştu.');
+      setMsg({ type: "error", text: err.message });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main>
-      <h1>Satıcı Girişi</h1>
+    <main className="page">
+      <div className="card">
+        <span className="badge">
+          {mode === "login" ? "Giriş Yap" : "Yeni Üyelik"}
+        </span>
+        <h2>TradePiGlobal hesabın</h2>
+        <p>
+          Aynı hesapla hem satıcı hem alıcı olarak işlem yapabileceksin. Şimdilik
+          basit e-posta + şifre ile ilerliyoruz.
+        </p>
 
-      <p className="subtitle">
-        TradePi Global satıcı paneline giriş yapmak için e-posta adresini gir.
-      </p>
+        <form onSubmit={handleSubmit} className="form">
+          <input
+            className="input"
+            type="email"
+            placeholder="E-posta adresin"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-      <form onSubmit={handleSubmit} className="card form">
-        <label htmlFor="email">E-posta adresi</label>
-        <input
-          id="email"
-          type="email"
-          required
-          placeholder="ornek@firma.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <input
+            className="input"
+            type="password"
+            placeholder="Şifre (min 6 karakter)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <button type="submit" className="button" disabled={loading}>
-          {loading ? 'Gönderiliyor…' : 'Giriş linki gönder'}
-        </button>
+          <div className="actions">
+            <button className="btn-primary" type="submit" disabled={loading}>
+              {loading
+                ? "İşleniyor..."
+                : mode === "login"
+                ? "Giriş Yap"
+                : "Kayıt Ol"}
+            </button>
 
-        {message && <p className="small-text" style={{ color: '#22c55e' }}>{message}</p>}
-        {error && <p className="small-text" style={{ color: '#f97373' }}>{error}</p>}
-      </form>
+            <button
+              className="btn-secondary"
+              type="button"
+              onClick={() => {
+                setMsg(null);
+                setMode(mode === "login" ? "signup" : "login");
+              }}
+            >
+              {mode === "login"
+                ? "Hesabın yok mu? Kayıt ol"
+                : "Hesabın var mı? Giriş yap"}
+            </button>
+          </div>
+        </form>
 
-      <p className="small-text">
-        Not: Magic link’in çalışması için Supabase projesinde e-posta sağlayıcısı
-        ve redirect URL ayarlarının yapılmış olması gerekiyor.
-      </p>
+        {msg && (
+          <p className={`message ${msg.type === "error" ? "error" : "ok"}`}>
+            {msg.text}
+          </p>
+        )}
+      </div>
     </main>
   );
-          }
+}
