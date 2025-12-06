@@ -1,16 +1,14 @@
-import './globals.css';
+import "./globals.css";
 
 export const metadata = {
-  title: 'TradePi Global',
-  description: 'B2B Marketplace powered by Pi Network & Supabase',
+  title: "TradePiGlobal",
+  description: "Pi Network tabanlı B2B ticaret platformu"
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
