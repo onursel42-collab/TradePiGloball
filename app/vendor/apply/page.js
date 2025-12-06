@@ -1,4 +1,3 @@
-// app/vendor/apply/page.js
 'use client';
 
 import { useState } from 'react';
@@ -29,6 +28,7 @@ export default function VendorApplyPage() {
     }
 
     setSending(true);
+
     const { error } = await supabase.from('vendor_requests').insert({
       ...form,
     });
@@ -39,6 +39,7 @@ export default function VendorApplyPage() {
     } else {
       setDone(true);
     }
+
     setSending(false);
   };
 
@@ -47,8 +48,8 @@ export default function VendorApplyPage() {
       <div style={{ padding: 40 }}>
         <h1>Başvurun alındı ✅</h1>
         <p style={{ marginTop: 8 }}>
-          En kısa sürede seninle iletişime geçeceğiz. Owner panelden onaylayınca
-          seni aktif vendor yapacağız.
+          En kısa sürede değerlendireceğiz. Uygun görürsek Supabase üzerinden
+          seni aktif vendor listesinden ekleyeceğiz.
         </p>
       </div>
     );
@@ -58,7 +59,7 @@ export default function VendorApplyPage() {
     <div style={{ padding: 40, maxWidth: 600 }}>
       <h1>Vendor Başvurusu</h1>
       <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 24 }}>
-        Üretici / tedarikçiysen, burayı doldur; seni platforma ekleyelim.
+        Üretici / tedarikçiysen, burayı doldur; seni listemize ekleyelim.
       </p>
 
       {[
@@ -125,4 +126,4 @@ export default function VendorApplyPage() {
       </button>
     </div>
   );
-}
+                   }
