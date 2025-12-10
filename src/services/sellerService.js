@@ -107,3 +107,24 @@ export async function getActiveMembership(userId) {
   if (error) return null;
   return data;
 }
+export async function subscribePlan(planId) {
+  const { data: userData, error: userErr } = await supabase.auth.getUser();
+  if (userErr || !userData?.user) throw new Error("Giriş yapmalısınız!");
+
+  const userId = userData.user.id;
+
+  const { error } = await supabase
+    .from('seller_memberships')
+    .insert([
+      {
+        seller_id: userId,
+        plan_id: planId,
+        status: 'active',
+        start_date: new Date().toISOString()
+      }
+    ]);
+
+  if (error) throw error;
+
+  return true;
+}
