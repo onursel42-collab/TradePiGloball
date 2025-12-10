@@ -1,10 +1,14 @@
+<!-- src/components/SellerOnboarding.vue -->
 <template>
   <div class="seller-box">
     <h2>Satıcı Ol / Mağaza Aç</h2>
 
-    <div v-if="loadingUser" class="info">Kullanıcı bilgisi yükleniyor…</div>
+    <div v-if="loadingUser" class="info">
+      Kullanıcı bilgisi yükleniyor…
+    </div>
+
     <div v-else-if="!user" class="info">
-      Satıcı başvurusu yapmak için önce giriş yapman gerekiyor.
+      Satıcı başvurusu yapmak için önce giriş yapmalısın.
     </div>
 
     <form v-else @submit.prevent="submitForm" class="seller-form">
@@ -49,8 +53,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import { supabase } from '../lib/supabaseClient';
+import { createSellerApplication } from '../services/sellerService';
+
+const emit = defineEmits(['submitted']);
 
 const user = ref(null);
 const loadingUser = ref(true);
@@ -89,34 +96,18 @@ const submitForm = async () => {
   success.value = '';
 
   try {
-    // 1) Şirket kaydı
-    const { data: companyData, error: cErr } = await supabase
-      .from('companies')
-      .insert({
-        name: companyName.value,
-        country: country.value,
-        city: city.value,
-        address: address.value,
-        website: website.value || null,
-        sector: sector.value || null,
-      })
-      .select('id')
-      .single();
-
-    if (cErr) throw cErr;
-
-    // 2) Seller kaydı
-    const { error: sErr } = await supabase.from('sellers').insert({
-      user_id: user.value.id,
-      company_id: companyData.id,
-      status: 'pending',
+    await createSellerApplication({
+      companyName: companyName.value,
+      country: country.value,
+      city: city.value,
+      address: address.value,
+      website: website.value,
+      sector: sector.value,
     });
 
-    if (sErr) throw sErr;
-
     success.value = 'Başvurun alındı. Onaylandıktan sonra mağazan aktif edilecek.';
+    emit('submitted');
 
-    // Formu temizle
     companyName.value = '';
     country.value = '';
     city.value = '';
@@ -125,7 +116,7 @@ const submitForm = async () => {
     sector.value = '';
   } catch (e) {
     console.error(e);
-    error.value = e.message || 'Başvuru sırasında bir hata oluştu.';
+    error.value = e.message || 'Başvuru sırasında hata oluştu.';
   } finally {
     loading.value = false;
   }
@@ -140,7 +131,6 @@ const submitForm = async () => {
   border: 1px solid #1f2937;
   background: #020617;
   color: #e5e7eb;
-  margin-top: 16px;
 }
 .seller-form {
   display: flex;
