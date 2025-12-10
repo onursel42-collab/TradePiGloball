@@ -1,230 +1,179 @@
 <template>
-  <div class="page">
-    <!-- HEADER -->
-    <header class="header">
-      <div class="container header-inner">
-        <div class="logo">TradePiGlobal</div>
+  <div class="tpg-page">
+    <header class="tpg-header">
+      <div class="tpg-container tpg-header-inner">
+        <div class="tpg-logo">TradePiGlobal</div>
 
-        <nav class="nav">
-          <a href="#">Sektörler</a>
-          <a href="#">Premium Satıcılar</a>
-          <a href="#">RFQ Oluştur</a>
+        <nav class="tpg-nav">
+          <button class="tpg-nav-link">Sektörler</button>
+          <button class="tpg-nav-link">RFQ</button>
+          <button class="tpg-nav-link">Destek</button>
         </nav>
 
-        <div class="header-actions">
-          <button class="btn-ghost">Alıcı Girişi</button>
-          <button class="btn-primary">Satıcı Olarak Başla</button>
+        <div class="tpg-header-actions">
+          <button class="tpg-btn-link">Alıcı Girişi</button>
+          <button class="tpg-btn-link">Satıcı Girişi</button>
+          <button class="tpg-btn-primary">Kayıt Ol</button>
         </div>
       </div>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO + ÖZET -->
     <main>
-      <section class="hero">
-        <div class="container hero-inner">
-          <div class="hero-left">
-            <h1>
-              Üretici ve alıcıları
-              <span class="text-gold">tek B2B köprüde</span>
-              buluşturuyoruz.
+      <section class="tpg-hero">
+        <div class="tpg-container tpg-hero-inner">
+          <div class="tpg-hero-left">
+            <h1 class="tpg-hero-title">
+              Pi destekli global B2B ticaret altyapısı.
             </h1>
-            <p class="hero-sub">
-              TradePiGlobal; RFQ tabanlı eşleşme, hibrit ödeme (Pi + fiat) ve
-              üyelik paketlerine göre şekillenen vitrin yapısıyla global ticaret
-              için tasarlandı.
+            <p class="tpg-hero-sub">
+              Üretici ve alıcıları tek platformda buluştur. Üyelik planını seç,
+              vitrinde yerini al, RFQ taleplerini yönet.
             </p>
 
-            <div class="search-box">
-              <input
-                type="text"
-                placeholder="Ürün, firma veya RFQ ara..."
-              />
-              <button class="btn-primary">Ara</button>
-            </div>
-
-            <div class="hero-badges">
-              <span>🔒 Güvenli ödeme & escrow altyapısı</span>
-              <span>🌍 Global görünürlük</span>
-              <span>⚙ Tam otomatik dijital altyapı</span>
+            <div class="tpg-hero-actions">
+              <button class="tpg-btn-primary">Satıcı Olarak Başla</button>
+              <button class="tpg-btn-ghost">Alıcı Olarak İncele</button>
             </div>
           </div>
 
-          <div class="hero-right">
-            <!-- Buraya ileride Babylon.js ile 3D preview gömebiliriz -->
-            <div class="hero-visual">
-              <div class="visual-badge">Pi destekli B2B</div>
-              <div class="visual-text">
-                <p>Tanrı üstü altyapı, premium vitrin.</p>
-                <p class="visual-highlight">Hazırsan, dünyaya açılalım.</p>
+          <div class="tpg-hero-right">
+            <div class="tpg-hero-card">
+              <p class="tpg-hero-card-label">Canlı Kurlar</p>
+              <div class="tpg-rates-row">
+                <span>USD/TRY: <strong>32,10</strong></span>
+                <span>EUR/TRY: <strong>34,50</strong></span>
+              </div>
+              <div class="tpg-rates-row tpg-rates-row-pi">
+                <span>1 Pi ≈ <strong>10 USD</strong></span>
+                <span class="tpg-pill">İç kur</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ÜYELİK PAKETLERİ VİTRİNİ -->
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Satıcı üyelik paketleri</h2>
-              <p class="section-sub">
-                Tüm paketler Supabase’deki
-                <code>membership_plans</code> tablosundan gelir. Gold 3D Global
-                paketi, 25 slotlu 3D fuar alanı + 3D mağaza hakkı tanır.
-              </p>
+      <!-- ÜYELİK PAKETLERİ -->
+      <section class="tpg-section">
+        <div class="tpg-container">
+          <h2 class="tpg-section-title">Üyelik Paketleri</h2>
+          <p class="tpg-section-sub">
+            İş modeline göre paketini seç. Fiyatlar Supabase’ten canlı çekiliyor.
+          </p>
+
+          <!-- GOLD 3D GLOBAL ÖNE ÇIKAN -->
+          <div v-if="goldPlan" class="tpg-gold-wrapper">
+            <div class="tpg-gold-badge">Gold 3D Global</div>
+            <div class="tpg-gold-content">
+              <div>
+                <h3>{{ goldPlan.name }}</h3>
+                <p class="tpg-gold-desc">
+                  25 slotlu 3D fuar alanı, 3D mağaza ve global üst seviye görünürlük.
+                </p>
+                <ul class="tpg-gold-list">
+                  <li>🔹 25 adet 3D fuar vitrini</li>
+                  <li>🔹 Özel 3D mağaza (Babylon.js alt yapısı)</li>
+                  <li>🔹 Global aramalarda üst sıralar</li>
+                  <li>🔹 Özel hesap yöneticisi</li>
+                </ul>
+              </div>
+              <div class="tpg-gold-price-box">
+                <div class="tpg-price-main">
+                  <span class="tpg-price-value">
+                    {{ formatMoney(goldPlan.price_monthly) }}
+                  </span>
+                  <span class="tpg-price-period">/ ay</span>
+                </div>
+                <div class="tpg-price-secondary">
+                  veya
+                  {{ formatMoney(goldPlan.price_yearly) }} / yıl
+                </div>
+                <button class="tpg-btn-primary tpg-btn-block">
+                  Gold 3D Global’e Geç
+                </button>
+              </div>
             </div>
-            <div class="billing-toggle">
-              <button
-                class="billing-btn"
-                :class="{ active: billingMode === 'monthly' }"
-                @click="billingMode = 'monthly'"
-              >
-                Aylık
-              </button>
-              <button
-                class="billing-btn"
-                :class="{ active: billingMode === 'yearly' }"
-                @click="billingMode = 'yearly'"
-              >
-                Yıllık
-              </button>
-            </div>
           </div>
 
-          <div v-if="loading" class="info-box">
-            Paketler yükleniyor...
-          </div>
-
-          <div v-else-if="error" class="info-box error">
-            Paketler yüklenirken bir hata oluştu:
-            <span>{{ error }}</span>
-          </div>
-
-          <div v-else class="plans-grid">
-            <article
-              v-for="plan in sortedPlans"
+          <!-- NORMAL PLANLAR (STARTER / GROWTH / PRO / GLOBAL) -->
+          <div class="tpg-plan-grid">
+            <div
+              v-for="plan in normalPlans"
               :key="plan.code"
-              class="plan-card"
-              :class="{
-                'plan-gold': plan.has_3d_showroom,
-                'plan-highlight': plan.segment === 'GLOBAL'
-              }"
+              class="tpg-plan-card"
             >
-              <div class="plan-header">
-                <h3>{{ plan.name }}</h3>
-                <span
-                  v-if="plan.has_3d_showroom"
-                  class="badge-3d"
-                >
-                  3D Fuar + 3D Mağaza
+              <h3 class="tpg-plan-name">{{ plan.name }}</h3>
+              <p class="tpg-plan-desc">{{ plan.description }}</p>
+
+              <div class="tpg-plan-price">
+                <span class="tpg-plan-price-main">
+                  {{ formatMoney(plan.price_monthly) }}
                 </span>
+                <span class="tpg-plan-price-period">/ ay</span>
               </div>
 
-              <p class="plan-desc">
-                {{ plan.description || 'Satıcılar için üyelik planı.' }}
+              <p v-if="plan.price_yearly" class="tpg-plan-year">
+                {{ formatMoney(plan.price_yearly) }} / yıl
               </p>
 
-              <div class="plan-price-block">
-                <div v-if="billingMode === 'monthly'">
-                  <div class="price-main">
-                    <span class="price-number">
-                      {{ formatPrice(plan.price_monthly) }}
-                    </span>
-                    <span class="price-currency">{{ plan.currency }}</span>
-                  </div>
-                  <div class="price-period">/ ay</div>
-                </div>
-
-                <div v-else>
-                  <div class="price-main">
-                    <span class="price-number">
-                      {{ formatPrice(plan.price_yearly) }}
-                    </span>
-                    <span class="price-currency">{{ plan.currency }}</span>
-                  </div>
-                  <div class="price-period">/ yıl</div>
-                </div>
-              </div>
-
-              <ul class="plan-features">
-                <li>✓ Global B2B vitrin</li>
-                <li>✓ RFQ tabanlı teklif sistemi</li>
-                <li v-if="plan.segment === 'STARTER'">
-                  ✓ Başlangıç için temel görünürlük
+              <ul class="tpg-plan-features">
+                <li v-if="plan.code === 'STARTER'">
+                  ✅ Temel görünürlük ve RFQ yanıtlamaya giriş
                 </li>
-                <li v-else-if="plan.segment === 'GROWTH'">
-                  ✓ Büyüyen üreticiler için güçlendirilmiş vitrin
+                <li v-if="plan.code === 'GROWTH'">
+                  ✅ Kategori içinde daha yüksek sıralama
                 </li>
-                <li v-else-if="plan.segment === 'PRO'">
-                  ✓ Profesyonel satıcılar için premium vitrin
+                <li v-if="plan.code === 'PRO'">
+                  ✅ Daha fazla RFQ ve genişletilmiş vitrin
                 </li>
-                <li v-else-if="plan.segment === 'GLOBAL'">
-                  ✓ İhracat odaklı, global üst sıralar
+                <li v-if="plan.code === 'GLOBAL'">
+                  ✅ İhracat odaklı global görünürlük
                 </li>
-                <li v-else-if="plan.segment === 'GOLD_3D'">
-                  ✓ 25 slot 3D fuar alanı + özel 3D mağaza
-                </li>
+                <li>✅ Pi + TRY ile hibrit ödeme desteği</li>
               </ul>
 
-              <button class="btn-plan-select">
-                Bu paketi seç
+              <button class="tpg-btn-outline tpg-btn-block">
+                Bu planla devam et
               </button>
-            </article>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <!-- RFQ KISA BÖLÜMÜ -->
-      <section class="section section-muted">
-        <div class="container rfq-section">
-          <div>
-            <h2>Tek RFQ ile birden fazla teklif al</h2>
-            <p class="section-sub">
-              Alıcı tarafı tek bir RFQ ile birden fazla satıcıdan toplu fiyat
-              alır. Satıcı tarafı, üyelik paketine göre RFQ önceliği kazanır.
-            </p>
+          <div v-if="isLoading" class="tpg-info">
+            Paketler yükleniyor…
           </div>
-          <div class="rfq-actions">
-            <button class="btn-primary">
-              RFQ Oluştur
-            </button>
-            <button class="btn-ghost-dark">
-              Son RFQ’ları gör
-            </button>
+          <div v-if="!isLoading && normalPlans.length === 0 && !goldPlan" class="tpg-info">
+            Aktif üyelik planı bulunamadı. Supabase tablolarını kontrol et.
           </div>
         </div>
       </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="container footer-grid">
+    <footer class="tpg-footer">
+      <div class="tpg-container tpg-footer-inner">
         <div>
-          <h3 class="footer-logo">TradePiGlobal</h3>
-          <p class="footer-text">
-            Pi destekli, çok katmanlı güvenlik altyapısına sahip global B2B
-            ticaret platformu.
+          <div class="tpg-footer-logo">TradePiGlobal</div>
+          <p class="tpg-footer-text">
+            Pi destekli global B2B ticaret ve hibrit ödeme altyapısı.
           </p>
         </div>
         <div>
           <h4>Platform</h4>
           <ul>
             <li>Nasıl çalışır?</li>
-            <li>Sektörler</li>
-            <li>Premium satıcılar</li>
+            <li>Üyelik paketleri</li>
+            <li>RFQ süreci</li>
           </ul>
         </div>
         <div>
           <h4>Hesap</h4>
           <ul>
-            <li>Satıcı kaydı</li>
-            <li>Alıcı kaydı</li>
-            <li>Giriş yap</li>
+            <li>Alıcı girişi</li>
+            <li>Satıcı girişi</li>
+            <li>Plan yükseltme</li>
           </ul>
         </div>
       </div>
-      <div class="footer-copy">
+      <div class="tpg-footer-copy">
         © 2025 TradePiGlobal
       </div>
     </footer>
@@ -232,82 +181,61 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { supabase } from './supabaseClient';
+import { onMounted, ref, computed } from 'vue';
+import { supabase } from './lib/supabaseClient'; // yolu projene göre düzelt
 
 const plans = ref([]);
-const loading = ref(true);
-const error = ref('');
-const billingMode = ref('monthly'); // 'monthly' | 'yearly'
+const isLoading = ref(true);
 
-// Supabase'ten aktif planları çek
-onMounted(async () => {
-  try {
-    const { data, error: err } = await supabase
-      .from('membership_plans')
-      .select(
-        `
-        name,
-        code,
-        description,
-        billing_period,
-        price_monthly,
-        price_yearly,
-        currency,
-        is_active,
-        segment,
-        has_3d_showroom,
-        sort_order
-      `
-      )
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true });
-
-    if (err) {
-      throw err;
-    }
-
-    // Güvenlik: null fiyatları 0 yap
-    plans.value = (data || []).map((p) => ({
-      ...p,
-      price_monthly: p.price_monthly ?? 0,
-      price_yearly: p.price_yearly ?? 0,
-    }));
-  } catch (e) {
-    console.error(e);
-    error.value = e.message || 'Bilinmeyen hata';
-  } finally {
-    loading.value = false;
-  }
-});
-
-// Gold 3D’yi en sona ama vurgulu göster
-const sortedPlans = computed(() => {
-  const gold = plans.value.filter((p) => p.has_3d_showroom);
-  const normal = plans.value.filter((p) => !p.has_3d_showroom);
-  return [...normal, ...gold];
-});
-
-function formatPrice(value) {
-  if (!value || value === 0) return '–';
+function formatMoney(value) {
+  if (value == null) return '-';
+  // 2 ondalık, binlik ayırma
   return new Intl.NumberFormat('tr-TR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(value);
 }
+
+const goldPlan = computed(() =>
+  plans.value.find((p) => p.has_3d_showroom === true)
+);
+
+const normalPlans = computed(() =>
+  plans.value.filter((p) => !p.has_3d_showroom)
+);
+
+onMounted(async () => {
+  isLoading.value = true;
+
+  const { data, error } = await supabase
+    .from('membership_plans')
+    .select(
+      'id, name, code, description, billing_period, price_monthly, price_yearly, currency, has_3d_showroom, is_active, sort_order'
+    )
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    console.error('Üyelik planları alınırken hata:', error);
+  } else {
+    plans.value = data || [];
+  }
+
+  isLoading.value = false;
+});
 </script>
 
 <style scoped>
-/* Genel sayfa */
-.page {
+.tpg-page {
   min-height: 100vh;
-  background: #f3f4f6; /* açık zemin */
-  color: #111827;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text',
-    'Segoe UI', sans-serif;
+  background: #f9fafb;
+  color: #0f172a;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", Roboto, sans-serif;
 }
 
-.container {
+/* CONTAINER */
+.tpg-container {
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
@@ -315,395 +243,351 @@ function formatPrice(value) {
 }
 
 /* HEADER */
-.header {
+.tpg-header {
   border-bottom: 1px solid #e5e7eb;
   background: #ffffff;
 }
 
-.header-inner {
+.tpg-header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  gap: 12px;
+  padding: 10px 0;
+  gap: 14px;
 }
 
-.logo {
+.tpg-logo {
   font-weight: 700;
   font-size: 18px;
-  color: #1e293b;
-}
-
-.nav {
-  display: flex;
-  gap: 12px;
-  font-size: 14px;
-}
-
-.nav a {
-  color: #4b5563;
-}
-
-.nav a:hover {
+  letter-spacing: 0.04em;
   color: #111827;
 }
 
-.header-actions {
+.tpg-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.tpg-nav-link {
+  border: none;
+  background: none;
+  font-size: 13px;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.tpg-header-actions {
   display: flex;
   gap: 8px;
+}
+
+.tpg-btn-link {
+  border: none;
+  background: none;
+  font-size: 13px;
+  color: #10b981;
+  cursor: pointer;
+}
+
+.tpg-btn-primary {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #10b981;
+  color: #ecfdf5;
+  cursor: pointer;
+}
+
+.tpg-btn-ghost {
+  border-radius: 999px;
+  border: 1px solid #d1fae5;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #ecfdf5;
+  color: #047857;
+  cursor: pointer;
+}
+
+.tpg-btn-outline {
+  border-radius: 999px;
+  border: 1px solid #10b981;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #ffffff;
+  color: #047857;
+  cursor: pointer;
+}
+
+.tpg-btn-block {
+  width: 100%;
 }
 
 /* HERO */
-.hero {
+.tpg-hero {
+  padding: 26px 0 20px;
   background: #ffffff;
-  padding: 28px 0 24px;
 }
 
-.hero-inner {
+.tpg-hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+  gap: 20px;
 }
 
-.hero-left h1 {
+.tpg-hero-title {
+  font-size: 26px;
   margin: 0 0 10px;
-  font-size: clamp(26px, 4vw, 32px);
   color: #0f172a;
 }
 
-.text-gold {
-  color: #f59e0b;
-}
-
-.hero-sub {
+.tpg-hero-sub {
   margin: 0 0 16px;
   font-size: 14px;
   color: #4b5563;
-  max-width: 520px;
+  max-width: 480px;
 }
 
-.search-box {
+.tpg-hero-actions {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 10px;
 }
 
-.search-box input {
-  flex: 1;
-  border-radius: 999px;
-  border: 1px solid #d1d5db;
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-.hero-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.hero-badges span {
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-
-/* HERO sağ görsel */
-.hero-right {
+.tpg-hero-right {
   display: flex;
   justify-content: flex-end;
 }
 
-.hero-visual {
-  width: 100%;
-  max-width: 320px;
-  border-radius: 20px;
+.tpg-hero-card {
+  border-radius: 16px;
   padding: 14px;
-  background: radial-gradient(circle at top, #10b981 0, #1e293b 55%);
-  color: #ecfdf5;
+  background: #f1f5f9;
+  border: 1px solid #e5e7eb;
+  width: 100%;
+  max-width: 280px;
+}
+
+.tpg-hero-card-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.tpg-rates-row {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.visual-badge {
-  align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #d1fae5;
-  color: #065f46;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.visual-text p {
-  margin: 0;
+  justify-content: space-between;
   font-size: 13px;
-}
-
-.visual-highlight {
-  font-weight: 600;
-}
-
-/* BUTONLAR */
-.btn-primary {
-  border-radius: 999px;
-  border: none;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  background: #10b981;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: #059669;
-}
-
-.btn-ghost {
-  border-radius: 999px;
-  border: 1px solid #d1d5db;
-  padding: 8px 16px;
-  font-size: 13px;
-  background: #ffffff;
   color: #111827;
-  cursor: pointer;
 }
 
-.btn-ghost-dark {
+.tpg-rates-row + .tpg-rates-row {
+  margin-top: 6px;
+}
+
+.tpg-rates-row-pi {
+  margin-top: 8px;
+  align-items: center;
+  gap: 8px;
+}
+
+.tpg-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid #4b5563;
-  padding: 8px 16px;
-  font-size: 13px;
-  background: transparent;
-  color: #e5e7eb;
-  cursor: pointer;
+  font-size: 11px;
+  background: #d1fae5;
+  color: #047857;
 }
 
 /* SECTIONS */
-.section {
-  padding: 26px 0;
+.tpg-section {
+  padding: 24px 0 28px;
   background: #f9fafb;
 }
 
-.section-muted {
-  background: #0f172a;
-  color: #e5e7eb;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.section-head h2 {
-  margin: 0 0 4px;
+.tpg-section-title {
+  margin: 0 0 6px;
   font-size: 20px;
+  color: #0f172a;
 }
 
-.section-sub {
-  margin: 0;
+.tpg-section-sub {
+  margin: 0 0 16px;
   font-size: 13px;
   color: #6b7280;
 }
 
-.section-muted .section-sub {
-  color: #9ca3af;
-}
-
-/* BILLING TOGGLE */
-.billing-toggle {
-  display: inline-flex;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-}
-
-.billing-btn {
-  border: none;
-  padding: 6px 12px;
-  font-size: 12px;
-  background: transparent;
-  color: #6b7280;
-  cursor: pointer;
-}
-
-.billing-btn.active {
-  background: #10b981;
-  color: #ffffff;
-}
-
-/* INFO BOX */
-.info-box {
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #e5e7eb;
-  font-size: 13px;
-  color: #374151;
-}
-
-.info-box.error {
-  background: #fef2f2;
-  color: #991b1b;
-}
-
-/* PLAN GRID */
-.plans-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 14px;
-}
-
-.plan-card {
-  background: #ffffff;
+/* GOLD PLAN */
+.tpg-gold-wrapper {
   border-radius: 16px;
-  padding: 14px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  padding: 16px;
+  background: #022c22;
+  color: #ecfdf5;
+  margin-bottom: 18px;
 }
 
-.plan-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  align-items: center;
-}
-
-.plan-header h3 {
-  margin: 0;
-  font-size: 16px;
-  color: #111827;
-}
-
-.plan-desc {
-  margin: 0;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* GOLD ve GLOBAL highlight */
-.plan-highlight {
-  border-color: #10b981;
-}
-
-.plan-gold {
-  border-width: 2px;
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2);
-}
-
-.badge-3d {
-  padding: 4px 8px;
+.tpg-gold-badge {
+  display: inline-flex;
+  padding: 4px 10px;
   border-radius: 999px;
   background: #facc15;
-  color: #1f2933;
+  color: #92400e;
   font-size: 11px;
   font-weight: 600;
+  margin-bottom: 8px;
 }
 
-/* PRİCE BLOCK */
-.plan-price-block {
-  margin-top: 4px;
+.tpg-gold-content {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
-.price-main {
+.tpg-gold-desc {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.tpg-gold-list {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 13px;
+}
+
+.tpg-gold-price-box {
+  margin-left: auto;
+  min-width: 220px;
+  background: #064e3b;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.tpg-price-main {
   display: flex;
   align-items: baseline;
   gap: 4px;
 }
 
-.price-number {
+.tpg-price-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.tpg-price-period {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.tpg-price-secondary {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* NORMAL PLANLAR */
+.tpg-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.tpg-plan-card {
+  border-radius: 14px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.tpg-plan-name {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.tpg-plan-desc {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #6b7280;
+  min-height: 32px;
+}
+
+.tpg-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.tpg-plan-price-main {
   font-size: 20px;
   font-weight: 700;
   color: #111827;
 }
 
-.price-currency {
+.tpg-plan-price-period {
   font-size: 12px;
   color: #6b7280;
 }
 
-.price-period {
+.tpg-plan-year {
+  margin: 0 0 8px;
   font-size: 12px;
   color: #6b7280;
 }
 
-/* FEATURES */
-.plan-features {
-  margin: 4px 0 8px;
-  padding-left: 18px;
+.tpg-plan-features {
+  margin: 0 0 10px;
+  padding-left: 16px;
   font-size: 12px;
   color: #4b5563;
 }
 
-.plan-features li {
-  margin-bottom: 2px;
-}
-
-/* PLAN BUTTON */
-.btn-plan-select {
-  margin-top: auto;
-  align-self: flex-start;
-  border-radius: 999px;
-  border: 1px solid #10b981;
-  background: #ecfdf5;
-  color: #047857;
-  padding: 6px 14px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-/* RFQ SECTION */
-.rfq-section {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-}
-
-/* FOOTER */
-.footer {
-  background: #ffffff;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 20px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  padding: 16px 0 12px;
-}
-
-.footer-logo {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #111827;
-}
-
-.footer-text {
-  margin: 4px 0 0;
+.tpg-info {
+  margin-top: 10px;
   font-size: 13px;
   color: #6b7280;
 }
 
-.footer h4 {
-  margin: 0 0 6px;
+/* FOOTER */
+.tpg-footer {
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+  margin-top: 10px;
+}
+
+.tpg-footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 16px 0 10px;
+}
+
+.tpg-footer-logo {
+  font-weight: 700;
+  font-size: 16px;
+  color: #111827;
+}
+
+.tpg-footer-text {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.tpg-footer h4 {
+  margin: 0 0 4px;
   font-size: 13px;
   color: #111827;
 }
 
-.footer ul {
+.tpg-footer ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -711,38 +595,41 @@ function formatPrice(value) {
   color: #6b7280;
 }
 
-.footer li {
-  margin: 3px 0;
+.tpg-footer li + li {
+  margin-top: 2px;
 }
 
-.footer-copy {
+.tpg-footer-copy {
   border-top: 1px solid #e5e7eb;
-  padding: 8px 16px 10px;
+  padding: 8px 16px 12px;
   font-size: 11px;
-  color: #9ca3af;
   text-align: center;
+  color: #9ca3af;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .nav {
+  .tpg-nav {
     display: none;
   }
 
-  .hero-inner {
+  .tpg-hero-inner {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .hero-right {
+  .tpg-hero-right {
     justify-content: flex-start;
   }
 
-  .rfq-section {
+  .tpg-gold-content {
     flex-direction: column;
-    align-items: flex-start;
   }
 
-  .footer-grid {
+  .tpg-gold-price-box {
+    margin-left: 0;
+  }
+
+  .tpg-footer-inner {
     grid-template-columns: minmax(0, 1fr);
   }
 }
