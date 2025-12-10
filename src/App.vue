@@ -10,7 +10,7 @@ import RFQForm from './components/RFQForm.vue';
 import SellerPanel from './components/SellerPanel.vue';
 import OwnerPanel from './components/OwnerPanel.vue';
 import AuthBox from './components/AuthBox.vue';
-import SellerOnboarding from './components/SellerOnboarding.vue';
+import SellerOnboarding from './components/SellerOnboarding.vue'; // ileride lazım olacak
 
 // ---------- STATE ----------
 const loadingPlans = ref(true);
@@ -111,6 +111,65 @@ const handleLoginClick = () => {
 
 const handleLogoClick = () => {
   view.value = 'home';
+};
+
+// Üyelik paketi satın alma
+const handlePlanClick = async (planId) => {
+  try {
+    // 1) Kullanıcı var mı?
+    const { data: userData, error: userErr } = await supabase.auth.getUser();
+    if (userErr || !userData?.user) {
+      // Giriş yoksa login kutusunu aç
+      showAuthBox.value = true;
+      return;
+    }
+
+    const authUser = userData.user;
+
+    // 2) Satıcı kaydı var mı?
+    const { data: sellerData, error: sellerErr } = await supabase
+      .from('sellers')
+      .select('id, status')
+      .eq('user_id', authUser.id)
+      .single();
+
+    if (sellerErr || !sellerData) {
+      alert('Önce satıcı başvurusu yapmalısın. (Üstteki formdan başvur)');
+      return;
+    }
+
+    if (sellerData.status !== 'approved') {
+      alert('Satıcı başvurun inceleniyor. Onaylandıktan sonra paket alabilirsin.');
+      return;
+    }
+
+    // 3) Üyeliği kaydet
+    const { error: mErr } = await supabase
+      .from('seller_memberships')
+      .insert([
+        {
+          seller_id: sellerData.id,
+          plan_id: planId,
+          status: 'active',
+          start_date: new Date().toISOString(),
+        },
+      ]);
+
+    if (mErr) {
+      console.error(mErr);
+      alert('Paket atanırken bir hata oluştu.');
+      return;
+    }
+
+    alert('Paketin aktif edildi! 🎉 Satıcı paneline yönlendiriliyorsun.');
+
+    // Kullanıcı / seller / plan bilgilerini tazele
+    await loadUser();
+    view.value = 'panel';
+  } catch (e) {
+    console.error(e);
+    alert('Paket seçimi sırasında beklenmeyen bir hata oluştu.');
+  }
 };
 
 // (ileride seller onboarding vs. buraya bağlanacak)
@@ -245,8 +304,11 @@ onMounted(async () => {
                   </span>
                 </div>
 
-                <button class="btn-plan">
-                  Planı İncele
+                <button
+                  class="btn-plan"
+                  @click="handlePlanClick(plan.id)"
+                >
+                  Satın Al
                 </button>
               </article>
             </div>
