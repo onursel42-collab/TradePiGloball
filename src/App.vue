@@ -1,340 +1,156 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { supabase } from './lib/supabaseClient';
+import { ref, onMounted } from 'vue';
 
-import { getActivePlans } from './services/planService';
-import { getCurrentUserWithSeller } from './services/sellerService';
-
-import SellerApplyForm from './components/SellerApplyForm.vue';
-import RFQForm from './components/RFQForm.vue';
-import SellerPanel from './components/SellerPanel.vue';
-import OwnerPanel from './components/OwnerPanel.vue';
-import AuthBox from './components/AuthBox.vue';
-import SellerOnboarding from './components/SellerOnboarding.vue'; // ileride lazım olacak
-
-// ---------- STATE ----------
-const loadingPlans = ref(true);
+// basit bir "mock" data loader — ileride supabase servislerini buraya bağlarsın
+const loading = ref(true);
+const error = ref(null);
 const plans = ref([]);
-const error = ref('');
+const sectors = ref([
+  { id: 1, name: 'İnşaat' },
+  { id: 2, name: 'Tekstil' },
+  { id: 3, name: 'Makine' },
+  { id: 4, name: 'Gıda' },
+  { id: 5, name: 'Elektrik' },
+  { id: 6, name: 'Medikal' },
+]);
 
-const view = ref('home'); // 'home' | 'owner' | 'panel'
-const user = ref(null);
-const role = ref(null);
-const seller = ref(null);
-const currentPlan = ref(null);
-
-const showAuthBox = ref(false);
-
-// Aktif plan listesi
-const activePlans = computed(() => plans.value || []);
-
-// Fiyat formatı
-const formatPrice = (val) => {
-  if (!val) return '';
-  return Number(val).toLocaleString('tr-TR');
-};
-
-// ---------- DATA LOAD ----------
-const loadPlans = async () => {
-  try {
-    loadingPlans.value = true;
-    error.value = '';
-    plans.value = await getActivePlans();
-  } catch (e) {
-    console.error(e);
-    error.value = 'Paketler yüklenirken bir hata oluştu.';
-  } finally {
-    loadingPlans.value = false;
-  }
-};
-
-const loadUser = async () => {
-  try {
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr) {
-      console.error(userErr);
-      view.value = 'home';
-      return;
-    }
-
-    user.value = userData.user || null;
-
-    if (!user.value) {
-      view.value = 'home';
-      return;
-    }
-
-    // Profilde role çek
-    try {
-      const { data: profileData, error: profileErr } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.value.id)
-        .single();
-
-      if (!profileErr) {
-        role.value = profileData?.role || null;
-      } else {
-        console.warn('profile error', profileErr);
-      }
-    } catch (e) {
-      console.warn(e);
-    }
-
-    // Seller + plan bilgisi
-    try {
-      const { user: u, seller: s, plan } = await getCurrentUserWithSeller();
-      seller.value = s;
-      currentPlan.value = plan || null;
-    } catch (e) {
-      console.warn('seller flow error', e);
-    }
-
-    // Görünüm kararı
-    if (role.value === 'owner') {
-      view.value = 'owner';
-    } else if (seller.value && seller.value.status === 'approved') {
-      view.value = 'panel';
-    } else {
-      view.value = 'home';
-    }
-  } catch (e) {
-    console.error(e);
-    view.value = 'home';
-  }
-};
-
-// ---------- UI ACTIONS ----------
-const handleLoginClick = () => {
-  showAuthBox.value = !showAuthBox.value;
-};
-
-const handleLogoClick = () => {
-  view.value = 'home';
-};
-
-// Üyelik paketi satın alma
-const handlePlanClick = async (planId) => {
-  try {
-    // 1) Kullanıcı var mı?
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !userData?.user) {
-      // Giriş yoksa login kutusunu aç
-      showAuthBox.value = true;
-      return;
-    }
-
-    const authUser = userData.user;
-
-    // 2) Satıcı kaydı var mı?
-    const { data: sellerData, error: sellerErr } = await supabase
-      .from('sellers')
-      .select('id, status')
-      .eq('user_id', authUser.id)
-      .single();
-
-    if (sellerErr || !sellerData) {
-      alert('Önce satıcı başvurusu yapmalısın. (Üstteki formdan başvur)');
-      return;
-    }
-
-    if (sellerData.status !== 'approved') {
-      alert('Satıcı başvurun inceleniyor. Onaylandıktan sonra paket alabilirsin.');
-      return;
-    }
-
-    // 3) Üyeliği kaydet
-    const { error: mErr } = await supabase
-      .from('seller_memberships')
-      .insert([
-        {
-          seller_id: sellerData.id,
-          plan_id: planId,
-          status: 'active',
-          start_date: new Date().toISOString(),
-        },
-      ]);
-
-    if (mErr) {
-      console.error(mErr);
-      alert('Paket atanırken bir hata oluştu.');
-      return;
-    }
-
-    alert('Paketin aktif edildi! 🎉 Satıcı paneline yönlendiriliyorsun.');
-
-    // Kullanıcı / seller / plan bilgilerini tazele
-    await loadUser();
-    view.value = 'panel';
-  } catch (e) {
-    console.error(e);
-    alert('Paket seçimi sırasında beklenmeyen bir hata oluştu.');
-  }
-};
-
-// (ileride seller onboarding vs. buraya bağlanacak)
 onMounted(async () => {
-  await Promise.all([loadPlans(), loadUser()]);
+  try {
+    // demo: yükleniyormuş izlenimi
+    await new Promise((r) => setTimeout(r, 350));
+    // örnek paketler (gerçek veriyi supabase'den al)
+    plans.value = [
+      { id: 1, name: 'Başlangıç', price_monthly: 0, currency: 'TL', has_3d_showroom: false },
+      { id: 2, name: 'Pro Satıcı', price_monthly: 499, currency: 'TL', has_3d_showroom: true },
+      { id: 3, name: 'Global Marka', price_monthly: 999, currency: 'TL', has_3d_showroom: true },
+    ];
+  } catch (e) {
+    error.value = 'Veri yüklenirken hata oluştu.';
+    console.error(e);
+  } finally {
+    loading.value = false;
+  }
 });
+
+const formatPrice = (v) => {
+  if (v === null || v === undefined) return '-';
+  return Number(v).toLocaleString('tr-TR');
+};
+
+const handlePlanClick = (plan) => {
+  alert(`Paket seçildi: ${plan.name} — ${formatPrice(plan.price_monthly)} ${plan.currency}/ay`);
+};
 </script>
 
 <template>
-  <div class="page">
-    <!-- ========== OWNER GOD MODE ========== -->
-    <div v-if="view === 'owner'">
-      <OwnerPanel />
-    </div>
-
-    <!-- ========== SELLER PANEL ========== -->
-    <div v-else-if="view === 'panel'">
-      <SellerPanel />
-    </div>
-
-    <!-- ========== ANA SAYFA ========== -->
-    <div v-else>
-      <!-- HEADER -->
-      <header class="header">
-        <div class="container header-inner">
-          <div class="logo" @click="handleLogoClick" style="cursor: pointer">
-            TradePiGlobal
-          </div>
-
-          <nav class="nav">
-            <a href="#sectors">Sektörler</a>
-            <a href="#premium">Premium Satıcılar</a>
-            <a href="#rfq">RFQ Oluştur</a>
-          </nav>
-
-          <div class="header-actions">
-            <button class="btn-ghost" @click="handleLoginClick">
-              Giriş Yap
-            </button>
-            <button class="btn-primary">
-              Satıcı Olarak Başla
-            </button>
-          </div>
+  <div class="app-root">
+    <header class="header">
+      <div class="container header-inner">
+        <div class="logo" @click="window.location.reload()">TradePiGlobal</div>
+        <nav class="nav">
+          <a href="#sectors">Sektörler</a>
+          <a href="#premium">Premium Satıcılar</a>
+          <a href="#rfq">RFQ Oluştur</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn-ghost">Giriş Yap</button>
+          <button class="btn-primary">Satıcı Ol</button>
         </div>
-      </header>
+      </div>
+    </header>
 
-      <!-- GİRİŞ KUTUSU (AUTHBOX) -->
-      <section v-if="showAuthBox" class="section section-muted">
-        <div class="container">
-          <AuthBox />
+    <main class="container main">
+      <section class="hero">
+        <div class="hero-left">
+          <h1>Global Ticarete Açılın</h1>
+          <p>İşletmenize en uygun paketi seçin, dünyaya satışa başlayın.</p>
+        </div>
+        <div class="hero-right">
+          <div class="hero-cards">
+            <div v-for="p in plans" :key="p.id" class="hero-card" :class="{ popular: p.name === 'Pro Satıcı' }">
+              <div class="card-title">{{ p.name }}</div>
+              <div class="card-price">
+                <strong>{{ formatPrice(p.price_monthly) }}</strong>
+                <span v-if="p.currency"> {{ p.currency }}/ay</span>
+              </div>
+              <button class="btn-plan" @click="handlePlanClick(p)">Seç</button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- MAIN -->
-      <main>
-        <!-- HERO -->
-        <section class="hero">
-          <div class="container hero-inner">
-            <div class="hero-left">
-              <h1>
-                Üretici ve alıcıları
-                <span class="gold">tek B2B köprüde</span>
-                buluşturuyoruz.
-              </h1>
-              <p class="hero-sub">
-                Pi destekli hibrit B2B ticaret altyapısı.
-              </p>
-
-              <div class="hero-tags">
-                <span>🔐 Escrow ödemeler</span>
-                <span>🌍 Global görünürlük</span>
-                <span>⚡ RFQ tabanlı eşleşme</span>
-              </div>
-
-              <SellerApplyForm />
-            </div>
-
-            <div class="hero-right">
-              <div class="hero-panel">
-                <h3>Canlı ticaret akışı</h3>
-                <ul>
-                  <li>TR → DE kimyasal RFQ açıldı.</li>
-                  <li>Metalcim yeni teklif gönderdi.</li>
-                  <li>PET ambalaj üreticisi premium oldu.</li>
-                </ul>
-              </div>
-            </div>
+      <section id="sectors" class="sectors">
+        <h2>Sektörler</h2>
+        <div class="sectors-grid">
+          <div v-for="s in sectors" :key="s.id" class="sector">
+            {{ s.name }}
           </div>
-        </section>
-
-        <!-- MEMBERSHIP PLANS -->
-        <section id="premium" class="section">
-          <div class="container">
-            <h2 class="section-title">Satıcı Üyelik Paketleri</h2>
-
-            <div v-if="loadingPlans" class="loading">
-              Paketler yükleniyor…
-            </div>
-
-            <div v-else-if="error" class="error">
-              {{ error }}
-            </div>
-
-            <div v-else class="plans-grid">
-              <article
-                v-for="plan in activePlans"
-                :key="plan.id"
-                class="plan-card"
-                :class="{ 'plan-gold': plan.has_3d_showroom }"
-              >
-                <div class="plan-header">
-                  <h3>{{ plan.name }}</h3>
-
-                  <span
-                    v-if="plan.has_3d_showroom"
-                    class="badge-gold"
-                  >
-                    GOLD 3D FUAR
-                  </span>
-                </div>
-
-                <p class="plan-desc">
-                  {{ plan.description || 'Açıklama güncellenecek.' }}
-                </p>
-
-                <div class="plan-price">
-                  <strong>
-                    {{ formatPrice(plan.price_monthly) }}
-                  </strong>
-                  <span v-if="plan.currency">
-                    {{ plan.currency }}/ay
-                  </span>
-                </div>
-
-                <button
-                  class="btn-plan"
-                  @click="handlePlanClick(plan.id)"
-                >
-                  Satın Al
-                </button>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <!-- RFQ FORM -->
-        <section id="rfq" class="section section-muted">
-          <div class="container">
-            <h2>Teklif İste (RFQ)</h2>
-            <RFQForm />
-          </div>
-        </section>
-      </main>
-
-      <!-- FOOTER -->
-      <footer class="footer">
-        <div class="container footer-inner">
-          <div class="footer-copy">© 2025 TradePiGlobal</div>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      <section id="premium" class="membership">
+        <h2>Satıcı Üyelik Paketleri</h2>
+
+        <div v-if="loading" class="loading">Paketler yükleniyor...</div>
+        <div v-else-if="error" class="error">{{ error }}</div>
+        <div v-else class="plans-grid">
+          <article v-for="plan in plans" :key="plan.id" class="plan-card">
+            <h3>{{ plan.name }}</h3>
+            <p class="plan-desc">{{ plan.has_3d_showroom ? '3D fuar + vitrin hakkı' : 'Temel paket' }}</p>
+            <div class="plan-price"><strong>{{ formatPrice(plan.price_monthly) }}</strong> <span v-if="plan.currency">{{ plan.currency }}</span></div>
+            <button class="btn-plan" @click="handlePlanClick(plan)">Satın Al</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="rfq" class="rfq">
+        <h2>Teklif İste (RFQ)</h2>
+        <p>İleride burada RFQ formu olacak.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">© 2025 TradePiGlobal</div>
+    </footer>
   </div>
 </template>
 
-<style scoped>
-/* Mevcut stillerini bozmayalım diye çok az dokunuyorum.
-   Eski CSS dosyan aynen kullanılmaya devam edecek. */
+<style>
+:root{
+  --bg:#f7f8fb;
+  --card:#fff;
+  --accent:#ffc107;
+  --primary:#0b5cff;
+  --muted:#6b7280;
+}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#111;background:var(--bg)}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+.header{background:#ffffff;border-bottom:1px solid #e6e9ef}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;cursor:pointer}
+.nav a{margin:0 10px;color:#333;text-decoration:none}
+.header-actions button{margin-left:8px;padding:8px 12px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
+.btn-primary{background:var(--primary);color:#fff;border:none}
+.main{padding:40px 20px}
+.hero{display:flex;gap:20px;align-items:center;justify-content:space-between}
+.hero-left h1{margin:0 0 10px;font-size:28px}
+.hero-right{flex:1}
+.hero-cards{display:flex;gap:12px;flex-wrap:wrap}
+.hero-card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(11,92,255,0.06);min-width:160px}
+.hero-card.popular{border:2px solid #f59e0b;transform:translateY(-6px)}
+.sectors{margin-top:30px}
+.sectors-grid{display:flex;gap:10px;flex-wrap:wrap}
+.sector{background:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.04)}
+.membership{margin-top:30px}
+.plans-grid{display:flex;gap:12px;flex-wrap:wrap}
+.plan-card{background:#fff;padding:16px;border-radius:10px;min-width:200px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+.plan-price{margin:10px 0}
+.btn-plan{background:var(--primary);color:white;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+.footer{background:#fff;border-top:1px solid #eee;padding:20px;margin-top:40px;text-align:center;color:var(--muted)}
+.loading{color:var(--muted)}
+.error{color:#c53030}
+@media (max-width:800px){
+  .hero{flex-direction:column;align-items:flex-start}
+  .hero-card{min-width:unset;width:100%}
+}
 </style>
