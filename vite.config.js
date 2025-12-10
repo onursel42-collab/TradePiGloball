@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  // Render port ayarlarıyla çakışmaması için
+  // Render'ın Node web service'i ile port kavgası olmasın
   server: {
     host: true
   }
