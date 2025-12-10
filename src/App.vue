@@ -93,7 +93,64 @@ const formatPrice = (val) => {
           </div>
         </div>
       </section>
+<section class="tpg-section-light">
+  <div class="container">
+    <h2 class="tpg-section-title">Satıcı Üyelik Paketleri</h2>
+    <p class="tpg-section-sub">İşinizi büyütmek için doğru planı seçin</p>
 
+    <div v-if="loading" class="tpg-plans-loading">
+      Paketler yükleniyor…
+    </div>
+
+    <div v-else-if="error" class="tpg-plans-error">
+      {{ error }}
+    </div>
+
+    <div v-else class="tpg-plans-grid">
+      <article
+        v-for="plan in activePlans"
+        :key="plan.id"
+        class="tpg-plan-card"
+        :class="{ 'tpg-gold-card': plan.has_3d_showroom }"
+      >
+        <div class="tpg-plan-header">
+          <h3>{{ plan.name }}</h3>
+
+          <span
+            v-if="plan.has_3d_showroom"
+            class="tpg-plan-badge"
+          >
+            3D FUAR VİTRİNİ
+          </span>
+        </div>
+
+        <p class="tpg-plan-desc">
+          {{ plan.description }}
+        </p>
+
+        <div class="tpg-plan-prices">
+          <div>
+            <div class="tpg-price-label">Aylık</div>
+            <div class="tpg-price-main">
+              {{ formatPrice(plan.price_monthly) }} {{ plan.currency }}
+            </div>
+          </div>
+
+          <div>
+            <div class="tpg-price-label">Yıllık</div>
+            <div class="tpg-price-sub">
+              {{ formatPrice(plan.price_yearly) }} {{ plan.currency }}
+            </div>
+          </div>
+        </div>
+
+        <button class="tpg-btn-primary tpg-btn-full">
+          Satın Al
+        </button>
+      </article>
+    </div>
+  </div>
+</section>
 
       <!-- MEMBERSHIP PLANS -->
       <section class="section">
