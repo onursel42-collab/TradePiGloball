@@ -1,6 +1,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { supabase } from './lib/supabaseClient';
+
+import AuthBox from './components/AuthBox.vue';
+import SellerOnboarding from './components/SellerOnboarding.vue';
+
+/* senin mevcut kodların... */
+</script>
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { supabase } from './lib/supabaseClient';
 import SellerApplyForm from './components/SellerApplyForm.vue';
 import RFQForm from './components/RFQForm.vue';
 
