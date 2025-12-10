@@ -19,6 +19,7 @@ export async function getCurrentUserWithSeller() {
     .eq('user_id', user.id)
     .single();
 
+  // PGRST116 = row not found
   if (sellerErr && sellerErr.code !== 'PGRST116') throw sellerErr;
 
   let plan = null;
@@ -28,6 +29,7 @@ export async function getCurrentUserWithSeller() {
       .select('*')
       .eq('id', seller.membership_plan_id)
       .single();
+
     if (planErr) throw planErr;
     plan = planData;
   }
@@ -42,7 +44,7 @@ export async function createSellerApplication(payload) {
   const { data: userData, error: userErr } = await supabase.auth.getUser();
   if (userErr) throw userErr;
   const user = userData.user;
-  if (!user) throw new Error('Önce giriş yapmalısın.');
+  if (!user) throw new Error('Önce giriş yapılısın.');
 
   const { companyName, country, city, address, website, sector } = payload;
 
@@ -71,6 +73,7 @@ export async function createSellerApplication(payload) {
 
   return { companyId: company.id };
 }
+
 /**
  * Satıcıya üyelik paketi bağla
  */
@@ -82,8 +85,8 @@ export async function assignMembership(userId, planId) {
         user_id: userId,
         plan_id: planId,
         start_date: new Date().toISOString(),
-        status: 'active'
-      }
+        status: 'active',
+      },
     ]);
 
   if (error) throw error;
