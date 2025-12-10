@@ -1,3 +1,29 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { supabase } from './lib/supabaseClient';
+
+// Üyelik planları için state
+const loadingPlans = ref(true);
+const plansError = ref('');
+const plans = ref([]);
+
+onMounted(async () => {
+  const { data, error } = await supabase
+    .from('membership_plans')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    console.error(error);
+    plansError.value = 'Paketler yüklenirken bir hata oluştu';
+  } else {
+    plans.value = data || [];
+  }
+
+  loadingPlans.value = false;
+});
+</script>
 <template>
   <div class="page">
     <!-- HEADER -->
