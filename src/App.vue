@@ -225,7 +225,49 @@ import RFQForm from './components/RFQForm.vue';
           </div>
         </div>
       </section>
+<template>
+  <div class="page">
+    <!-- Burada senin mevcut hero / 3D vitrin vs olabilir -->
 
+    <section class="plans-section">
+      <h2>Üyelik Paketleri</h2>
+
+      <div v-if="loadingPlans">
+        Paketler yükleniyor...
+      </div>
+
+      <div v-else-if="plansError">
+        {{ plansError }}
+      </div>
+
+      <div v-else class="plans-grid">
+        <div
+          v-for="plan in plans"
+          :key="plan.id"
+          class="plan-card"
+        >
+          <h3 class="plan-title">
+            {{ plan.name }}
+            <span
+              v-if="plan.has_3d_showroom"
+              class="badge-3d"
+            >
+              3D Fuar Vitrini
+            </span>
+          </h3>
+
+          <p class="plan-desc">
+            {{ plan.description }}
+          </p>
+
+          <p class="plan-price">
+            {{ plan.price_monthly }} {{ plan.currency }} / ay
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
       <!-- FOOTER -->
       <footer class="footer">
         <div class="container footer-inner">
