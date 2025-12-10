@@ -1,16 +1,18 @@
 {
   "name": "tradepi-global",
   "private": true,
+  "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "vue": "^3.4.0"
+    "vue": "^3.4.0",
+    "babylonjs": "^7.0.0",
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.4.0",
