@@ -71,3 +71,36 @@ export async function createSellerApplication(payload) {
 
   return { companyId: company.id };
 }
+/**
+ * Satıcıya üyelik paketi bağla
+ */
+export async function assignMembership(userId, planId) {
+  const { error } = await supabase
+    .from('seller_memberships')
+    .insert([
+      {
+        user_id: userId,
+        plan_id: planId,
+        start_date: new Date().toISOString(),
+        status: 'active'
+      }
+    ]);
+
+  if (error) throw error;
+  return true;
+}
+
+/**
+ * Kullanıcının şu an aktif planı
+ */
+export async function getActiveMembership(userId) {
+  const { data, error } = await supabase
+    .from('seller_memberships')
+    .select('*, membership_plans(*)')
+    .eq('user_id', userId)
+    .eq('status', 'active')
+    .single();
+
+  if (error) return null;
+  return data;
+}
