@@ -1,29 +1,20 @@
 "use client";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="tpg-page">
-      <header className="tpg-hero">
-        <h1>TradePiGlobal – Yeni Nesil B2B</h1>
-        <p>Supabase + Next.js altyapısı şu an aktif 🔥</p>
-      </header>
-
-      <section className="tpg-section">
-        <h2>Platform Özeti</h2>
-        <p>
-          Üretici ve tedarikçileri, global alıcılarla tek B2B köprüde
-          buluşturmayı hedefleyen bir altyapı üzerinde çalışıyoruz.
-        </p>
-      </section>
-
-      <section className="tpg-section">
-        <h2>Durum</h2>
-        <ul>
-          <li>✅ Render deploy bağlantısı çalışıyor</li>
-          <li>✅ Supabase proje hazır</li>
-          <li>🟡 Arayüz ve 3D vitrinler sırada</li>
-        </ul>
-      </section>
-    </main>
+    <div style={{
+      width: "100%",
+      minHeight: "100vh",
+      background: "#020617",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      fontFamily: "Arial"
+    }}>
+      <h1>TradePiGlobal Yeni Nesil B2B</h1>
+      <p>Supabase + Next.js altyapısı aktif 🔥</p>
+    </div>
   );
 }
