@@ -109,24 +109,119 @@
         <section v-if="current === 'products'" class="panel-section">
           <h1>Ürünlerim</h1>
 
+          <!-- ÜRÜN EKLEME FORMU -->
           <div class="panel-card">
-            <p class="muted">
-              Ürün ekleme ve listeleme V2’de Supabase <code>products</code> tablosuna bağlanacak.
-              Şimdilik bu alanı iskelet olarak bırakıyoruz.  
-              <br />
-              Buraya:
-            </p>
-            <ul class="muted">
-              <li>• Ürün listesi (tablo/grid)</li>
-              <li>• Filtreleme (kategori, stok, ülke)</li>
-              <li>• RFQ bağlantıları</li>
-              <li>• Ringo fiyat hesaplama entegrasyonu</li>
-            </ul>
+            <h3>Yeni Ürün Ekle</h3>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Ürün Adı *</label>
+                <input
+                  v-model="productForm.name"
+                  type="text"
+                  placeholder="Örn: PET Granül 25kg"
+                />
+              </div>
+
+              <div class="form-field">
+                <label>Maliyet (Birim)</label>
+                <input
+                  v-model.number="productForm.base_cost"
+                  type="number"
+                  step="0.01"
+                  placeholder="Örn: 10.50"
+                />
+              </div>
+
+              <div class="form-field">
+                <label>Satış Fiyatı (Birim)</label>
+                <input
+                  v-model.number="productForm.sale_price"
+                  type="number"
+                  step="0.01"
+                  placeholder="Örn: 14.90"
+                />
+              </div>
+
+              <div class="form-field">
+                <label>Gönderim Ülkesi (ISO Kodu)</label>
+                <input
+                  v-model="productForm.from_country"
+                  type="text"
+                  placeholder="Örn: TR, DE, CN"
+                />
+              </div>
+
+              <div class="form-field">
+                <label>Ağırlık (kg)</label>
+                <input
+                  v-model.number="productForm.weight_kg"
+                  type="number"
+                  step="0.001"
+                  placeholder="Örn: 25"
+                />
+              </div>
+
+              <div class="form-field">
+                <label>HS Kodu</label>
+                <input
+                  v-model="productForm.hs_code"
+                  type="text"
+                  placeholder="Örn: 39076020"
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                class="btn-primary-sm"
+                :disabled="productSaving"
+                @click="handleCreateProduct"
+              >
+                {{ productSaving ? 'Kaydediliyor…' : 'Ürünü Kaydet' }}
+              </button>
+              <span v-if="productError" class="error-text">{{ productError }}</span>
+            </div>
           </div>
 
+          <!-- ÜRÜN LİSTESİ -->
           <div class="panel-card">
-            <h3>Hızlı Aksiyon</h3>
-            <button class="btn-primary-sm">Yeni Ürün Ekle (V2)</button>
+            <h3>Ürün Listesi</h3>
+
+            <div v-if="loadingProducts" class="panel-info">
+              Ürünler yükleniyor…
+            </div>
+
+            <div v-else-if="products.length === 0" class="muted">
+              Henüz eklenmiş ürün yok. Yukarıdan ilk ürününü ekleyebilirsin.
+            </div>
+
+            <table v-else class="panel-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Ürün Adı</th>
+                  <th>Maliyet</th>
+                  <th>Satış</th>
+                  <th>Ülke</th>
+                  <th>Ağırlık (kg)</th>
+                  <th>HS Kodu</th>
+                  <th>Oluşturma</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="p in products" :key="p.id">
+                  <td>{{ p.id }}</td>
+                  <td>{{ p.name }}</td>
+                  <td>{{ formatPrice(p.base_cost) }}</td>
+                  <td>{{ formatPrice(p.sale_price) }}</td>
+                  <td>{{ p.from_country || '-' }}</td>
+                  <td>{{ p.weight_kg || '-' }}</td>
+                  <td>{{ p.hs_code || '-' }}</td>
+                  <td>{{ formatDate(p.created_at) }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
@@ -178,6 +273,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { supabase } from '../lib/supabaseClient';
 import { getCurrentUserWithSeller } from '../services/sellerService';
+import { getMyProducts, createProduct } from '../services/productService';
 
 const current = ref('dashboard'); // dashboard | products | rfq | settings
 const loading = ref(true);
@@ -186,6 +282,20 @@ const user = ref(null);
 const seller = ref(null);
 const plan = ref(null);
 const company = ref(null);
+
+const products = ref([]);
+const loadingProducts = ref(false);
+const productError = ref('');
+const productSaving = ref(false);
+
+const productForm = ref({
+  name: '',
+  base_cost: null,
+  sale_price: null,
+  from_country: '',
+  weight_kg: null,
+  hs_code: '',
+});
 
 const menu = [
   { key: 'dashboard', label: 'Genel' },
@@ -203,8 +313,15 @@ const sellerStatusText = computed(() => {
 });
 
 const formatPrice = (val) => {
-  if (!val) return '';
-  return Number(val).toLocaleString('tr-TR');
+  if (!val && val !== 0) return '';
+  const num = Number(val);
+  if (Number.isNaN(num)) return '';
+  return num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
+const formatDate = (val) => {
+  if (!val) return '-';
+  return new Date(val).toLocaleString('tr-TR');
 };
 
 const loadCompany = async (companyId) => {
@@ -223,6 +340,52 @@ const loadCompany = async (companyId) => {
   company.value = data;
 };
 
+const loadProducts = async () => {
+  try {
+    loadingProducts.value = true;
+    productError.value = '';
+    const data = await getMyProducts();
+    products.value = data;
+  } catch (e) {
+    console.error(e);
+    productError.value = e.message || 'Ürünler getirilemedi.';
+  } finally {
+    loadingProducts.value = false;
+  }
+};
+
+const resetProductForm = () => {
+  productForm.value = {
+    name: '',
+    base_cost: null,
+    sale_price: null,
+    from_country: '',
+    weight_kg: null,
+    hs_code: '',
+  };
+};
+
+const handleCreateProduct = async () => {
+  if (!productForm.value.name) {
+    productError.value = 'Ürün adı zorunludur.';
+    return;
+  }
+
+  try {
+    productSaving.value = true;
+    productError.value = '';
+
+    await createProduct(productForm.value);
+    resetProductForm();
+    await loadProducts();
+  } catch (e) {
+    console.error(e);
+    productError.value = e.message || 'Ürün kaydedilemedi.';
+  } finally {
+    productSaving.value = false;
+  }
+};
+
 onMounted(async () => {
   try {
     loading.value = true;
@@ -233,6 +396,10 @@ onMounted(async () => {
 
     if (seller.value?.company_id) {
       await loadCompany(seller.value.company_id);
+    }
+
+    if (seller.value && seller.value.status === 'approved') {
+      await loadProducts();
     }
   } catch (e) {
     console.error(e);
@@ -358,13 +525,65 @@ onMounted(async () => {
   gap: 12px;
 }
 
+/* ÜRÜN FORMU */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.form-field label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+.form-field input {
+  background: #020617;
+  border-radius: 8px;
+  border: 1px solid #1f2937;
+  padding: 6px 8px;
+  color: #e5e7eb;
+  font-size: 13px;
+}
+.form-actions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.error-text {
+  font-size: 12px;
+  color: #fecaca;
+}
+
+/* ÜRÜN TABLOSU */
+.panel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.panel-table th,
+.panel-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #111827;
+  text-align: left;
+}
+.panel-table th {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
 /* Genel */
 .muted {
   font-size: 12px;
   color: #9ca3af;
 }
 .btn-primary-sm {
-  margin-top: 6px;
+  margin-top: 0;
   padding: 6px 10px;
   border-radius: 999px;
   border: none;
