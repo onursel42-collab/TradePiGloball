@@ -10,7 +10,19 @@
           <a href="#">Premium Satıcılar</a>
           <a href="#">RFQ Oluştur</a>
         </nav>
+<script setup>
+import SellerApplyForm from './components/SellerApplyForm.vue';
+</script>
 
+<template>
+  <div>
+    <!-- üstte hero, vitrin falan -->
+
+    <section>
+      <SellerApplyForm />
+    </section>
+  </div>
+</template>
         <div class="header-actions">
           <button class="btn-ghost">Giriş Yap</button>
           <button class="btn-primary">Satıcı Olarak Başla</button>
