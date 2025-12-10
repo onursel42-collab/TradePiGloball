@@ -1,20 +1,18 @@
-// server.js
 const express = require('express');
 const path = require('path');
 const app = express();
 
-// Port ayarı (Render otomatik verir, olmazsa 3000)
+// Port ayarı (Render otomatik atar)
 const port = process.env.PORT || 3000;
 
-// dist klasörünü public yap
+// Vue'nun oluşturacağı "dist" klasörünü dışarıya aç
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Vue router nedeniyle tüm yollar index'e yönlendirilmeli
+// Herhangi bir sayfaya girilirse ana sayfayı gönder
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// Sunucuyu başlat
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda çalışıyor...`);
 });
