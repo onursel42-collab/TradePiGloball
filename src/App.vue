@@ -74,7 +74,19 @@ import SellerApplyForm from './components/SellerApplyForm.vue';
           </div>
         </div>
       </section>
+<script setup>
+import RFQForm from './components/RFQForm.vue';
+</script>
 
+<template>
+  <div>
+    <!-- üst içerik -->
+
+    <section>
+      <RFQForm />
+    </section>
+  </div>
+</template>
       <!-- MEMBERSHIP / VİTRİN -->
       <section class="section">
         <div class="container">
