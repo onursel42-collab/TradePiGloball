@@ -1,13 +1,263 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>TradePiGlobal – B2B Marketplace</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <script src="https://cdn.tailwindcss.com"></script>
- </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradePi Global - Tasarım Önizleme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Kayar Yazı Animasyonu */
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-wrap { overflow: hidden; white-space: nowrap; }
+        .ticker-move { display: inline-block; animation: ticker 20s linear infinite; }
+        
+        /* Kahve/Bronz Gradyan */
+        .bg-premium-coffee {
+            background: linear-gradient(135deg, #4a3b32 0%, #8B5E3C 50%, #4a3b32 100%);
+        }
+        
+        /* 3D Kutu Efekti */
+        .showroom-box {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .showroom-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #3b82f6; /* Mavi Işık */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                
+                <div class="w-full md:w-1/2 space-y-3">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-slate-800">
+                        TradePi<span class="text-blue-600">Global</span>
+                    </h1>
+                    
+                    <div class="flex">
+                        <select class="bg-gray-100 border border-gray-300 text-sm px-3 rounded-l-lg focus:outline-none">
+                            <option>Tümü</option>
+                            <option>Ürünler</option>
+                            <option>Firmalar</option>
+                        </select>
+                        <input type="text" placeholder="Ürün, Sektör veya GTIP Kodu Ara..." class="w-full border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <button class="bg-blue-600 text-white px-6 rounded-r-lg hover:bg-blue-700">🔍</button>
+                    </div>
+
+                    <div class="flex gap-2 text-sm">
+                        <button class="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700 font-medium">Buyer Üye Ol</button>
+                        <button class="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-medium">Seller Üye Ol</button>
+                        <button class="flex-1 bg-gray-800 text-white py-2 rounded hover:bg-gray-900 font-medium">Giriş Yap</button>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 flex flex-col items-end gap-3">
+                    <div class="flex gap-3 w-full justify-end">
+                        <button class="bg-red-600 text-white px-4 py-2 rounded animate-pulse font-bold shadow-lg shadow-red-500/30">
+                            🚀 RFQ (Teklif İste)
+                        </button>
+                        <div class="bg-indigo-600 text-white px-4 py-2 rounded flex items-center gap-2 shadow-lg">
+                            🎲 <span class="hidden sm:inline">3D Fuarı Gez</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-slate-900 text-green-400 text-sm py-2 px-3 rounded overflow-hidden ticker-wrap">
+                        <div class="ticker-move font-mono">
+                            🇺🇸 USD/TRY: 32.50 ▲ &nbsp;&nbsp;|&nbsp;&nbsp; 
+                            🇪🇺 EUR/TRY: 35.20 ▼ &nbsp;&nbsp;|&nbsp;&nbsp; 
+                            🟣 Pi/USD: 38.00 ▲ &nbsp;&nbsp;|&nbsp;&nbsp; 
+                            🇨🇳 CNY/TRY: 4.50 ▲ &nbsp;&nbsp;|&nbsp;&nbsp; 
+                            🏆 Gold/Oz: $2,350
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-premium-coffee text-white py-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full blur-3xl opacity-10"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-black rounded-full blur-3xl opacity-20"></div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <h2 class="text-center text-4xl font-bold mb-2 text-yellow-100">Global Ticarete Açılın</h2>
+            <p class="text-center text-yellow-200/70 mb-10">İşletmenize en uygun paketi seçin, dünyaya satışa başlayın.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white/10 backdrop-blur border border-white/20 p-6 rounded-xl hover:bg-white/20 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🥉</div>
+                    <h3 class="text-xl font-bold">Başlangıç</h3>
+                    <p class="text-sm text-gray-300 mt-2">1 Vitrin Hakkı</p>
+                    <p class="text-2xl font-bold text-yellow-400 mt-4">Ücretsiz</p>
+                </div>
+                <div class="bg-gradient-to-b from-slate-800 to-slate-900 border-2 border-yellow-500 p-6 rounded-xl shadow-2xl transform scale-105 relative">
+                    <div class="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-bl">Popüler</div>
+                    <div class="text-2xl mb-2">🥈</div>
+                    <h3 class="text-xl font-bold text-yellow-400">Pro Satıcı</h3>
+                    <p class="text-sm text-gray-400 mt-2">10 Vitrin + 3D Destek</p>
+                    <p class="text-2xl font-bold text-white mt-4">499 TL<span class="text-sm text-gray-500">/ay</span></p>
+                    <button class="w-full mt-4 bg-yellow-500 text-black font-bold py-2 rounded hover:bg-yellow-400">Seç</button>
+                </div>
+                <div class="bg-white/10 backdrop-blur border border-white/20 p-6 rounded-xl hover:bg-white/20 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🥇</div>
+                    <h3 class="text-xl font-bold">Global Marka</h3>
+                    <p class="text-sm text-gray-300 mt-2">Sınırsız + Özel Fuar</p>
+                    <p class="text-2xl font-bold text-yellow-400 mt-4">999 TL<span class="text-sm text-gray-500">/ay</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-8 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-4">Sektörler</h3>
+            <div class="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-blue-100 transition">🏗️</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">İnşaat</span>
+                </div>
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-green-100 transition">👕</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">Tekstil</span>
+                </div>
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-orange-100 transition">⚙️</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">Makine</span>
+                </div>
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-red-100 transition">🍎</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">Gıda</span>
+                </div>
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-purple-100 transition">🔌</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">Elektrik</span>
+                </div>
+                <div class="flex flex-col items-center min-w-[80px] cursor-pointer group">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl group-hover:bg-blue-100 transition">💊</div>
+                    <span class="text-xs font-medium mt-2 text-gray-600">Medikal</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-slate-50 py-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <h3 class="text-slate-800 text-xl font-bold mb-6">Popüler Kategoriler <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded ml-2">3D</span></h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png" class="w-12 h-12 mx-auto mb-2 drop-shadow-lg" alt="3D Icon">
+                    <p class="font-bold text-gray-700">Yedek Parça</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2554/2554978.png" class="w-12 h-12 mx-auto mb-2 drop-shadow-lg" alt="3D Icon">
+                    <p class="font-bold text-gray-700">Lojistik</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2083/2083285.png" class="w-12 h-12 mx-auto mb-2 drop-shadow-lg" alt="3D Icon">
+                    <p class="font-bold text-gray-700">Kimya</p>
+                </div>
+                 <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2942/2942544.png" class="w-12 h-12 mx-auto mb-2 drop-shadow-lg" alt="3D Icon">
+                    <p class="font-bold text-gray-700">Tarım</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Global Fuar Alanı</h2>
+                    <p class="text-slate-500 mt-1">Geleceğin mağazalarını şimdi ziyaret edin.</p>
+                </div>
+                <button class="text-blue-600 font-bold hover:underline">Tümünü Gör →</button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 relative overflow-hidden group cursor-pointer">
+                    <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                        <span class="text-4xl group-hover:scale-110 transition duration-500">🧊</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-3 border-t border-slate-200">
+                        <p class="font-bold text-sm text-slate-800">Demir Çelik A.Ş.</p>
+                        <p class="text-xs text-blue-600">● Canlı Showroom</p>
+                    </div>
+                </div>
+
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 relative overflow-hidden group cursor-pointer">
+                    <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                        <span class="text-4xl group-hover:scale-110 transition duration-500">🪑</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-3 border-t border-slate-200">
+                        <p class="font-bold text-sm text-slate-800">Moda Mobilya</p>
+                        <p class="text-xs text-blue-600">● Canlı Showroom</p>
+                    </div>
+                </div>
+
+                 <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 relative overflow-hidden group cursor-pointer">
+                    <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                         <span class="text-4xl group-hover:scale-110 transition duration-500">🚜</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur p-3 border-t border-slate-200">
+                        <p class="font-bold text-sm text-slate-800">Agro Tarım</p>
+                        <p class="text-xs text-blue-600">● Canlı Showroom</p>
+                    </div>
+                </div>
+
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+                <div class="showroom-box bg-slate-50 border border-slate-200 rounded-2xl h-64 opacity-50 hover:opacity-100"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">TradePi Global</h4>
+                <p class="leading-relaxed">
+                    B2B ticaretin geleceğini inşa ediyoruz. Üreticileri ve alıcıları 3D teknolojisi ve güvenli ödeme altyapısıyla buluşturuyoruz.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Hızlı Erişim</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">Hakkımızda</a></li>
+                    <li><a href="#" class="hover:text-white">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" class="hover:text-white">Gizlilik Politikası</a></li>
+                    <li><a href="#" class="hover:text-white">Mesafeli Satış Sözleşmesi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Bize Ulaşın</h4>
+                <p>📍 İstanbul, Türkiye</p>
+                <p>📧 info@tradepiglobal.co</p>
+                <div class="flex gap-4 mt-4 text-xl">
+                    <a href="#" class="hover:text-white">📷</a>
+                    <a href="#" class="hover:text-white">💼</a>
+                    <a href="#" class="hover:text-white">🐦</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 pt-8 border-t border-slate-800 text-xs">
+            © 2025 TradePi Global. Tüm hakları saklıdır.
+        </div>
+    </footer>
+
+</body>
 </html>
