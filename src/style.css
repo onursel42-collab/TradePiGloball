@@ -1,11 +1,234 @@
+/* -----------------------------------
+   ÜYELİK PAKETLERİ VİTRİNİ
+------------------------------------ */
+
+.tpg-section-light {
+  background: #f9fafb;
+  color: #111827;
+}
+
+.tpg-section-light .tpg-section-title {
+  color: #1f2933;
+}
+
+.tpg-section-light .tpg-section-sub {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Grid */
+
+.tpg-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.tpg-plans-loading,
+.tpg-plans-error,
+.tpg-plans-empty {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #e5e7eb;
+  font-size: 13px;
+  color: #374151;
+}
+
+/* Plan kartı */
+
+.tpg-plan-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tpg-plan-header h3 {
+  margin: 4px 0 4px;
+  font-size: 16px;
+  color: #111827;
+}
+
+.tpg-plan-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.tpg-plan-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #d1fae5; /* Mint */
+  color: #065f46;       /* koyu yeşil */
+}
+
+/* Fiyatlar */
+
+.tpg-plan-prices {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f3f4f6;
+}
+
+.tpg-price-label {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.tpg-price-main {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.tpg-price-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Özellik listesi */
+
+.tpg-plan-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: #4b5563;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Gold 3D Global */
+
+.tpg-gold-wrapper {
+  margin-top: 24px;
+}
+
+.tpg-gold-card {
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  background: radial-gradient(circle at top left, #d1fae5 0, #ffffff 40%, #ecfdf5 100%);
+  border: 1px solid #10b981;
+  box-shadow: 0 18px 40px rgba(16, 185, 129, 0.18);
+}
+
+.tpg-gold-tag {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #10b981;
+  color: #ecfdf5;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.tpg-gold-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #022c22;
+}
+
+.tpg-gold-desc {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #065f46;
+}
+
+.tpg-gold-prices {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.tpg-gold-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #022c22;
+}
+
+.tpg-gold-price-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: #064e3b;
+}
+
+.tpg-gold-list {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  font-size: 12px;
+  color: #064e3b;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Butonlar */
+
+.tpg-btn-primary {
+  background: #10b981; /* emerald */
+  color: #ecfdf5;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tpg-btn-primary:hover {
+  filter: brightness(1.03);
+}
+
+.tpg-btn-full {
+  width: 100%;
+  text-align: center;
+}
+
+.tpg-btn-outline-emerald {
+  background: transparent;
+  border-radius: 999px;
+  border: 1px solid #10b981;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #065f46;
+  cursor: pointer;
+}
+
+.tpg-btn-outline-emerald:hover {
+  background: #d1fae5;
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .tpg-gold-prices {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 :root {
   --bg: #020617;
   --card: #0f172a;
   --text: #e5e7eb;
   --muted: #9ca3af;
   --accent: #10b981;
-  --accent-soft: #d1fae5;
-}
+  --accent-soft: #d1fae5;}
 
 * {
   box-sizing: border-box;
