@@ -18,7 +18,27 @@
         .bg-premium-coffee {
             background: linear-gradient(135deg, #4a3b32 0%, #8B5E3C 50%, #4a3b32 100%);
         }
-        
+        <section id="plans-section" class="tpg-section tpg-section-light">
+  <div class="tpg-container">
+    <h2 class="tpg-section-title">Satıcı Üyelik Paketleri</h2>
+    <p class="tpg-section-sub">
+      İhtiyacına göre plan seç, büyüdükçe bir üst seviyeye geç.
+    </p>
+
+    <!-- Normal planlar (Starter / Growth / Pro / Global) -->
+    <div id="plans-grid" class="tpg-plans-grid">
+      <div class="tpg-plans-loading">Planlar yükleniyor…</div>
+    </div>
+
+    <!-- Gold 3D Global (25 slotlu fuar + 3D mağaza) -->
+    <div id="gold-plan-wrapper" class="tpg-gold-wrapper">
+      <!-- JS dolduracak -->
+    </div>
+  </div>
+</section>
+
+<!-- Sayfanın en altına yakın bir yere ekle (body bitmeden önce) -->
+<script type="module" src="js/plans.js"></script>
         /* 3D Kutu Efekti */
         .showroom-box {
             transition: all 0.3s ease;
