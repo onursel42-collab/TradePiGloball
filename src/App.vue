@@ -217,6 +217,10 @@ const formatPrice = (val) => {
 
 
       <!-- FOOTER -->
+      <!-- SELLER PANEL GÖRÜNÜMÜ -->
+<div v-if="view === 'panel'">
+  <SellerPanel />
+</div>
       <div v-if="view === 'panel'">
   <SellerPanel />
 </div>
