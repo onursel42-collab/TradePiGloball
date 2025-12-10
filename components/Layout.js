@@ -1,78 +1,62 @@
-// components/Layout.tsx
+// components/Layout.js
 import Head from "next/head";
-import React from "react";
 
-type LayoutProps = {
-  title?: string;
-  children: React.ReactNode;
-};
-
-export default function Layout({ title, children }: LayoutProps) {
-  const pageTitle = title
-    ? `${title} – TradePiGlobal`
-    : "TradePiGlobal – Yeni Nesil B2B";
+export default function Layout({ title, children }) {
+  const pageTitle = title ? `${title} – TradePiGlobal` : "TradePiGlobal";
 
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="tpg-shell">
-        {/* Üst bar */}
-        <header className="tpg-header">
-          <div className="tpg-header-inner">
-            <div className="tpg-logo">
-              <span className="tpg-logo-mark">π</span>
-              <span className="tpg-logo-text">TradePiGlobal</span>
-            </div>
+      <header className="tpg-auth-header">
+        <div className="tpg-auth-container">
+          <a href="/" className="logo">
+            <span className="mark">TP</span>
+            <span>TradePiGlobal</span>
+          </a>
+        </div>
+      </header>
 
-            <nav className="tpg-nav">
-              <a href="#sectors">Sektörler</a>
-              <a href="#showroom">3D Showroom</a>
-              <a href="#rfq">RFQ Akışı</a>
-              <a href="#about">Hakkında</a>
-            </nav>
+      <main className="tpg-auth-main">
+        <div className="tpg-auth-container">{children}</div>
+      </main>
 
-            <div className="tpg-header-actions">
-              <a href="#" className="tpg-btn tpg-btn-ghost">
-                Giriş Yap
-              </a>
-              <a href="#" className="tpg-btn tpg-btn-primary">
-                Satıcı Ol
-              </a>
-            </div>
-          </div>
-        </header>
-
-        {/* Sayfa içeriği */}
-        <main className="tpg-main">{children}</main>
-
-        {/* Footer */}
-        <footer className="tpg-footer" id="about">
-          <div className="tpg-footer-inner">
-            <div>
-              <div className="tpg-footer-logo">TradePiGlobal</div>
-              <p className="tpg-footer-text">
-                Pi destekli yeni nesil B2B altyapısı. Supabase + Next.js +
-                Babylon.js stack.
-              </p>
-            </div>
-
-            <div className="tpg-footer-links">
-              <a href="#sectors">Sektörler</a>
-              <a href="#showroom">3D Fuar</a>
-              <a href="#rfq">RFQ Akışı</a>
-              <a href="#">KVKK &amp; Koşullar</a>
-            </div>
-          </div>
-
-          <div className="tpg-footer-copy">
-            © {new Date().getFullYear()} TradePiGlobal
-          </div>
-        </footer>
-      </div>
+      <style jsx>{`
+        .tpg-auth-header {
+          border-bottom: 1px solid #e5e7eb;
+          background: #ffffff;
+        }
+        .tpg-auth-container {
+          max-width: 480px;
+          margin: 0 auto;
+          padding: 10px 16px 24px;
+        }
+        .logo {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: #111827;
+        }
+        .mark {
+          width: 28px;
+          height: 28px;
+          border-radius: 999px;
+          background: #1e293b;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 700;
+        }
+        .tpg-auth-main {
+          min-height: calc(100vh - 60px);
+          background: #f3f4f6;
+        }
+      `}</style>
     </>
   );
-    }
+}
