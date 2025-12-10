@@ -1,193 +1,202 @@
+<script setup>
+import { ref } from 'vue';
+import SellerPlans from './components/SellerPlans.vue';
+import BuyerPlans from './components/BuyerPlans.vue';
+
+const view = ref('home');
+
+const goTo = (target) => {
+  view.value = target;
+
+  if (target === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const id = target === 'seller' ? 'premium' : 'buyer';
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+</script>
+
 <template>
-  <div class="app-container">
+  <div class="page">
+    <header class="header">
+      <div class="container header-inner">
+        <div class="logo" @click="goTo('home')" style="cursor: pointer">
+          TradePiGlobal
+        </div>
 
-    <!-- HEADER -->
-    <header class="tpg-header">
-      <div class="tpg-logo">TradePiGlobal</div>
+        <nav class="nav">
+          <button type="button" class="nav-link" @click="goTo('home')">
+            Anasayfa
+          </button>
+          <button type="button" class="nav-link" @click="goTo('seller')">
+            Satıcı Paketleri
+          </button>
+          <button type="button" class="nav-link" @click="goTo('buyer')">
+            Alıcı Paketleri
+          </button>
+        </nav>
 
-      <nav class="tpg-nav">
-        <button @click="goToHome">Ana Sayfa</button>
-        <button @click="scrollToSection('seller-plans')">Satıcı Paketleri</button>
-        <button @click="scrollToSection('buyer-plans')">Alıcı Paketleri</button>
-        <button @click="scrollToSection('rfq-section')">RFQ Oluştur</button>
-      </nav>
-
-      <button class="tpg-login-btn" @click="toggleAuthBox">
-        {{ user ? 'Hesabım' : 'Giriş Yap' }}
-      </button>
+        <div class="header-actions">
+          <button type="button" class="btn-ghost">Giriş Yap</button>
+          <button type="button" class="btn-primary">Satıcı Ol</button>
+        </div>
+      </div>
     </header>
 
-    <!-- LOGIN POPUP -->
-    <AuthBox
-      v-if="showAuth"
-      @close="toggleAuthBox"
-      @logged-in="onLoggedIn"
-    />
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-left">
+            <h1>
+              Üretici ve alıcıları
+              <span class="gold">tek B2B köprüde</span>
+              buluşturuyoruz.
+            </h1>
+            <p class="hero-sub">Pi destekli hibrit B2B ticaret altyapısı.</p>
 
-    <!-- OWNER PANEL -->
-    <OwnerPanel
-      v-if="view === 'owner'"
-      :user="user"
-      @logout="logout"
-    />
-
-    <!-- SELLER PANEL -->
-    <SellerPanel
-      v-if="view === 'seller'"
-      :user="user"
-      @logout="logout"
-    />
-
-    <!-- ANA SAYFA -->
-    <main v-if="view === 'home'" class="tpg-main">
-
-      <!-- HERO -->
-      <section class="tpg-hero">
-        <h1>Global Ticaret Platformu</h1>
-        <p>Satıcılar ve alıcılar için dünyanın en gelişmiş ticaret altyapısı</p>
+            <ul class="hero-tags">
+              <li>Escrow ödemeler</li>
+              <li>Global görünürlük</li>
+              <li>RFQ tabanlı eşleşme</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <!-- SATI CI PLANLARI -->
-      <section id="seller-plans" class="tpg-section-light">
-        <PricingPlans
-          :plans="sellerPlans"
-          :loading="loadingPlans"
-          @select="selectSellerPlan"
-        />
-      </section>
-
-      <!-- ALICI PLANLARI -->
-      <section id="buyer-plans" class="tpg-section-dark">
-        <BuyerPlans />
-      </section>
-
-      <!-- RFQ -->
-      <section id="rfq-section" class="rfq-section">
-        <RFQForm />
-      </section>
-
+      <SellerPlans />
+      <BuyerPlans />
     </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-copy">© 2025 TradePiGlobal</div>
+      </div>
+    </footer>
   </div>
 </template>
 
-
-<script setup>
-/* IMPORTLAR */
-import { ref, onMounted } from 'vue'
-import { supabase } from './lib/supabaseClient'
-
-import PricingPlans from './components/SellerPlans.vue'
-import BuyerPlans from './components/BuyerPlans.vue'
-import SellerPanel from './components/SellerPanel.vue'
-import OwnerPanel from './components/OwnerPanel.vue'
-import AuthBox from './components/AuthBox.vue'
-import RFQForm from './components/RFQForm.vue'
-
-import { getSellerPlans } from './services/planService'
-import { getCurrentUserWithSeller } from './services/sellerService'
-
-
-/* STATE */
-const view = ref('home')
-const user = ref(null)
-const showAuth = ref(false)
-const sellerPlans = ref([])
-const loadingPlans = ref(true)
-
-
-/* LOGIN / LOGOUT */
-function toggleAuthBox() {
-  showAuth.value = !showAuth.value
+<style scoped>
+.page {
+  min-height: 100vh;
+  background: #f4f5fb;
+  color: #111827;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
 }
 
-async function onLoggedIn() {
-  showAuth.value = false
-  await loadUser()
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0f172a;
+  color: #ffffff;
 }
 
-async function logout() {
-  await supabase.auth.signOut()
-  user.value = null
-  view.value = 'home'
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
 }
 
-
-/* USER + ROLE YÜKLEME */
-async function loadUser() {
-  const { data } = await supabase.auth.getUser()
-
-  user.value = data?.user || null
-  if (!user.value) {
-    view.value = 'home'
-    return
-  }
-
-  const u = await getCurrentUserWithSeller()
-
-  if (u?.role === 'owner') {
-    view.value = 'owner'
-  } else if (u?.seller) {
-    view.value = 'seller'
-  } else {
-    view.value = 'home'
-  }
-}
-
-
-/* PLANLARI ÇEK */
-async function loadPlans() {
-  loadingPlans.value = true
-  sellerPlans.value = await getSellerPlans()
-  loadingPlans.value = false
-}
-
-
-/* PLAN SEÇİMİ */
-function selectSellerPlan(plan) {
-  if (!user.value) {
-    toggleAuthBox()
-    return
-  }
-
-  alert(`Paket seçildi: ${plan.name}`)
-}
-
-
-/* ANA SAYFA SCROLL */
-function goToHome() {
-  view.value = 'home'
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function scrollToSection(id) {
-  view.value = 'home'
-  setTimeout(() => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }, 200)
-}
-
-
-/* ON MOUNT */
-onMounted(async () => {
-  await loadUser()
-  await loadPlans()
-})
-</script>
-
-
-<style>
-body, html {
-  margin: 0;
-  padding: 0;
-}
-
-.tpg-header {
+.header-inner {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  gap: 1rem;
 }
-.tpg-main {
-  padding-bottom: 50px;
+
+.logo {
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.nav-link:active {
+  opacity: 0.8;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-ghost,
+.btn-primary {
+  border-radius: 999px;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #e5e7eb;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.hero {
+  padding: 2rem 1rem 1rem;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-left h1 {
+  font-size: 1.7rem;
+  line-height: 1.2;
+}
+
+.gold {
+  color: #f59e0b;
+}
+
+.hero-sub {
+  margin-top: 0.5rem;
+  color: #4b5563;
+}
+
+.hero-tags {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-tags li {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.footer {
+  padding: 1.5rem 1rem 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b7280;
 }
 </style>
