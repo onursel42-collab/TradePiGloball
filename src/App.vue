@@ -216,6 +216,9 @@ const formatPrice = (val) => {
 
 
       <!-- FOOTER -->
+      <div v-if="view === 'panel'">
+  <SellerPanel />
+</div>
       <footer class="footer">
         <div class="container footer-inner">
           <div class="footer-copy">© 2025 TradePiGlobal</div>
