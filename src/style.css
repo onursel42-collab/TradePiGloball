@@ -341,3 +341,35 @@ button {
   border-radius: 16px;
   border: 1px solid #111827;
 }
+<style scoped>
+.plans-section {
+  padding: 24px 16px;
+}
+.plans-grid {
+  display: grid;
+  gap: 12px;
+}
+.plan-card {
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+}
+.plan-title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.badge-3d {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  background: #22c55e;
+  color: white;
+}
+.plan-price {
+  margin-top: 6px;
+  font-weight: 600;
+}
+</style>
