@@ -1,142 +1,141 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import * as BABYLON from 'babylonjs'
+import { supabase } from './supabase'
 
-// Hangi sayfadayız? 'landing' (Ana Sayfa) veya 'panel' (Satıcı Paneli)
-const aktifSayfa = ref('panel') 
+// Değişkenler
+const slotPaketleri = ref([]) // Üst kat (Zenginler)
+const standartPaketler = ref([]) // Alt kat (Standart Üyeler)
+const yukleniyor = ref(true)
 
-// 3D Küp (Sadece Panelde süs olsun diye)
-onMounted(() => {
-  const canvas = document.getElementById("miniCanvas");
-  if(canvas) {
-    const engine = new BABYLON.Engine(canvas, true);
-    const scene = new BABYLON.Scene(engine);
-    scene.clearColor = new BABYLON.Color4(0,0,0,0); // Şeffaf
-    
-    new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-    new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
-    
-    const box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
-    const mat = new BABYLON.StandardMaterial("mat", scene);
-    mat.emissiveColor = new BABYLON.Color3(0, 1, 0.5); // Neon Yeşil
-    mat.wireframe = true;
-    box.material = mat;
+// Sayfa açılınca verileri çek
+onMounted(async () => {
+  console.log("Veriler yükleniyor...")
 
-    scene.registerBeforeRender(() => { box.rotation.y += 0.01; box.rotation.x += 0.01; });
-    engine.runRenderLoop(() => { scene.render(); });
-  }
+  // 1. ADIM: Zengin Slotlarını Çek (ad_packages)
+  let { data: slots, error: err1 } = await supabase
+    .from('ad_packages')
+    .select('*')
+    .order('sort_order', { ascending: true })
+  
+  if(slots) slotPaketleri.value = slots
+
+  // 2. ADIM: Standart Üyelikleri Çek (membership_plans)
+  let { data: plans, error: err2 } = await supabase
+    .from('membership_plans')
+    .select('*')
+    .eq('is_active', true)
+    .order('price_monthly', { ascending: true })
+
+  if(plans) standartPaketler.value = plans
+  
+  yukleniyor.value = false
 })
 </script>
 
 <template>
-  <div class="flex h-screen bg-slate-900 text-white font-sans overflow-hidden">
-    
-    <aside class="w-64 bg-slate-950 border-r border-slate-800 hidden md:flex flex-col">
-      <div class="p-6 flex items-center gap-3">
-        <div class="w-8 h-8 bg-emerald-500 rounded animate-pulse"></div>
-        <span class="text-xl font-bold tracking-tighter">TradePi<span class="text-emerald-400">Panel</span></span>
-      </div>
+  <div class="min-h-screen bg-slate-900 text-white font-sans selection:bg-emerald-500 selection:text-black">
 
-      <nav class="flex-1 px-4 space-y-2 mt-4">
-        <a href="#" class="flex items-center gap-3 px-4 py-3 bg-slate-800 text-emerald-400 rounded-lg">
-          <span>📊</span> Özet Durum
-        </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
-          <span>📦</span> Ürünlerim
-        </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
-          <span>🚀</span> Siparişler <span class="ml-auto bg-emerald-600 text-xs px-2 py-0.5 rounded-full text-white">2</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
-          <span>🎲</span> 3D Vitrin Ayarları
-        </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
-          <span>💬</span> Mesajlar (RFQ)
-        </a>
-      </nav>
-
-      <div class="p-4 border-t border-slate-800">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-blue-500"></div>
-          <div>
-            <p class="text-sm font-bold">DemirPro Ltd.</p>
-            <p class="text-xs text-slate-500">Pro Satıcı</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <main class="flex-1 flex flex-col overflow-y-auto relative">
-      
-      <header class="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20">
-        <h2 class="text-lg font-semibold text-slate-200">Panel Özeti</h2>
-        <button class="md:hidden text-2xl">☰</button>
-      </header>
-
-      <div class="p-6 space-y-6">
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 relative overflow-hidden">
-            <div class="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
-            <p class="text-slate-400 text-sm">Toplam Ciro</p>
-            <h3 class="text-3xl font-bold mt-1 text-white">$12,450</h3>
-            <span class="text-emerald-400 text-xs font-medium">↑ %15 artış</span>
-          </div>
-          
-          <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-            <p class="text-slate-400 text-sm">Aktif Teklifler (RFQ)</p>
-            <h3 class="text-3xl font-bold mt-1 text-white">8</h3>
-            <span class="text-yellow-400 text-xs font-medium">● 2 tanesi acil</span>
-          </div>
-
-          <div class="bg-slate-800 rounded-xl border border-slate-700 h-32 relative overflow-hidden flex items-center justify-center bg-slate-950">
-             <canvas id="miniCanvas" class="w-full h-full opacity-50"></canvas>
-             <span class="absolute text-xs font-bold bg-black/50 px-2 py-1 rounded backdrop-blur border border-slate-600">3D Vitrin Aktif</span>
-          </div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-emerald-500 rounded-lg animate-pulse"></div>
+          <h1 class="text-2xl font-bold tracking-tighter">TradePi<span class="text-emerald-400">Global</span></h1>
         </div>
 
-        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center">
-            <h3 class="font-bold">Son Siparişler</h3>
-            <button class="text-xs text-emerald-400 hover:text-emerald-300">Tümünü Gör →</button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left">
-              <thead class="text-xs text-slate-400 uppercase bg-slate-800/50 border-b border-slate-700">
-                <tr>
-                  <th class="px-6 py-3">Sipariş No</th>
-                  <th class="px-6 py-3">Müşteri</th>
-                  <th class="px-6 py-3">Tutar</th>
-                  <th class="px-6 py-3">Durum</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-700">
-                <tr class="hover:bg-slate-700/50 transition">
-                  <td class="px-6 py-4 font-medium">#TR-8852</td>
-                  <td class="px-6 py-4">Hans Müller GmbH</td>
-                  <td class="px-6 py-4">$4,200</td>
-                  <td class="px-6 py-4"><span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-xs">Hazırlanıyor</span></td>
-                </tr>
-                <tr class="hover:bg-slate-700/50 transition">
-                  <td class="px-6 py-4 font-medium">#TR-8851</td>
-                  <td class="px-6 py-4">Al-Fayed Construction</td>
-                  <td class="px-6 py-4">$1,150</td>
-                  <td class="px-6 py-4"><span class="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded text-xs">Kargolandı</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="flex-1 w-full md:max-w-xl relative">
+          <input type="text" placeholder="Ürün, Sektör veya GTIP Kodu Ara..." 
+                 class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2.5 px-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm">
+          <button class="absolute right-2 top-2 bg-emerald-600 p-1 rounded text-xs font-bold hover:bg-emerald-500">🔍 Ara</button>
         </div>
 
+        <div class="flex gap-3 text-sm font-medium">
+          <button class="text-slate-300 hover:text-white">Giriş Yap</button>
+          <button class="bg-emerald-600 px-4 py-2 rounded-lg hover:bg-emerald-500 transition shadow-lg shadow-emerald-500/20">
+            Satıcı Ol
+          </button>
+        </div>
       </div>
-    </main>
-  </div>
-</template>
+    </header>
 
-<style>
-/* Kaydırma çubuğu güzelleştirme */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0f172a; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
-</style>
+    <section class="py-12 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -z-10"></div>
+      
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-10">
+          <span class="text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/30 px-3 py-1 rounded-full bg-emerald-500/10">
+            Global B2B Marketplace
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mt-4 leading-tight">
+            Geleceğin <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Ticaret Sahnesi</span>
+          </h2>
+          <p class="text-slate-400 mt-4 max-w-2xl mx-auto">
+            Sanal fuar alanındaki prestijli slotları kiralayın, markanızı 3D dünyada sergileyin.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div v-for="(slot, index) in slotPaketleri" :key="slot.id" 
+               class="bg-slate-800/50 border border-slate-700 rounded-2xl h-64 relative group overflow-hidden hover:border-emerald-500 transition duration-300 cursor-pointer">
+            
+            <div class="absolute inset-0 flex items-center justify-center bg-slate-900/50">
+               <span class="text-5xl opacity-20 group-hover:opacity-100 group-hover:scale-110 transition duration-500">🧊</span>
+            </div>
+
+            <div class="absolute top-4 left-4 bg-black/50 backdrop-blur px-2 py-1 rounded text-xs font-bold border border-slate-600">
+              SLOT #{{ index + 1 }}
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
+              <h3 class="font-bold text-lg text-white">{{ slot.name }}</h3>
+              <p class="text-xs text-emerald-400 mt-1">{{ slot.price_monthly }} {{ slot.currency }}/ay</p>
+            </div>
+          </div>
+
+          <div v-if="slotPaketleri.length === 0 && !yukleniyor" class="col-span-4 text-center py-10 text-slate-500">
+             Henüz Slot Paketi Eklenmedi. SQL Çalıştırıldı mı?
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 bg-slate-950 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4">
+        
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Satıcı Paketleri</h2>
+            <p class="text-slate-400 text-sm mt-1">Her bütçeye uygun mağaza seçenekleri.</p>
+          </div>
+          <div class="hidden md:flex items-center gap-2 text-slate-500 text-sm animate-pulse">
+            <span>Kaydır</span> ➜
+          </div>
+        </div>
+
+        <div class="flex gap-6 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-emerald-600 scrollbar-track-slate-900 snap-x">
+          
+          <div v-if="yukleniyor" class="text-white p-4">Yükleniyor...</div>
+
+          <div v-else v-for="plan in standartPaketler" :key="plan.id" 
+               class="min-w-[300px] bg-slate-900 border border-slate-800 rounded-2xl p-6 relative hover:border-emerald-500 transition snap-center flex flex-col">
+            
+            <h3 class="text-xl font-bold text-white">{{ plan.name }}</h3>
+            <p class="text-sm text-slate-400 mt-2 min-h-[40px]">{{ plan.description }}</p>
+
+            <div class="my-6 pt-4 border-t border-slate-800">
+              <span class="text-3xl font-bold text-white">{{ plan.price_monthly == 0 ? 'Ücretsiz' : plan.price_monthly }}</span>
+              <span v-if="plan.price_monthly > 0" class="text-sm text-slate-500"> {{ plan.currency }}/ay</span>
+            </div>
+
+            <button class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg mt-auto">
+              Seç
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    
