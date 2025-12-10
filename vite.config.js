@@ -3,8 +3,12 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  // Render'ın Node web service'i ile port kavgası olmasın
+  // İŞTE BU EKSİKTİ 👇
+  build: {
+    outDir: 'dist', // Çıktı klasörünün adını 'dist' olarak zorluyoruz
+  },
   server: {
     host: true
   }
 })
+
