@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // src klasöründeki supabaseClient
-import { supabase } from "./src/supabaseClient.js";
+import { supabase } from "./src/config/supabaseClient.js";
 
 const app = express();
 app.use(cors());
