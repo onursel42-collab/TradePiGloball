@@ -15,10 +15,10 @@ app.get("/", (req, res) => {
 });
 
 // Üyelik Planları API
-app.get("/plans", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("plans")
+const { data, error } = await supabase
+  .from("fair_plans")
+  .select("*")
+  .order("price");
       .select("*")
       .order("price");
 
