@@ -9,79 +9,83 @@
 
 <body>
 
-  <!-- HERO -->
+  <!-- HERO ALANI -->
   <section class="hero">
     <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
 
     <div class="hero-buttons">
-      <a href="/rfq" class="btn-main">RFQ Oluştur</a>
-      <a href="/plans" class="btn-sub">Satıcı Olarak Başla</a>
+      <a class="btn-main" href="/seller">Satıcı Olarak Başla</a>
+      <a class="btn-sub" href="/buyer">Alıcı / İthalatçı Giriş Yap</a>
+      <a class="btn-sub" href="/rfq">RFQ Oluştur</a>
     </div>
 
-    <div class="hero-info">
+    <p class="hero-info">
       Onaylı firma profilleri · RFQ akışı · Dijital fuar · Çoklu para birimi desteği
-    </div>
+    </p>
   </section>
 
   <!-- SEKTÖRLER -->
-  <section class="sektorler">
-    <h2>Sektörlere göre B2B marketplace</h2>
-    <div id="sektor-listesi" class="sektor-row">
-      <!-- JS otomatik dolduracak -->
-    </div>
-  </section>
+  <h2 class="block-title">Sektörlere göre B2B marketplace</h2>
+  <div class="sektor-row" data-sector-list>
+    <!-- sektörler JS ile otomatik dolacak -->
+  </div>
 
   <!-- EXPO ALANI -->
   <section class="expo-area">
+
     <div class="expo-left">
-      <h2>Dijital fuar giriş alanı</h2>
+      <h3>Dijital fuar giriş alanı</h3>
       <p>Ziyaretçiler bu alandan 3D fuara geçer.</p>
-      <a href="/expo" class="btn-main">Dijital Expo'ya Gir</a>
+      <a class="btn-main" href="/expo">Dijital Expo’ya Gir</a>
     </div>
 
     <div class="expo-preview">
       <h3>3D DIGITAL EXPO PREVIEW</h3>
-      <p>Bu alan Unreal / Babylon ile aydınlatılmış 3D preview içindir.</p>
+      <p>Bu alan Unreal / Babylon ile eklenecek tam 3D preview içindir.</p>
     </div>
+
   </section>
 
-  <!-- PLAN KARTLARI -->
-  <section class="planlar">
-    <h2>Satıcı üyelik paketleri</h2>
+  <!-- PLANLAR -->
+  <h2 class="block-title">Satıcı üyelik paketleri</h2>
+  <div class="plan-grid">
 
-    <div class="plan-grid">
-      <!-- JS otomatik doldurur -->
-      <div class="plan-card" data-kart="1">
-        <h3 class="p-name">Yükleniyor...</h3>
-        <p class="p-desc"></p>
-        <p class="p-price"></p>
-        <a class="detay-btn" href="/plans">Detay</a>
-      </div>
-
-      <div class="plan-card" data-kart="2">
-        <h3 class="p-name">Yükleniyor...</h3>
-        <p class="p-desc"></p>
-        <p class="p-price"></p>
-        <a class="detay-btn" href="/plans">Detay</a>
-      </div>
-
-      <div class="plan-card" data-kart="3">
-        <h3 class="p-name">Yükleniyor...</h3>
-        <p class="p-desc"></p>
-        <p class="p-price"></p>
-        <a class="detay-btn" href="/plans">Detay</a>
-      </div>
+    <!-- PLAN KARTI 1 -->
+    <div class="plan-card" data-plan-card="1">
+      <h3 data-plan-name>Yükleniyor...</h3>
+      <p data-plan-desc></p>
+      <p data-plan-price></p>
+      <a class="detay-btn" href="/plans">Detay</a>
     </div>
 
-    <div class="all-plans">
-      <a href="/plans" class="btn-sub">Tüm Paketleri Gör</a>
+    <!-- PLAN KARTI 2 -->
+    <div class="plan-card" data-plan-card="2">
+      <h3 data-plan-name>Yükleniyor...</h3>
+      <p data-plan-desc></p>
+      <p data-plan-price></p>
+      <a class="detay-btn" href="/plans">Detay</a>
     </div>
-  </section>
 
+    <!-- PLAN KARTI 3 -->
+    <div class="plan-card" data-plan-card="3">
+      <h3 data-plan-name>Yükleniyor...</h3>
+      <p data-plan-desc></p>
+      <p data-plan-price></p>
+      <a class="detay-btn" href="/plans">Detay</a>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="/plans" class="btn-sub">Tüm Paketleri Gör</a>
+  </div>
+
+  <!-- FOOTER -->
   <footer>
-    © 2025 TradePiGlobal. Tüm hakları saklıdır.
+    © 2025 TradePiGloball. Tüm hakları saklıdır.
   </footer>
 
-  <script src="/main.js" type="module"></script>
+  <!-- JAVASCRIPT -->
+  <script src="/main.js"></script>
 </body>
 </html>
