@@ -1,47 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
   <head>
-    <meta charset="UTF-8" />
-    <title>TradePiGlobal.co — Pi ile Global Ticaret</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>TradePiGloball | B2B Marketplace & Dijital Fuar</title>
     <meta
       name="description"
-      content="TradePiGlobal.co, Pi ile çalışan global B2B/B2C ticaret ve 3D fuar platformu."
+      content="TradePiGloball, üretici, distribütör ve alıcıları bir araya getiren B2B marketplace ve dijital fuar platformudur."
     />
-
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
       :root {
-        --bg-main: #edf2ff; /* tam beyaz değil, hafif mavi */
-        --bg-card: #ffffff;
-        --bg-accent: linear-gradient(135deg, #ffb347, #ff6b81);
-        --bg-accent-soft: linear-gradient(135deg, #ffe8c8, #ffd6e0);
-        --text-main: #1f2933;
+        --bg-main: radial-gradient(circle at top left, #fdf2ff, #edf2ff 40%, #e0f2fe);
+        --text-main: #111827;
         --text-muted: #6b7280;
-        --primary: #ff6b81;
-        --primary-dark: #e35a71;
-        --border-soft: rgba(148, 163, 184, 0.25);
-        --radius-xl: 22px;
-        --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.18);
+        --brand-main: #ff7f50;
+        --brand-main-2: #ff9966;
+        --border-soft: rgba(148, 163, 184, 0.5);
+        --card-bg: #ffffff;
       }
 
       * {
         box-sizing: border-box;
-        margin: 0;
-        padding: 0;
       }
 
       body {
-        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-        background: radial-gradient(circle at top left, #fdf2ff, #edf2ff 40%, #e0f2fe);
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: var(--bg-main);
         color: var(--text-main);
-        min-height: 100vh;
       }
 
       a {
@@ -49,435 +37,371 @@
         color: inherit;
       }
 
+      button {
+        font-family: inherit;
+      }
+
       .page {
         max-width: 1120px;
         margin: 0 auto;
-        padding: 24px 16px 48px;
+        padding: 18px 14px 32px;
       }
 
       /* HEADER */
-
-      .header {
+      header.tp-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 32px;
+        gap: 12px;
+        margin-bottom: 22px;
       }
 
-      .logo {
+      .tp-logo {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        flex-direction: column;
+        gap: 2px;
       }
 
-      .logo-mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        background: var(--bg-accent);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff7ed;
+      .tp-logo-main {
         font-weight: 800;
-        font-size: 22px;
-        box-shadow: 0 10px 24px rgba(248, 113, 113, 0.45);
-      }
-
-      .logo-text-main {
-        font-weight: 700;
-        letter-spacing: 0.01em;
+        letter-spacing: 0.03em;
         font-size: 18px;
       }
 
-      .logo-text-sub {
+      .tp-logo-sub {
         font-size: 11px;
         color: var(--text-muted);
       }
 
-      .nav {
+      nav.tp-nav {
+        display: flex;
+        gap: 12px;
+        font-size: 13px;
+      }
+
+      nav.tp-nav a {
+        padding: 4px 8px;
+        border-radius: 999px;
+        color: #4b5563;
+      }
+
+      nav.tp-nav a:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .tp-header-actions {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 8px;
       }
 
-      .nav-link {
-        font-size: 13px;
-        color: var(--text-muted);
-        font-weight: 500;
-      }
-
-      .nav-link:hover {
-        color: var(--primary-dark);
-      }
-
-      .btn-pill {
+      .tp-currency {
+        font-size: 11px;
+        padding: 4px 8px;
         border-radius: 999px;
-        padding: 8px 16px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .btn-ghost {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--brand-main);
+        background: transparent;
+        color: var(--brand-main);
         font-size: 13px;
         font-weight: 600;
-        border: none;
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.18s ease;
       }
 
-      .btn-outline {
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        color: var(--text-main);
+      .btn-solid {
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(90deg, var(--brand-main), var(--brand-main-2));
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.16s ease, transform 0.1s ease;
       }
 
-      .btn-outline:hover {
-        background: #ffffff;
-        box-shadow: 0 6px 18px rgba(148, 163, 184, 0.35);
-      }
-
-      .btn-primary {
-        background: var(--bg-accent);
-        color: #fffdf5;
-        box-shadow: 0 10px 30px rgba(248, 113, 113, 0.6);
-      }
-
-      .btn-primary:hover {
+      .btn-solid:hover {
+        opacity: 0.92;
         transform: translateY(-1px);
-        background: var(--primary-dark);
-        box-shadow: 0 14px 34px rgba(248, 113, 113, 0.75);
       }
 
       /* HERO */
-
       .hero {
         display: grid;
         grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-        gap: 32px;
+        gap: 18px;
         align-items: center;
-        margin-bottom: 40px;
-      }
-
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(250, 204, 21, 0.4);
-        font-size: 11px;
-        color: #92400e;
-        margin-bottom: 10px;
+        margin-bottom: 24px;
       }
 
       .hero-title {
-        font-size: clamp(26px, 4vw, 34px);
-        line-height: 1.2;
-        font-weight: 700;
-        margin-bottom: 10px;
-      }
-
-      .hero-title span {
-        background: linear-gradient(135deg, #f97316, #ec4899);
-        -webkit-background-clip: text;
-        color: transparent;
+        font-size: 26px;
+        font-weight: 800;
+        margin-bottom: 8px;
       }
 
       .hero-subtitle {
         font-size: 14px;
         color: var(--text-muted);
-        max-width: 520px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
+        max-width: 480px;
       }
 
       .hero-actions {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
-        margin-bottom: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
       }
 
-      .hero-note {
-        font-size: 11px;
-        color: var(--text-muted);
-      }
-
-      .hero-note span {
-        font-weight: 600;
-        color: var(--primary-dark);
-      }
-
-      .hero-right {
-        background: var(--bg-accent-soft);
-        border-radius: var(--radius-xl);
-        padding: 16px 16px 14px;
-        box-shadow: var(--shadow-soft);
-        border: 1px solid rgba(248, 113, 113, 0.3);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-right::before {
-        content: "";
-        position: absolute;
-        inset: -60px;
-        opacity: 0.25;
-        background-image: radial-gradient(
-            circle at 10% 20%,
-            rgba(255, 255, 255, 0.9) 0,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 90% 80%,
-            rgba(254, 215, 170, 0.9) 0,
-            transparent 60%
-          );
-        pointer-events: none;
-      }
-
-      .hero-right-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      .mini-label {
-        font-size: 11px;
-        font-weight: 600;
-        color: #78350f;
-        margin-bottom: 6px;
-        display: inline-flex;
-        gap: 6px;
-        align-items: center;
-      }
-
-      .mini-label-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: #22c55e;
-        box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.4);
-      }
-
-      .hero-mock {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 18px;
-        padding: 10px 12px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-      }
-
-      .mock-header {
+      .hero-tags {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-      }
-
-      .mock-title {
-        font-size: 12px;
-        font-weight: 600;
-      }
-
-      .mock-pill {
-        font-size: 11px;
-        padding: 2px 8px;
-        border-radius: 999px;
-        background: rgba(240, 249, 255, 0.9);
-        border: 1px solid rgba(59, 130, 246, 0.4);
-        color: #1d4ed8;
-      }
-
-      .mock-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 4px;
-        font-size: 11px;
-      }
-
-      .mock-label {
-        color: var(--text-muted);
-      }
-
-      .mock-value {
-        font-weight: 600;
-      }
-
-      .mock-tagline {
-        margin-top: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
         font-size: 11px;
         color: #4b5563;
       }
 
-      /* FEATURES */
-
-      .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-        gap: 16px;
-        margin-bottom: 32px;
-      }
-
-      .feature-card {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: var(--radius-xl);
-        padding: 14px 16px;
-        border: 1px solid var(--border-soft);
-        box-shadow: 0 10px 26px rgba(148, 163, 184, 0.25);
-      }
-
-      .feature-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 11px;
-        color: var(--primary-dark);
-        margin-bottom: 6px;
-      }
-
-      .feature-title {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 4px;
-      }
-
-      .feature-text {
-        font-size: 11px;
-        color: var(--text-muted);
-      }
-
-      /* LIVE PLANS PREVIEW */
-
-      .plans-preview {
-        margin-top: 8px;
-        background: rgba(15, 23, 42, 0.9);
-        border-radius: var(--radius-xl);
-        padding: 14px 16px 16px;
-        color: #e5e7eb;
-        border: 1px solid rgba(15, 23, 42, 0.6);
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.7);
-      }
-
-      .plans-heading-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-
-      .plans-heading {
-        font-size: 13px;
-        font-weight: 600;
-      }
-
-      .plans-chip {
-        font-size: 11px;
+      .hero-tag {
         padding: 3px 8px;
         border-radius: 999px;
-        background: rgba(56, 189, 248, 0.18);
-        border: 1px solid rgba(56, 189, 248, 0.6);
-        color: #e0f2fe;
-      }
-
-      .plans-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-
-      .plan-card {
-        border-radius: 14px;
-        padding: 9px 10px;
-        background: rgba(15, 23, 42, 0.9);
+        background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(148, 163, 184, 0.6);
       }
 
-      .plan-name-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
+      .hero-card {
+        background: var(--card-bg);
+        border-radius: 18px;
+        padding: 14px 14px 12px;
+        border: 1px solid var(--border-soft);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.3);
+        font-size: 12px;
+      }
+
+      .hero-card-title {
+        font-size: 13px;
+        font-weight: 600;
         margin-bottom: 4px;
       }
 
-      .plan-name {
-        font-size: 12px;
-        font-weight: 600;
+      .hero-card-list {
+        margin: 0;
+        padding-left: 16px;
+        color: var(--text-muted);
       }
 
-      .plan-badge {
-        font-size: 10px;
-        padding: 2px 6px;
+      /* GENEL SECTION */
+      .tp-section {
+        margin-bottom: 22px;
+      }
+
+      .tp-section-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+        margin-bottom: 12px;
+      }
+
+      .tp-section-title {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .tp-section-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .tp-section-badge {
+        font-size: 11px;
+        padding: 3px 8px;
         border-radius: 999px;
-        background: rgba(22, 163, 74, 0.15);
-        border: 1px solid rgba(34, 197, 94, 0.8);
-        color: #bbf7d0;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(255, 255, 255, 0.8);
+        white-space: nowrap;
+        color: #4b5563;
+      }
+
+      /* RFQ */
+      .rfq-block {
+        background: var(--card-bg);
+        border-radius: 18px;
+        padding: 14px 14px 12px;
+        border: 1px solid var(--border-soft);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.25);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+
+      .rfq-text {
+        max-width: 520px;
+      }
+
+      .rfq-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .rfq-sub {
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      /* KATEGORİ ÖZETİ */
+      .cat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 8px;
+        font-size: 12px;
+      }
+
+      .cat-card {
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 14px;
+        padding: 10px 10px 8px;
+        border: 1px solid rgba(209, 213, 219, 0.9);
+      }
+
+      .cat-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .cat-sub {
+        color: var(--text-muted);
+        font-size: 11px;
+      }
+
+      /* EXPO BLOK */
+      .expo-block {
+        background: #020617;
+        border-radius: 18px;
+        padding: 10px;
+        border: 1px solid rgba(15, 23, 42, 0.85);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+      }
+
+      .expo-info-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .expo-info-sub {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-bottom: 8px;
+      }
+
+      .expo-screen {
+        border-radius: 14px;
+        background: radial-gradient(circle at 8% 0%, #f97316, transparent 60%),
+          radial-gradient(circle at 92% 100%, #ec4899, transparent 60%),
+          #020617;
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        text-align: center;
+        padding: 0 16px;
+      }
+
+      /* PLAN ÖNİZLEME */
+      .plans-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 10px;
+      }
+
+      .plan-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 14px 14px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.22);
+        position: relative;
+        overflow: hidden;
+        font-size: 12px;
+      }
+
+      .plan-name {
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .plan-price {
+        font-size: 13px;
+        color: var(--brand-main);
+        margin-bottom: 4px;
       }
 
       .plan-meta {
         font-size: 11px;
-        color: #94a3b8;
-        margin-bottom: 3px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
       }
 
-      .plan-price {
-        font-size: 12px;
-        font-weight: 600;
-        color: #fbbf24;
-      }
-
-      .plans-footer-text {
-        font-size: 11px;
-        color: #9ca3af;
-      }
-
-      .plans-footer-text span {
-        color: #facc15;
-        font-weight: 600;
+      .plan-btn-wrap {
+        margin-top: 4px;
       }
 
       /* FOOTER */
-
-      .footer {
-        margin-top: 26px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(148, 163, 184, 0.4);
+      footer {
+        margin-top: 24px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.5);
         font-size: 11px;
+        color: var(--text-muted);
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
         gap: 8px;
-        color: var(--text-muted);
+        justify-content: space-between;
+        align-items: center;
       }
 
-      .footer a {
-        color: var(--text-muted);
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
-      .footer a:hover {
-        color: var(--primary-dark);
+      .footer-links a {
+        text-decoration: underline;
+        text-decoration-style: dotted;
       }
-
-      /* RESPONSIVE */
 
       @media (max-width: 850px) {
         .hero {
           grid-template-columns: minmax(0, 1fr);
         }
-        .hero-right {
-          order: -1;
-        }
-      }
 
-      @media (max-width: 600px) {
-        .header {
-          flex-direction: column;
-          align-items: flex-start;
+        .expo-block {
+          grid-template-columns: minmax(0, 1fr);
         }
-        .nav {
-          width: 100%;
-          justify-content: space-between;
+
+        header.tp-header {
+          flex-wrap: wrap;
+        }
+
+        nav.tp-nav {
+          order: 3;
         }
       }
     </style>
@@ -485,270 +409,241 @@
   <body>
     <div class="page">
       <!-- HEADER -->
-      <header class="header">
-        <div class="logo">
-          <div class="logo-mark">π</div>
-          <div>
-            <div class="logo-text-main">TradePiGlobal.co</div>
-            <div class="logo-text-sub">
-              Pi ile global ticaret &amp; 3D sanal fuar platformu
-            </div>
-          </div>
+      <header class="tp-header">
+        <div class="tp-logo">
+          <div class="tp-logo-main">TradePiGloball</div>
+          <div class="tp-logo-sub">B2B Marketplace & Dijital Fuar Platformu</div>
         </div>
 
-        <nav class="nav">
-          <a href="#features" class="nav-link">Özellikler</a>
-          <a href="/plans" class="nav-link">Satıcı Paketleri</a>
-          <button class="btn-pill btn-outline" type="button">
-            Giriş (yakında)
-          </button>
+        <nav class="tp-nav">
+          <a href="#marketplace">Marketplace</a>
+          <a href="#rfq">RFQ / Teklif İste</a>
+          <a href="#expo">Digital Expo</a>
+          <a href="#plans">Paketler</a>
         </nav>
+
+        <div class="tp-header-actions">
+          <div class="tp-currency">TL · USD · Pi</div>
+          <button class="btn-ghost" type="button">Giriş Yap</button>
+          <button class="btn-solid" type="button">Üye Ol</button>
+        </div>
       </header>
 
       <!-- HERO -->
-      <section class="hero">
+      <section class="hero" id="top">
         <div>
-          <div class="hero-badge">
-            <span>⚡</span>
-            <span>Pi ile B2B &amp; B2C Ticaret • Testnet</span>
-          </div>
-
           <h1 class="hero-title">
-            Pi ile <span>global ticaret</span> ve<br />
-            <span>3D sanal fuar</span> tek platformda.
+            Global B2B ticaret ve dijital fuar tek platformda.
           </h1>
-
           <p class="hero-subtitle">
-            TradePiGlobal, üreticileri, distribütörleri ve perakendecileri
-            Pi ile tek ekosistemde buluşturur. Satıcı üyelik paketlerini seç,
-            3D fuar alanında markanı konumlandır, Pi ile ödeme al.
+            Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B
+            ticaret ve dijital vitrin altyapısı.
           </p>
 
           <div class="hero-actions">
-            <a href="/plans">
-              <button class="btn-pill btn-primary" type="button">
-                Satıcı Üyelik Paketlerini Gör
-                <span>→</span>
-              </button>
-            </a>
-
-            <button
-              class="btn-pill btn-outline"
-              type="button"
-              onclick="alert('3D fuar alanı yakında eklenecek 🚧')"
-            >
-              3D Fuar Alanını Önizle
+            <button class="btn-solid" type="button">
+              Satıcı Olarak Başla
+            </button>
+            <button class="btn-ghost" type="button">
+              Alıcı / İthalatçı Olarak Başla
+            </button>
+            <button class="btn-ghost" type="button">
+              RFQ Oluştur
             </button>
           </div>
 
-          <p class="hero-note">
-            <span>Not:</span> Şu an Testnet aşamasındayız. Gerçek Pi işlemleri,
-            ana ağ açıldığında aktif edilecektir.
-          </p>
-        </div>
-
-        <div class="hero-right">
-          <div class="hero-right-content">
-            <div class="mini-label">
-              <span class="mini-label-dot"></span>
-              Canlı veri: <strong>fair_plans</strong> tablosu
-            </div>
-
-            <div class="hero-mock">
-              <div class="mock-header">
-                <div class="mock-title">Pi ile Fuar Üyeliği</div>
-                <div class="mock-pill">Backend: Node + Supabase</div>
-              </div>
-
-              <div class="mock-row">
-                <span class="mock-label">Plan adı</span>
-                <span class="mock-value" id="mockPlanName">
-                  Yükleniyor...
-                </span>
-              </div>
-              <div class="mock-row">
-                <span class="mock-label">Slot sayısı</span>
-                <span class="mock-value" id="mockPlanSlots">—</span>
-              </div>
-              <div class="mock-row">
-                <span class="mock-label">Aylık</span>
-                <span class="mock-value" id="mockPlanPrice">—</span>
-              </div>
-
-              <p class="mock-tagline">
-                Bu kart, doğrudan backend'den çekilen <strong>ilk aktif
-                paketi</strong> gösterir. Tüm paketler için aşağıdaki listeyi
-                veya <strong>Satıcı Üyelik Paketleri</strong> sayfasını
-                kullanabilirsin.
-              </p>
-            </div>
+          <div class="hero-tags">
+            <span class="hero-tag">B2B Marketplace</span>
+            <span class="hero-tag">Next-Gen Interactive Digital Expo</span>
+            <span class="hero-tag">RFQ &amp; Teklif Yönetimi</span>
+            <span class="hero-tag">TL · USD · Pi yapılandırılabilir</span>
           </div>
         </div>
-      </section>
-<section id="plans" class="plans-section">
-  <div class="plans-header">
-    <div>
-      <h2>Satıcı Üyelik Paketleri</h2>
-      <p>
-        Firma tipinize ve hedef pazarınıza göre farklı paketler.  
-        Slot bazlı ürün listeleme, 3D/8D showroom ve TL / USD / Pi desteği.
-      </p>
-    </div>
-    <div class="plans-badge">
-      Canlı veri: fair_plans tablosu
-    </div>
-  </div>
 
-  <div id="sellerPlansContainer" class="plans-grid">
-    <!-- JS burayı kartlarla dolduracak -->
-  </div>
-
-  <div class="plans-note">
-    <span>Not:</span> Paket fiyatları ve slot sayıları, yönetim paneli üzerinden
-    güncellenebilir. Tüm detaylar için satıcı paneli üzerinden giriş yapın.
-  </div>
-</section>
-      <!-- FEATURES -->
-      <section id="features" class="features">
-        <article class="feature-card">
-          <div class="feature-tag">🧭 Ticaret Akışı</div>
-          <h3 class="feature-title">B2B + B2C karma ekosistem</h3>
-          <p class="feature-text">
-            Üretici, toptancı, dağıtıcı ve perakendeciyi aynı fuar çatısı
-            altında buluştur. Marka vitrinleri, ürün sergileme ve Pi ile sipariş
-            alma süreçleri tek panelden yönetilir.
-          </p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-tag">🧱 Slot Bazlı Yapı</div>
-          <h3 class="feature-title">Slot mantığıyla 3D fuar alanı</h3>
-          <p class="feature-text">
-            Her üyelik paketi belirli sayıda <strong>fuar slotu</strong>
-            içerir. Stand, mağaza, demo alanı gibi bölümler slot mantığıyla
-            ölçeklenir. 50 slottan 1000 slota kadar seçenekler.
-          </p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-tag">π Ödeme</div>
-          <h3 class="feature-title">Pi ile ödeme altyapısı</h3>
-          <p class="feature-text">
-            Uygulama Pi Browser içinde çalışacak şekilde tasarlandı. Kullanıcı,
-            seçtiği paket için Pi ile ödeme yapabilecek. Şu an Testnet, sonrasında
-            Mainnet uyumluluğu.
-          </p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-tag">🛠 Yönetim</div>
-          <h3 class="feature-title">Supabase destekli kontrol paneli</h3>
-          <p class="feature-text">
-            Paketler, slotlar, fuar alanları ve siparişler Supabase üzerinde
-            tutulur. Node + Express backend ile güvenli API katmanı sağlanır.
-          </p>
-        </article>
+        <aside class="hero-card">
+          <div class="hero-card-title">Platform özeti</div>
+          <ul class="hero-card-list">
+            <li>Onaylı firma profilleri</li>
+            <li>RFQ ve toplu teklif akışı</li>
+            <li>Dijital fuar ve showroom alanları</li>
+            <li>Çoklu para birimi desteği</li>
+          </ul>
+        </aside>
       </section>
 
-      <!-- LIVE PLANS PREVIEW (backend /plans) -->
-      <section class="plans-preview">
-        <div class="plans-heading-row">
+      <!-- MARKETPLACE KISMI -->
+      <section class="tp-section" id="marketplace">
+        <div class="tp-section-header">
           <div>
-            <h2 class="plans-heading">Satıcı Üyelik Paketleri (canlı)</h2>
+            <div class="tp-section-title">Sektörlere göre B2B marketplace</div>
+            <div class="tp-section-sub">
+              Üretici ve distribütörlerin ürünlerini kurumsal alıcılarla
+              buluşturmak için kategori temelli yapı.
+            </div>
           </div>
-          <a href="/plans">
-            <span class="plans-chip">Tam listeyi gör →</span>
-          </a>
+          <div class="tp-section-badge">Kategori yapısı yapılandırılabilir</div>
         </div>
 
-        <div id="plansContainer" class="plans-list">
-          <!-- JS ile doldurulacak -->
+        <div class="cat-grid">
+          <article class="cat-card">
+            <div class="cat-title">Sanayi &amp; Endüstri</div>
+            <div class="cat-sub">Makine, ekipman, yedek parça.</div>
+          </article>
+          <article class="cat-card">
+            <div class="cat-title">Gıda &amp; Tarım</div>
+            <div class="cat-sub">Tarımsal ürünler, işlenmiş gıdalar.</div>
+          </article>
+          <article class="cat-card">
+            <div class="cat-title">Tekstil &amp; Konfeksiyon</div>
+            <div class="cat-sub">Hazır giyim, teknik tekstil.</div>
+          </article>
+          <article class="cat-card">
+            <div class="cat-title">Elektronik</div>
+            <div class="cat-sub">Elektronik cihazlar ve bileşenler.</div>
+          </article>
+          <article class="cat-card">
+            <div class="cat-title">Yapı &amp; İnşaat</div>
+            <div class="cat-sub">Yapı malzemeleri ve çözümleri.</div>
+          </article>
+          <article class="cat-card">
+            <div class="cat-title">Ev &amp; Yaşam</div>
+            <div class="cat-sub">Ev tekstili, dekorasyon, lifestyle.</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- RFQ BLOĞU -->
+      <section class="tp-section" id="rfq">
+        <div class="tp-section-header">
+          <div>
+            <div class="tp-section-title">RFQ &amp; Teklif talebi</div>
+            <div class="tp-section-sub">
+              Alıcıların tek form ile birden fazla satıcıdan toplu teklif
+              isteyebileceği altyapı.
+            </div>
+          </div>
         </div>
 
-        <p class="plans-footer-text">
-          Veriler doğrudan Supabase'deki <span>fair_plans</span> tablosundan
-          gelir. Tüm paket detayları için yukarıdaki linke tıklayabilirsin.
-        </p>
+        <div class="rfq-block">
+          <div class="rfq-text">
+            <div class="rfq-title">Tek tıkla teklif iste</div>
+            <div class="rfq-sub">
+              Miktar, teslimat ülkesi ve hedef fiyatı belirleyerek RFQ oluşturun.
+              Uygun satıcılar tekliflerini sunsun.
+            </div>
+          </div>
+          <div>
+            <button class="btn-solid" type="button">
+              RFQ Oluştur
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPO BLOĞU -->
+      <section class="tp-section" id="expo">
+        <div class="tp-section-header">
+          <div>
+            <div class="tp-section-title">Next-Gen Interactive Digital Expo</div>
+            <div class="tp-section-sub">
+              Markalar için etkileşimli dijital fuar ve showroom alanları.
+            </div>
+          </div>
+          <div class="tp-section-badge">/expo route hazır</div>
+        </div>
+
+        <div class="expo-block">
+          <div>
+            <div class="expo-info-title">Dijital fuar giriş alanı</div>
+            <div class="expo-info-sub">
+              Unreal Engine veya Babylon.js ile hazırlanacak sahne için giriş
+              noktası. Ziyaretçiler bu alandan expo'ya geçecek.
+            </div>
+            <button
+              class="btn-solid"
+              type="button"
+              onclick="window.location.href='/expo'"
+            >
+              Digital Expo'ya Git
+            </button>
+          </div>
+          <div class="expo-screen">
+            Bu alan, 3D / dijital fuar önizlemesi içindir.<br />
+            Sonradan Unreal / Babylon sahnesi buraya gömülecek.
+          </div>
+        </div>
+      </section>
+
+      <!-- PAKET ÖNİZLEME (SLOT/FUAR PAKETLERİ İÇİN YER) -->
+      <section class="tp-section" id="plans">
+        <div class="tp-section-header">
+          <div>
+            <div class="tp-section-title">Paketler için yer ayrılmıştır</div>
+            <div class="tp-section-sub">
+              Satıcı üyelik paketleri veya fuar slot paketleri burada
+              listelenecek.
+            </div>
+          </div>
+          <div class="tp-section-badge">Detaylar için /plans</div>
+        </div>
+
+        <div class="plans-preview-grid" id="plansPreview">
+          <article class="plan-card">
+            <div class="plan-name">Örnek Paket</div>
+            <div class="plan-price">Örn. 1.499 ₺ / ay</div>
+            <div class="plan-meta">
+              Buraya Supabase üzerinden gelen planların özet bilgisi bağlanacak.
+            </div>
+            <div class="plan-btn-wrap">
+              <button
+                class="btn-solid"
+                type="button"
+                onclick="window.location.href='/plans'"
+              >
+                Tüm Paketleri Gör
+              </button>
+            </div>
+          </article>
+        </div>
       </section>
 
       <!-- FOOTER -->
-      <footer class="footer">
-        <div>
-          © <span id="year"></span> TradePiGlobal.co • Node + Express + Supabase
-        </div>
-        <div>
-          Tasarım &amp; kodlama süreci: <strong>Onur Sel</strong> &amp; ChatGPT
+      <footer>
+        <div>© 2025 TradePiGloball. Tüm hakları saklıdır.</div>
+        <div class="footer-links">
+          <a href="/legal/privacy">Gizlilik Politikası</a>
+          <a href="/legal/terms">Kullanım Şartları</a>
+          <a href="/legal/seller-agreement">Satıcı Sözleşmesi</a>
+          <a href="/legal/buyer-agreement">Alıcı Sözleşmesi</a>
+          <a href="/legal/cookies">Çerez Politikası</a>
+          <a href="/iletisim">İletişim</a>
         </div>
       </footer>
     </div>
 
     <script>
-      // Yıl
-      document.getElementById("year").textContent =
-        new Date().getFullYear();
-
-      // Backend'den plan çek
-      async function loadPlans() {
-        try {
-          const res = await fetch("/plans");
-          const json = await res.json();
-
-          const plans = json.plans || [];
-          const container = document.getElementById("plansContainer");
-
-          if (!plans.length) {
-            container.innerHTML =
-              '<div class="plan-card"><div class="plan-name">Paket bulunamadı</div><div class="plan-meta">fair_plans tablosuna kayıt ekleyerek burayı doldurabilirsin.</div></div>';
-            return;
-          }
-
-          // Hero mock için ilk aktif plan
-          const firstActive =
-            plans.find((p) => p.is_active) || plans[0];
-
-          if (firstActive) {
-            document.getElementById("mockPlanName").textContent =
-              firstActive.name || "-";
-            document.getElementById("mockPlanSlots").textContent =
-              (firstActive.slot_count || 0) + " slot";
-            document.getElementById("mockPlanPrice").textContent =
-              (firstActive.monthly_price || 0) + " ₺ / ay";
-          }
-
-          container.innerHTML = plans
-            .slice(0, 4) // ana sayfada max 4 plan göster
-            .map((p) => {
-              const monthly =
-                p.monthly_price != null ? p.monthly_price + " ₺/ay" : "-";
-              const slots =
-                p.slot_count != null ? p.slot_count + " slot" : "";
-              const desc = p.description || "";
-
-              return `
-            <article class="plan-card">
-              <div class="plan-name-row">
-                <div class="plan-name">${p.name || "Plan"}</div>
-                ${
-                  p.is_active
-                    ? '<span class="plan-badge">Aktif paket</span>'
-                    : ""
-                }
-              </div>
-              <div class="plan-meta">${slots}</div>
-              <div class="plan-meta">${desc}</div>
-              <div class="plan-price">${monthly}</div>
-            </article>
-          `;
-            })
-            .join("");
-        } catch (err) {
-          console.error("Planlar alınırken hata:", err);
-          document.getElementById("plansContainer").innerHTML =
-            '<div class="plan-card"><div class="plan-name">Bağlantı hatası</div><div class="plan-meta">/plans endpointi cevap vermedi.</div></div>';
-        }
+      function initAuthUI() {
+        // Giriş / Üye ol butonları buraya bağlanacak
       }
 
-      loadPlans();
+      function initPlansPreview() {
+        // /api/plans ile fuar/satıcı paketleri önizlemesi buraya bağlanacak
+      }
+
+      function initExpoPreview() {
+        // 3D / Pixel Streaming entegrasyonu buraya bağlanacak
+      }
+
+      function initRFQActions() {
+        // RFQ butonu gerçek RFQ formuna yönlendirilecek
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initAuthUI();
+        initPlansPreview();
+        initExpoPreview();
+        initRFQActions();
+      });
     </script>
   </body>
-</html>
+                                                   </html>
