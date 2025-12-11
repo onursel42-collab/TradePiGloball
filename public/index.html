@@ -1,905 +1,954 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <title>TradePiGlobal · B2B Marketplace & Dijital Expo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Üreticiler, distribütörler ve kurumsal alıcılar için global B2B ticaret ve dijital fuar platformu."
-  />
+  <head>
+    <meta charset="UTF-8" />
+    <title>TradePiGlobal · B2B Marketplace & Dijital Fuar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="TradePiGlobal, üreticiler ve kurumsal alıcılar için global B2B ticaret ve dijital fuar platformudur."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    :root {
-      --bg-top: #fdf4ff;
-      --bg-bottom: #e4f3ff;
-      --card-bg: #ffffff;
-      --card-dark: #050715;
-      --accent: #ff7b47;
-      --accent-soft: rgba(255, 123, 71, 0.12);
-      --accent-2: #6c5ce7;
-      --text-main: #1f2933;
-      --text-soft: #6b7280;
-      --border-soft: rgba(255, 255, 255, 0.7);
-      --radius-lg: 18px;
-      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.22);
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      color: var(--text-main);
-      background: radial-gradient(circle at 0 0, #ffe8ff 0, transparent 55%),
-        radial-gradient(circle at 100% 0, #dff2ff 0, transparent 55%),
-        linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .page {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 20px 16px 64px;
-      flex: 1;
-    }
-
-    /* NAVBAR -------------------------------------------------- */
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(16px);
-      background: linear-gradient(
-        to bottom,
-        rgba(250, 250, 255, 0.94),
-        rgba(250, 250, 255, 0.7)
-      );
-      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-    }
-
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
-      font-size: 16px;
-    }
-
-    .brand-badge {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #ffe8c7, #ff8844);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      color: #1f2933;
-      box-shadow: 0 10px 25px rgba(255, 136, 68, 0.45);
-    }
-
-    .nav-links {
-      display: none;
-      gap: 14px;
-      font-size: 13px;
-      color: #6b7280;
-      margin-left: 8px;
-    }
-
-    .nav-links a {
-      padding: 6px 10px;
-      border-radius: 999px;
-      transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
-    }
-
-    .nav-links a:hover {
-      background: rgba(148, 163, 184, 0.09);
-      color: #111827;
-      transform: translateY(-1px);
-    }
-
-    .nav-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-    }
-
-    .chip {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.03);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      color: #4b5563;
-      white-space: nowrap;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease,
-        background 0.15s ease, color 0.15s ease;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: #ff7a3c;
-      color: white;
-      box-shadow: 0 12px 24px rgba(255, 122, 60, 0.4);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 32px rgba(255, 122, 60, 0.55);
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #374151;
-    }
-
-    .btn-ghost:hover {
-      background: white;
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(148, 163, 184, 0.35);
-    }
-
-    /* HERO -------------------------------------------------- */
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 24px;
-      margin-top: 28px;
-      align-items: flex-start;
-    }
-
-    .kicker {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: #9ca3af;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 26px;
-      line-height: 1.25;
-    }
-
-    .subtext {
-      font-size: 13px;
-      color: var(--text-soft);
-      max-width: 420px;
-      margin-bottom: 16px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 10px;
-      color: #6b7280;
-    }
-
-    .hero-badges span {
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(209, 213, 219, 0.7);
-    }
-
-    .hero-note {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 6px;
-    }
-
-    .hero-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(18px);
-      border-radius: 22px;
-      padding: 18px 18px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 24px 45px rgba(15, 23, 42, 0.16);
-      font-size: 11px;
-    }
-
-    .hero-card-title {
-      font-weight: 600;
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
-
-    .hero-card ul {
-      margin: 0;
-      padding-left: 16px;
-      list-style: disc;
-      color: #6b7280;
-    }
-
-    .hero-card li + li {
-      margin-top: 4px;
-    }
-
-    /* SEKTÖRLER 3D CAROUSEL --------------------------------- */
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin: 30px 0 6px;
-    }
-
-    .section-caption {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .section-caption small {
-      font-size: 10px;
-    }
-
-    .badge-soft {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.04);
-      border: 1px solid rgba(209, 213, 219, 0.7);
-      font-size: 10px;
-      color: #6b7280;
-    }
-
-    .sector-row {
-      position: relative;
-      padding: 14px 4px 6px;
-      border-radius: 18px;
-      background: radial-gradient(
-          circle at 0 0,
-          rgba(255, 193, 179, 0.35),
-          transparent 55%
-        ),
-        radial-gradient(
-          circle at 100% 0,
-          rgba(166, 193, 255, 0.35),
-          transparent 55%
-        ),
-        rgba(5, 7, 21, 0.96);
-      box-shadow: 0 26px 55px rgba(15, 23, 42, 0.7);
-      overflow: hidden;
-    }
-
-    .sector-glow {
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(
-        circle at 20% 0,
-        rgba(255, 143, 102, 0.65),
-        transparent 55%
-      );
-      opacity: 0.6;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
-    .sector-track {
-      position: relative;
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 6px 8px 10px;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .sector-track::-webkit-scrollbar {
-      display: none;
-    }
-
-    .sector-pill {
-      scroll-snap-align: start;
-      min-width: 108px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: linear-gradient(
-        135deg,
-        rgba(15, 23, 42, 0.96),
-        rgba(21, 24, 45, 0.96)
-      );
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.85);
-      color: #e5e7eb;
-      font-size: 11px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      transform-origin: center;
-      transform: translateY(2px) perspective(700px) rotateX(9deg);
-      transition: transform 0.18s ease, box-shadow 0.18s ease,
-        border-color 0.18s ease, background 0.18s ease;
-    }
-
-    .sector-pill span {
-      font-size: 10px;
-      color: #9ca3ff;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .sector-pill strong {
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .sector-pill:hover {
-      transform: translateY(-6px) perspective(700px) rotateX(0deg) scale(1.04);
-      box-shadow: 0 22px 45px rgba(56, 189, 248, 0.75);
-      border-color: rgba(129, 140, 248, 0.9);
-      background: radial-gradient(
-        circle at 0 0,
-        rgba(59, 130, 246, 0.6),
-        rgba(15, 23, 42, 0.98)
-      );
-    }
-
-    /* RFQ STRIP --------------------------------------------- */
-
-    .strip {
-      margin-top: 20px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: linear-gradient(
-        90deg,
-        rgba(15, 23, 42, 0.96),
-        rgba(15, 23, 42, 0.98)
-      );
-      color: #e5e7eb;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .strip-text {
-      font-size: 12px;
-      max-width: 420px;
-    }
-
-    .strip-text strong {
-      font-weight: 600;
-    }
-
-    .strip small {
-      display: block;
-      font-size: 10px;
-      color: #9ca3af;
-      margin-top: 4px;
-    }
-
-    /* EXPO SECTION ------------------------------------------ */
-
-    .expo {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
-      gap: 16px;
-    }
-
-    .expo-card {
-      background: rgba(5, 7, 21, 0.97);
-      border-radius: 22px;
-      padding: 18px 18px 16px;
-      color: #e5e7eb;
-      box-shadow: 0 26px 55px rgba(15, 23, 42, 0.75);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .expo-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(
-          circle at 0 0,
-          rgba(56, 189, 248, 0.4),
-          transparent 55%
-        ),
-        radial-gradient(
-          circle at 100% 100%,
-          rgba(236, 72, 153, 0.5),
-          transparent 55%
-        );
-      opacity: 0.85;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .expo-body {
-      position: relative;
-      z-index: 1;
-    }
-
-    .expo-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .expo-body p {
-      font-size: 12px;
-      color: #cbd5f5;
-      margin: 0 0 12px;
-      max-width: 380px;
-    }
-
-    .expo-preview {
-      border-radius: 26px;
-      padding: 22px 16px;
-      background: conic-gradient(
-        from 190deg,
-        #ff7b47,
-        #ff3b82,
-        #6c5ce7,
-        #16a9ff,
-        #ff7b47
-      );
-      box-shadow: 0 32px 70px rgba(15, 23, 42, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fdfdfd;
-      font-weight: 600;
-      font-size: 15px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .expo-preview::after {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.38);
-      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.33);
-    }
-
-    .expo-preview span {
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 0 16px rgba(15, 23, 42, 0.9),
-        0 0 32px rgba(250, 250, 255, 0.75);
-      animation: glowPulse 2.3s ease-in-out infinite;
-    }
-
-    @keyframes glowPulse {
-      0%,
-      100% {
-        text-shadow: 0 0 12px rgba(15, 23, 42, 1),
-          0 0 28px rgba(250, 250, 255, 0.7);
+    <style>
+      :root {
+        --bg-gradient-start: #ffeaf7;
+        --bg-gradient-end: #e4f3ff;
+        --card-bg: rgba(255, 255, 255, 0.88);
+        --card-dark: #050714;
+        --accent: #ff7a3c;
+        --accent-soft: rgba(255, 122, 60, 0.18);
+        --text-main: #121212;
+        --text-soft: #666b7a;
+        --border-soft: rgba(255, 255, 255, 0.4);
+        --shadow-soft: 0 18px 60px rgba(15, 23, 42, 0.15);
+        --radius-lg: 22px;
+        --radius-xl: 32px;
+        --transition-fast: 0.18s ease-out;
       }
-      50% {
-        text-shadow: 0 0 20px rgba(15, 23, 42, 1),
-          0 0 45px rgba(250, 250, 255, 0.95);
+
+      * {
+        box-sizing: border-box;
       }
-    }
 
-    /* PLANS SUMMARY CARDS ----------------------------------- */
-
-    .plans {
-      margin-top: 30px;
-    }
-
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .plan-card {
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(229, 231, 235, 0.9);
-      padding: 14px 14px 12px;
-      box-shadow: 0 18px 45px rgba(148, 163, 184, 0.35);
-      position: relative;
-      overflow: hidden;
-      font-size: 12px;
-    }
-
-    .plan-tag {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 0.09);
-      color: #15803d;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-    }
-
-    .plan-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .plan-desc {
-      font-size: 11px;
-      color: var(--text-soft);
-      margin-bottom: 8px;
-    }
-
-    .plan-meta {
-      font-size: 11px;
-      color: #6b7280;
-      margin-bottom: 10px;
-    }
-
-    .plan-meta strong {
-      color: #111827;
-    }
-
-    .plan-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 10px;
-      color: #9ca3af;
-    }
-
-    .link {
-      font-size: 11px;
-      color: var(--accent);
-      cursor: pointer;
-    }
-
-    .link:hover {
-      text-decoration: underline;
-    }
-
-    .plans-cta-row {
-      margin-top: 12px;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    /* FOOTER ------------------------------------------------ */
-
-    footer {
-      border-top: 1px solid rgba(229, 231, 235, 0.6);
-      font-size: 11px;
-      color: #9ca3af;
-      padding: 12px 16px 22px;
-      text-align: center;
-    }
-
-    footer a {
-      color: inherit;
-    }
-
-    footer .links {
-      margin-top: 4px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    /* RESPONSIVE -------------------------------------------- */
-
-    @media (max-width: 900px) {
-      .nav-links {
-        display: none;
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: radial-gradient(
+            circle at top left,
+            #ffd0ff 0,
+            transparent 50%
+          ),
+          radial-gradient(circle at top right, #ffe1da 0, transparent 50%),
+          radial-gradient(circle at bottom, #e2f3ff 0, #f5f7ff 55%);
+        color: var(--text-main);
+        -webkit-font-smoothing: antialiased;
       }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .shell {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 18px 16px 40px;
+      }
+
+      /* HEADER */
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        background: radial-gradient(circle at 30% 0, #fff0d8, #f97316);
+        box-shadow: 0 8px 22px rgba(249, 115, 22, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: #2b0b08;
+        font-weight: 700;
+      }
+
+      .brand-text-main {
+        font-size: 17px;
+        font-weight: 600;
+      }
+
+      .brand-text-sub {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 13px;
+      }
+
+      nav a {
+        color: var(--text-soft);
+        padding: 6px 2px;
+        border-radius: 999px;
+      }
+
+      nav a:hover {
+        color: var(--text-main);
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        padding: 6px 10px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--border-soft);
+        color: var(--text-soft);
+        white-space: nowrap;
+      }
+
+      .btn-small {
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .btn-small.primary {
+        background: #111827;
+        color: #f9fafb;
+        border: none;
+      }
+
+      .btn-small.primary:hover {
+        opacity: 0.9;
+      }
+
+      .btn-small.accent {
+        background: var(--accent);
+        color: white;
+        border: none;
+        box-shadow: 0 8px 20px rgba(255, 122, 60, 0.45);
+      }
+
+      .btn-small.accent:hover {
+        filter: brightness(1.05);
+      }
+
+      /* HERO */
 
       .hero {
-        grid-template-columns: minmax(0, 1fr);
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(260px, 1.4fr);
+        gap: 26px;
+        padding: 26px 22px 26px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.96),
+          rgba(255, 255, 255, 0.86)
+        );
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 26px;
       }
 
-      .hero-card {
-        order: -1;
+      .hero-kicker {
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 8px;
       }
 
-      .expo {
-        grid-template-columns: minmax(0, 1fr);
+      .hero-title {
+        font-size: clamp(22px, 3.2vw, 28px);
+        line-height: 1.2;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .hero-text {
+        font-size: 13px;
+        color: var(--text-soft);
+        max-width: 360px;
+        margin-bottom: 16px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform var(--transition-fast),
+          box-shadow var(--transition-fast), background var(--transition-fast);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 15px 35px rgba(249, 115, 22, 0.5);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(249, 115, 22, 0.6);
+      }
+
+      .btn-outline {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: var(--text-main);
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .btn-ghost {
+        background: rgba(15, 23, 42, 0.06);
+        color: #111827;
+      }
+
+      .btn-ghost:hover {
+        background: rgba(15, 23, 42, 0.08);
+      }
+
+      .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 11px;
+        color: #6b7280;
+      }
+
+      .hero-tag {
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(249, 250, 251, 0.9);
+        border: 1px solid rgba(229, 231, 235, 0.9);
+      }
+
+      .hero-summary {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 16px 16px 14px;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+        font-size: 11px;
+      }
+
+      .hero-summary-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+        font-size: 12px;
+      }
+
+      .hero-summary-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 8px 0 0;
+        color: var(--text-soft);
+      }
+
+      .hero-summary-list li {
+        margin-bottom: 4px;
+      }
+
+      /* SEKTÖRLER */
+
+      .section-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #9ca3af;
+        margin-bottom: 6px;
+      }
+
+      .section-title {
+        font-size: 14px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .sectors-bar {
+        background: rgba(10, 16, 35, 0.95);
+        border-radius: var(--radius-xl);
+        padding: 14px 14px 14px;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.45);
+        margin-bottom: 16px;
+        color: #e5e7eb;
+      }
+
+      .sectors-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 8px;
+      }
+
+      .sectors-header span {
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      .sector-scroll {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(156, 163, 175, 0.7) transparent;
+      }
+
+      .sector-scroll::-webkit-scrollbar {
+        height: 4px;
+      }
+
+      .sector-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .sector-scroll::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.7);
+        border-radius: 999px;
+      }
+
+      .sector-chip {
+        min-width: 120px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: radial-gradient(circle at top left, #111827, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        font-size: 11px;
+        color: #f9fafb;
+        display: inline-flex;
+        justify-content: center;
+        white-space: nowrap;
+        box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .sector-chip::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 0 0,
+          rgba(251, 146, 60, 0.18),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity var(--transition-fast);
+      }
+
+      .sector-chip:hover::after {
+        opacity: 1;
+      }
+
+      /* RFQ BANNER */
+
+      .rfq-banner {
+        margin-top: 14px;
+        margin-bottom: 20px;
+        border-radius: var(--radius-xl);
+        padding: 14px 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.98),
+          rgba(15, 23, 42, 0.93)
+        );
+        color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.7);
+      }
+
+      .rfq-text {
+        font-size: 12px;
+      }
+
+      .rfq-text strong {
+        font-weight: 600;
+      }
+
+      /* EXPO */
+
+      .expo-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .expo-card {
+        border-radius: var(--radius-xl);
+        padding: 18px 18px 16px;
+        background: radial-gradient(
+          circle at top left,
+          rgba(15, 23, 42, 0.98),
+          #020617
+        );
+        color: #e5e7eb;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 65px rgba(15, 23, 42, 0.8);
+      }
+
+      .expo-card h3 {
+        margin: 0 0 8px;
+        font-size: 14px;
+      }
+
+      .expo-card p {
+        margin: 0 0 14px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      .expo-card .btn {
+        font-size: 12px;
+      }
+
+      .expo-preview {
+        border-radius: var(--radius-xl);
+        background: linear-gradient(
+          120deg,
+          #ff7a3c,
+          #f97316,
+          #ec4899,
+          #6366f1
+        );
+        padding: 4px;
+        position: relative;
+        box-shadow: 0 25px 70px rgba(129, 140, 248, 0.9);
+        overflow: hidden;
+      }
+
+      .expo-preview-inner {
+        border-radius: calc(var(--radius-xl) - 6px);
+        height: 100%;
+        min-height: 130px;
+        background: radial-gradient(
+          circle at 0 0,
+          rgba(255, 255, 255, 0.2),
+          transparent 60%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #f9fafb;
+        text-align: center;
+        padding: 24px 18px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .expo-preview-inner::before {
+        content: "";
+        position: absolute;
+        width: 160%;
+        height: 140%;
+        background: radial-gradient(
+          circle at 20% 0,
+          rgba(255, 255, 255, 0.25),
+          transparent 55%
+        );
+        opacity: 0.5;
+        transform: translate3d(-20%, -20%, 0);
+      }
+
+      .expo-preview-inner h3 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .expo-preview-inner p {
+        margin: 0;
+        font-size: 12px;
+        max-width: 280px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* PAKETLER */
+
+      .plans-section {
+        margin-bottom: 30px;
+      }
+
+      .plans-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .plans-header h2 {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .plans-header span {
+        font-size: 11px;
+        color: var(--text-soft);
       }
 
       .plans-grid {
-        grid-template-columns: minmax(0, 1fr);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
       }
 
-      .page {
-        padding-bottom: 40px;
-      }
-    }
-
-    @media (min-width: 760px) {
-      .nav-links {
+      .plan-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 14px 14px 10px;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+        font-size: 12px;
         display: flex;
+        flex-direction: column;
+        gap: 4px;
       }
 
-      h1 {
-        font-size: 30px;
+      .plan-badge-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+        margin-bottom: 2px;
       }
 
-      .page {
-        padding-top: 26px;
+      .plan-badge {
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: #9a3412;
+        font-weight: 600;
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- NAVBAR -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="/" class="brand">
-        <div class="brand-badge">TPG</div>
-        <span>TradePiGlobal</span>
-      </a>
 
-      <nav class="nav-links">
-        <a href="#marketplace">Marketplace</a>
-        <a href="#rfq">RFQ / Teklif</a>
-        <a href="#expo">Dijital Expo</a>
-        <a href="#plans">Paketler</a>
-      </nav>
+      .plan-type {
+        color: #9ca3af;
+      }
 
-      <div class="nav-right">
-        <span class="chip">TL · USD · Pi yapılandırılabilir</span>
-        <button class="btn btn-ghost">Giriş Yap</button>
-        <button class="btn btn-primary">Üye Ol</button>
+      .plan-name {
+        font-weight: 600;
+        margin-bottom: 2px;
+        font-size: 13px;
+      }
+
+      .plan-slot {
+        font-size: 11px;
+        color: var(--text-soft);
+        margin-bottom: 10px;
+      }
+
+      .plan-price {
+        font-size: 12px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .plan-price span {
+        font-size: 10px;
+        font-weight: 400;
+        color: #6b7280;
+      }
+
+      .plan-footer {
+        margin-top: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: #6b7280;
+      }
+
+      .plan-footer button {
+        border-radius: 999px;
+        border: none;
+        padding: 6px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        background: rgba(15, 23, 42, 0.06);
+      }
+
+      .plan-footer button:hover {
+        background: rgba(15, 23, 42, 0.08);
+      }
+
+      .plans-cta-row {
+        margin-top: 10px;
+        text-align: right;
+      }
+
+      .plans-cta-row .btn-small {
+        font-size: 11px;
+      }
+
+      /* FOOTER */
+
+      footer {
+        margin-top: auto;
+        padding: 14px 0 18px;
+      }
+
+      .footer-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 10px 16px 0;
+        border-top: 1px solid rgba(226, 232, 240, 0.7);
+        font-size: 11px;
+        color: #9ca3af;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .footer-links a {
+        color: #9ca3af;
+      }
+
+      .footer-links a:hover {
+        color: #6b7280;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 900px) {
+        .hero,
+        .expo-row,
+        .plans-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .hero {
+          padding: 20px 16px;
+        }
+
+        .plans-grid {
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        header {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        nav {
+          display: none;
+        }
+
+        .rfq-banner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .expo-preview-inner {
+          min-height: 120px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="shell">
+        <!-- HEADER -->
+        <header>
+          <div class="brand">
+            <div class="brand-logo">TP</div>
+            <div>
+              <div class="brand-text-main">TradePiGlobal</div>
+              <div class="brand-text-sub">
+                B2B Marketplace &amp; Dijital Fuar Platformu
+              </div>
+            </div>
+          </div>
+
+          <nav>
+            <a href="#hero">Marketplace</a>
+            <a href="#rfq">RFQ / Teklif</a>
+            <a href="#expo">Dijital Expo</a>
+            <a href="#plans">Paketler</a>
+          </nav>
+
+          <div class="top-actions">
+            <div class="chip">TL · USD · Pi yapılandırılabilir</div>
+            <button class="btn-small">Giriş Yap</button>
+            <button class="btn-small accent">Üye Ol</button>
+          </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero" id="hero">
+          <div>
+            <div class="hero-kicker">B2B ticaret &amp; dijital fuar altyapısı</div>
+            <h1 class="hero-title">
+              Global B2B ticaret ve dijital fuar tek platformda.
+            </h1>
+            <p class="hero-text">
+              Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli
+              B2B ticaret ve dijital vitrin altyapısı.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary">
+                Satıcı Olarak Başla
+              </button>
+              <button class="btn btn-outline">
+                Alıcı / İthalatçı Giriş Yap
+              </button>
+              <button class="btn btn-ghost" onclick="location.href='#rfq'">
+                RFQ Oluştur
+              </button>
+            </div>
+
+            <div class="hero-tags">
+              <div class="hero-tag">B2B ticaret platformu</div>
+              <div class="hero-tag">Dijital fuar &amp; showroom</div>
+              <div class="hero-tag">RFQ tabanlı teklif akışı</div>
+            </div>
+          </div>
+
+          <aside class="hero-summary">
+            <div class="hero-summary-title">Platform özeti</div>
+            <ul class="hero-summary-list">
+              <li>Onaylı firma profilleri ve ürün vitrinleri</li>
+              <li>RFQ ve toplu teklif akışı</li>
+              <li>Dijital fuar ve showroom alanları</li>
+              <li>Çoklu para birimi desteği (TL, USD, Pi yapılandırılabilir)</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- SEKTÖRLER + RFQ -->
+        <section>
+          <div class="section-label">Sektörler</div>
+          <div class="section-title">Sektörlere göre B2B marketplace</div>
+
+          <div class="sectors-bar">
+            <div class="sectors-header">
+              <span
+                >Üreticiler ve distribütörler ürünlerini kurumsal alıcılarla
+                buluşturur.</span
+              >
+              <span style="font-size: 10px; color: #6b7280"
+                >Sektör listesi büyüyebilir.</span
+              >
+            </div>
+
+            <div class="sector-scroll">
+              <div class="sector-chip">Sanayi</div>
+              <div class="sector-chip">Gıda</div>
+              <div class="sector-chip">Tekstil</div>
+              <div class="sector-chip">Elektronik</div>
+              <div class="sector-chip">Yapı &amp; İnşaat</div>
+              <div class="sector-chip">Mobilya</div>
+              <div class="sector-chip">Kimya</div>
+              <div class="sector-chip">Lojistik</div>
+              <div class="sector-chip">Enerji</div>
+              <div class="sector-chip">Medikal</div>
+              <div class="sector-chip">Otomotiv</div>
+              <div class="sector-chip">Ambalaj</div>
+              <div class="sector-chip">Tarım</div>
+              <div class="sector-chip">Güvenlik</div>
+              <div class="sector-chip">Ev &amp; Yaşam</div>
+              <div class="sector-chip">Spor &amp; Outdoor</div>
+              <div class="sector-chip">Temizlik</div>
+              <div class="sector-chip">Makine</div>
+              <div class="sector-chip">Metal İşleme</div>
+            </div>
+          </div>
+
+          <div class="rfq-banner" id="rfq">
+            <div class="rfq-text">
+              <strong>RFQ &amp; Teklif akışı.</strong> Miktar, teslimat ülkesi ve
+              hedef fiyatı belirleyerek RFQ oluşturun. Uygun satıcılar teklif
+              göndersin.
+            </div>
+            <button class="btn btn-primary" onclick="location.href='#'">
+              RFQ Oluştur
+            </button>
+          </div>
+        </section>
+
+        <!-- EXPO -->
+        <section class="expo-row" id="expo">
+          <div class="expo-card">
+            <h3>Dijital fuar giriş alanı</h3>
+            <p>
+              Unreal Engine veya Babylon.js ile hazırlanacak sahne için giriş
+              noktası. Ziyaretçiler bu alandan expo’ya geçer.
+            </p>
+            <button class="btn btn-outline">
+              Digital Expo'ya Gir
+            </button>
+          </div>
+
+          <div class="expo-preview">
+            <div class="expo-preview-inner">
+              <h3>3D DIGITAL EXPO PREVIEW</h3>
+              <p>
+                Bu alan, 3D dijital fuar önizlemesi içindir. Daha sonra Unreal
+                Engine / Babylon.js sahnesi buraya gömülecek.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAKETLER -->
+        <section class="plans-section" id="plans">
+          <div class="plans-header">
+            <h2>Satıcı üyelik paketleri</h2>
+            <span
+              >Slot bazlı üyelik ve fuar alanları aynı altyapıda yönetilir.
+              Detaylı liste ayrı sayfada.</span
+            >
+          </div>
+
+          <div class="plans-grid">
+            <article class="plan-card">
+              <div class="plan-badge-row">
+                <span class="plan-badge">Başlangıç</span>
+                <span class="plan-type">Genel seviye</span>
+              </div>
+              <div class="plan-name">Basic Fair 50</div>
+              <div class="plan-slot">50 slot · giriş seviyesi fuar alanı</div>
+              <div class="plan-price">
+                Aylık: 4.990 ₺
+                <span>· TL · USD · Pi yapılandırılabilir</span>
+              </div>
+              <div class="plan-footer">
+                <span>Yeni başlayan tedarikçiler için</span>
+                <button>Detay</button>
+              </div>
+            </article>
+
+            <article class="plan-card">
+              <div class="plan-badge-row">
+                <span class="plan-badge">En çok tercih edilen</span>
+                <span class="plan-type">Büyüyen markalar</span>
+              </div>
+              <div class="plan-name">Pro Fair 250</div>
+              <div class="plan-slot">
+                250 slot · büyüyen markalar için mağaza ve demo alanları
+              </div>
+              <div class="plan-price">
+                Aylık: 17.990 ₺
+                <span>· Zengin vitrin &amp; fuar erişimi</span>
+              </div>
+              <div class="plan-footer">
+                <span>Marka &amp; marketplace erişimi</span>
+                <button>Detay</button>
+              </div>
+            </article>
+
+            <article class="plan-card">
+              <div class="plan-badge-row">
+                <span class="plan-badge">Kurumsal</span>
+                <span class="plan-type">Holding &amp; distribütör</span>
+              </div>
+              <div class="plan-name">Titan Fair 1000</div>
+              <div class="plan-slot">
+                1000 slot · holding ve distribütörler için geniş ürün gamı
+              </div>
+              <div class="plan-price">
+                Aylık: 59.990 ₺
+                <span>· Çoklu ekip &amp; öncelikli destek</span>
+              </div>
+              <div class="plan-footer">
+                <span>Geniş ağlar ve özel anlaşmalar</span>
+                <button>Detay</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="plans-cta-row">
+            <button class="btn-small primary" onclick="location.href='/plans'">
+              Tüm Paketleri Gör
+            </button>
+          </div>
+        </section>
       </div>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-links">
+            <a href="#">Gizlilik Politikası</a>
+            <a href="#">Kullanım Şartları</a>
+            <a href="#">Satıcı Sözleşmesi</a>
+            <a href="#">Alıcı Sözleşmesi</a>
+            <a href="#">Çerez Politikası</a>
+            <a href="#">İletişim</a>
+          </div>
+          <div>© 2025 TradePiGlobal. Tüm hakları saklıdır.</div>
+        </div>
+      </footer>
     </div>
-  </header>
-
-  <main class="page">
-    <!-- HERO -->
-    <section id="marketplace" class="hero">
-      <div>
-        <div class="kicker">B2B Marketplace & Dijital Fuar Platformu</div>
-        <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
-        <p class="subtext">
-          Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B ticaret ve
-          dijital vitrin altyapısı. Gerçek ürün, gerçek sipariş, gerçek saha.
-        </p>
-
-        <div class="hero-buttons">
-          <button class="btn btn-primary">Satıcı Olarak Başla</button>
-          <button class="btn btn-ghost">Alıcı / İthalatçı Giriş Yap</button>
-          <button class="btn btn-ghost">RFQ Oluştur</button>
-        </div>
-
-        <div class="hero-badges">
-          <span>B2B ticaret platformu</span>
-          <span>RFQ tabanlı teklif akışı</span>
-          <span>Next-gen interactive digital expo</span>
-        </div>
-
-        <p class="hero-note">
-          Üyelik onayına tabidir. Ürün ve siparişler panel üzerinden yönetilir.
-        </p>
-      </div>
-
-      <aside class="hero-card">
-        <div class="hero-card-title">Platform özeti</div>
-        <ul>
-          <li>Onaylı firma profilleri ve ürün vitrinleri</li>
-          <li>RFQ ve toplu teklif akışı</li>
-          <li>Dijital fuar ve showroom alanları</li>
-          <li>Çoklu para birimi desteği (TL, USD, Pi yapılabilir)</li>
-        </ul>
-      </aside>
-    </section>
-
-    <!-- SEKTÖRLER 3D CAROUSEL -->
-    <section aria-label="Sektörlere göre B2B marketplace">
-      <h2 class="section-title">Sektörlere göre B2B marketplace</h2>
-      <div class="section-caption">
-        <span>Üretici ve distribütörlerin ürünleri kurumsal alıcılarla buluşur.</span>
-        <span class="badge-soft">Sektör listesi büyütülebilir</span>
-      </div>
-
-      <div class="sector-row">
-        <div class="sector-glow"></div>
-        <div class="sector-track">
-          <div class="sector-pill">
-            <span>Sanayi</span>
-            <strong>Makine, ekipman, yedek parça</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Gıda</span>
-            <strong>Tarım, işlenmiş gıda, içecek</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Tekstil</span>
-            <strong>Hazır giyim, konfeksiyon, teknik tekstil</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Elektronik</span>
-            <strong>Cihazlar, komponentler, aksesuarlar</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Yapı & İnşaat</span>
-            <strong>Yapı malzemeleri ve dekorasyon</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Mobilya</span>
-            <strong>Ev, ofis, proje mobilyaları</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Kimya</span>
-            <strong>Endüstriyel kimyasallar, boya, hammadde</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Lojistik</span>
-            <strong>Taşıma, depolama, dağıtım çözümleri</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Enerji</span>
-            <strong>Güneş, rüzgar, jeneratör ekipmanları</strong>
-          </div>
-          <div class="sector-pill">
-            <span>Sağlık</span>
-            <strong>Medikal cihaz, sarf, klinik ürünleri</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- RFQ STRIP -->
-    <section id="rfq" class="strip">
-      <div class="strip-text">
-        <strong>Tek tıkla teklif iste.</strong> Miktar, teslimat ülkesi ve hedef fiyat belirleyerek RFQ
-        oluşturun. Uygun satıcılar tekliflerini sunsun.
-        <small>Toplu alım yapan firmalar için hızlı teklif akışı.</small>
-      </div>
-      <button class="btn btn-primary">RFQ Oluştur</button>
-    </section>
-
-    <!-- EXPO -->
-    <section id="expo" class="expo">
-      <div class="expo-card">
-        <div class="expo-body">
-          <div class="expo-title">Next-Gen Interactive Digital Expo</div>
-          <p>
-            Markalar için etkileşimli dijital fuar ve showroom alanları. Stand alanları,
-            ürün vitrinleri ve canlı sunumlar tek noktadan yönetilir.
-          </p>
-          <button class="btn btn-primary">Dijital Expo'ya Gir</button>
-          <small style="display:block;margin-top:8px;font-size:10px;color:#9ca3ff;">
-            Unreal Engine / Babylon.js sahnesi bu alana gömülecek.
-          </small>
-        </div>
-      </div>
-
-      <div class="expo-preview">
-        <span>3D digital expo preview</span>
-      </div>
-    </section>
-
-    <!-- PLANS SUMMARY -->
-    <section id="plans" class="plans">
-      <h2 class="section-title">Satıcı üyelik paketleri</h2>
-      <div class="section-caption">
-        <span>Slot bazlı üyelik ve butik fuar alanları için paketler.</span>
-        <small>Detaylı liste ayrı sayfada.</small>
-      </div>
-
-      <div class="plans-grid">
-        <article class="plan-card">
-          <div class="plan-tag">Başlangıç</div>
-          <div class="plan-title">Basic Fair 50</div>
-          <div class="plan-desc">
-            50 slot · giriş seviyesi fuar alanı. Büyümek isteyen tedarikçiler için
-            standart vitrin.
-          </div>
-          <div class="plan-meta">
-            Örn. <strong>4.990 ₺ / ay</strong><br />
-            TL · USD · Pi yapılandırılabilir
-          </div>
-          <div class="plan-footer">
-            <span>Yeni başlayanlar için</span>
-            <span class="link" onclick="window.location.href='/plans'">Detay</span>
-          </div>
-        </article>
-
-        <article class="plan-card">
-          <div class="plan-tag">En çok tercih edilen</div>
-          <div class="plan-title">Pro Fair 250</div>
-          <div class="plan-desc">
-            250 slot · büyüyen markalar için. Stand, mağaza ve demo alanlarının bir
-            arada olduğu orta seviye fuar alanı.
-          </div>
-          <div class="plan-meta">
-            Örn. <strong>17.990 ₺ / ay</strong><br />
-            B2B vitrin + marketplace erişimi
-          </div>
-          <div class="plan-footer">
-            <span>Orta-büyük firmalar için</span>
-            <span class="link" onclick="window.location.href='/plans'">Detay</span>
-          </div>
-        </article>
-
-        <article class="plan-card">
-          <div class="plan-tag">Kurumsal</div>
-          <div class="plan-title">Titan Fair 1000</div>
-          <div class="plan-desc">
-            1000 slot · holding & distribütörler için. Geniş ürün gamı olan global
-            tedarikçiler için premium arena.
-          </div>
-          <div class="plan-meta">
-            Örn. <strong>59.990 ₺ / ay</strong><br />
-            Çoklu ekip & yetki seviyesi desteği
-          </div>
-          <div class="plan-footer">
-            <span>Özel anlaşmalar yapılabilir</span>
-            <span class="link" onclick="window.location.href='/plans'">Detay</span>
-          </div>
-        </article>
-      </div>
-
-      <div class="plans-cta-row">
-        <button class="btn btn-ghost" onclick="window.location.href='/plans'">
-          Tüm Paketleri Gör
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>© 2025 TradePiGlobal. Tüm hakları saklıdır.</div>
-    <div class="links">
-      <a href="#!">Gizlilik Politikası</a>
-      <a href="#!">Kullanım Şartları</a>
-      <a href="#!">Satıcı Sözleşmesi</a>
-      <a href="#!">Alıcı Sözleşmesi</a>
-      <a href="#!">Çerez Politikası</a>
-      <a href="#!">İletişim</a>
-    </div>
-  </footer>
-</body>
-                                                          </html>
+  </body>
+                </html>
