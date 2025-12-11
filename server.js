@@ -19,26 +19,21 @@ app.get("/", (req, res) => {
 app.get("/plans", async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("fair_plans")      // 👉 Eğer "plans" tablosu açtıysan burayı "plans" yap
-      .select("*")
-      .order("price", { ascending: true });
+      .from("fair_plans")
+      .select("*");
 
     if (error) {
-      console.error("Supabase error:", error);
-      return res
-        .status(500)
-        .json({ error: "supabase error", details: error });
+      return res.status(500).json({
+        error: "supabase error",
+        details: error
+      });
     }
 
     return res.json({ plans: data });
   } catch (err) {
-    console.error("Server error:", err);
-    return res.status(500).json({ error: "server error" });
+    return res.status(500).json({
+      error: "server error",
+      details: err.message
+    });
   }
-});
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log("Server running at port:", port);
 });
