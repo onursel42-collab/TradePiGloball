@@ -38,7 +38,10 @@ app.get("/api/plans", async (req, res) => {
     });
   }
 });
-
+// • 8D Fuar alanı sayfası
+app.get("/expo", (req, res) => {
+  res.sendFile("expo.html", { root: "public" });
+});
 // 🔹 HTML sayfa için helper
 function buildPlansHtml(plans) {
   return `<!doctype html>
