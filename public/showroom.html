@@ -4,27 +4,33 @@
   <meta charset="utf-8" />
   <title>3D Showroom · TradePiGlobal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <link rel="stylesheet" href="/showroom.css" />
 </head>
-
 <body>
 
-  <div class="showroom-container">
+  <div class="showroom-shell">
+    <header class="showroom-header">
+      <a href="/" class="logo">TPG</a>
+      <div class="title-block">
+        <h1>3D Showroom</h1>
+        <p>Galacticos satıcı vitrini · Gold Aura tavan</p>
+      </div>
+      <a href="/" class="back-link">← Ana sayfa</a>
+    </header>
 
-    <!-- ALTIN AURA TAVAN -->
-    <div class="gold-aura"></div>
+    <main class="showroom-main">
+      <div id="room" class="room">
+        <div class="roof-glow"></div>
+        <div class="floor"></div>
+        <div id="pods" class="pods"><!-- JS dolduracak --></div>
+      </div>
+    </main>
 
-    <!-- KAMERA PARALLAX WRAPPER -->
-    <div class="room" id="room">
-
-      <!-- ÜRÜN PODYUMLARI BURAYA OTOMATİK GELECEK -->
-      <div id="pods"></div>
-
-    </div>
-
+    <footer class="showroom-footer">
+      <p>Veriler Supabase fair_plans → /api/plans/home endpoint’inden canlı gelir.</p>
+    </footer>
   </div>
-<link rel="stylesheet" href="/showroom.css" />
+
   <script src="/showroom.js"></script>
 </body>
 </html>
