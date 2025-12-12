@@ -294,3 +294,79 @@ a{ color:inherit; text-decoration:none; }
 .footer__right{ display:flex; gap:14px; flex-wrap:wrap; }
 .footer__right a{ color: var(--muted); }
 .footer__right a:hover{ color: var(--text); }
+/* ===== HOME THEME: Light Premium ===== */
+:root{
+  --bg-0:#f6f8ff;
+  --bg-1:#eef2ff;
+  --bg-2:#ffffff;
+
+  --text:#0f172a;
+  --muted:#475569;
+
+  --card: rgba(255,255,255,.78);
+  --card-border: rgba(15,23,42,.10);
+
+  --shadow: 0 24px 60px rgba(15,23,42,.10);
+  --shadow2: 0 10px 25px rgba(15,23,42,.08);
+
+  --primary1:#ff7a18;
+  --primary2:#ffb347;
+}
+
+html,body{
+  background: linear-gradient(180deg,var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%) !important;
+  color: var(--text) !important;
+}
+
+/* topbar */
+.nav, header, .topbar{
+  background: rgba(255,255,255,.7) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(15,23,42,.08);
+}
+
+/* hero */
+.hero{
+  background: radial-gradient(900px 260px at 20% 20%, rgba(255,122,24,.22), transparent 60%),
+              radial-gradient(700px 240px at 85% 35%, rgba(99,102,241,.18), transparent 60%),
+              rgba(255,255,255,.55) !important;
+  border: 1px solid rgba(15,23,42,.08) !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: 18px;
+}
+
+/* chips */
+.chips .chip{
+  background: rgba(255,255,255,.8) !important;
+  border: 1px solid rgba(15,23,42,.10) !important;
+  color: var(--text) !important;
+  box-shadow: 0 6px 14px rgba(15,23,42,.06);
+}
+.chips .chip.active{
+  background: rgba(255,122,24,.14) !important;
+  border-color: rgba(255,122,24,.35) !important;
+}
+
+/* cards */
+.card, .company-card, .plan-card{
+  background: var(--card) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: var(--shadow2) !important;
+  backdrop-filter: blur(10px);
+}
+.card h3, .company-card .title{ color: var(--text) !important; }
+.card .muted, .company-card .meta{ color: var(--muted) !important; }
+
+/* buttons */
+.btn{ border-radius: 14px; font-weight: 700; }
+.btn-primary{
+  background: linear-gradient(135deg,var(--primary1),var(--primary2)) !important;
+  color:#111 !important;
+  border: 0 !important;
+  box-shadow: 0 14px 28px rgba(255,122,24,.22);
+}
+.btn-ghost{
+  background: rgba(255,255,255,.75) !important;
+  border: 1px solid rgba(15,23,42,.12) !important;
+  color: var(--text) !important;
+}
