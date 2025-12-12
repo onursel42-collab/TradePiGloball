@@ -4,78 +4,190 @@
   <meta charset="utf-8" />
   <title>Expo | TradePiGlobal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; color: #111; }
-    header { padding: 20px; background: #0b0e13; color: #fff; }
-    header h1 { margin: 0; font-size: 22px; }
-    main { padding: 20px; }
-    .company-info { margin-bottom: 30px; }
-    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-    .product { background: #fff; border-radius: 8px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .product h3 { margin: 0 0 8px; font-size: 16px; }
-    .price { font-weight: 600; margin-top: 8px; }
-    .placeholder-3d { margin: 40px 0; padding: 40px; background: #e9ecf1; border-radius: 12px; text-align: center; font-weight: 500; color: #555; }
+    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:#f5f7fa;color:#111}
+    header{padding:16px 18px;background:#0b0e13;color:#fff;display:flex;align-items:center;gap:12px}
+    header h1{margin:0;font-size:18px}
+    header a{color:#fff;text-decoration:none;opacity:.9;font-size:14px}
+    main{padding:18px}
+    .company-info{margin:8px 0 18px;color:#333}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .card{background:#fff;border-radius:10px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .card h3{margin:0 0 6px;font-size:16px}
+    .price{font-weight:700;margin-top:8px}
+    .hero3d{margin:14px 0 18px;border-radius:14px;overflow:hidden;background:#111;position:relative}
+    #renderCanvas{width:100%;height:260px;display:block;touch-action:none}
+    .heroBadge{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.12);color:#fff;padding:8px 10px;border-radius:10px;font-size:12px;backdrop-filter:blur(6px)}
+    .muted{opacity:.75}
+    img.prod{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:10px;background:#eee}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef2ff;color:#27326a;font-size:12px;margin-left:8px}
   </style>
 </head>
 
 <body>
 <header>
   <h1 id="companyName">Expo</h1>
+  <span id="featuredPill" class="pill" style="display:none">Featured</span>
+  <span style="flex:1"></span>
+  <a href="/">Ana sayfa</a>
 </header>
 
 <main>
   <div class="company-info" id="companyInfo"></div>
 
-  <div class="placeholder-3d" id="expo3d">
-  3D EXPO yükleniyor...
+  <div class="hero3d">
+    <div class="heroBadge">
+      <b>3D DIGITAL EXPO PREVIEW</b><div class="muted">Babylon.js sahne + ışık + zemin</div>
+    </div>
+    <canvas id="renderCanvas"></canvas>
   </div>
-  <h2>Ürünler</h2>
-  <div class="products" id="products"></div>
+
+  <h2 style="margin:0 0 12px">Ürünler</h2>
+  <div class="grid" id="products"></div>
 </main>
 
-<script>
-  // /expo/:slug  -> slug al (sonunda / olsa bile çalışsın)
-  const parts = window.location.pathname.split("/").filter(Boolean);
-  const slug = parts[parts.length - 1];
+<!-- Babylon CDN -->
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
 
-  fetch(`/api/expo/${encodeURIComponent(slug)}`)
-    .then(res => res.json())
+<script>
+  // slug: /expo/:slug veya /showroom/:slug
+  const slug = window.location.pathname.split("/").filter(Boolean).pop();
+
+  const companyNameEl = document.getElementById("companyName");
+  const companyInfoEl = document.getElementById("companyInfo");
+  const productsEl = document.getElementById("products");
+  const featuredPill = document.getElementById("featuredPill");
+
+  function money(v){
+    if (v === null || v === undefined) return "";
+    const n = Number(v);
+    return Number.isFinite(n) ? n.toLocaleString("tr-TR") : v;
+  }
+
+  // --- 3D Babylon Scene (basit showroom preview) ---
+  (function initBabylon(){
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer:true, stencil:true });
+
+    const createScene = () => {
+      const scene = new BABYLON.Scene(engine);
+      scene.clearColor = new BABYLON.Color4(0.06,0.06,0.07,1);
+
+      const camera = new BABYLON.ArcRotateCamera("cam",
+        Math.PI/2, Math.PI/3, 10,
+        new BABYLON.Vector3(0,1,0),
+        scene
+      );
+      camera.attachControl(canvas, true);
+      camera.wheelDeltaPercentage = 0.01;
+
+      const light1 = new BABYLON.HemisphericLight("h", new BABYLON.Vector3(0,1,0), scene);
+      light1.intensity = 0.9;
+
+      const spot = new BABYLON.SpotLight("s", new BABYLON.Vector3(0,6,0), new BABYLON.Vector3(0,-1,0), Math.PI/2.2, 2, scene);
+      spot.intensity = 1.2;
+
+      // floor
+      const floor = BABYLON.MeshBuilder.CreateGround("g", { width:20, height:20 }, scene);
+      const floorMat = new BABYLON.StandardMaterial("gm", scene);
+      floorMat.diffuseColor = new BABYLON.Color3(0.15,0.15,0.17);
+      floorMat.specularColor = new BABYLON.Color3(0.1,0.1,0.12);
+      floor.material = floorMat;
+
+      // walls (basit)
+      const wallMat = new BABYLON.StandardMaterial("wm", scene);
+      wallMat.diffuseColor = new BABYLON.Color3(0.12,0.12,0.14);
+
+      const w1 = BABYLON.MeshBuilder.CreateBox("w1", { width:20, height:6, depth:0.2 }, scene);
+      w1.position = new BABYLON.Vector3(0,3,10);
+      w1.material = wallMat;
+
+      const w2 = BABYLON.MeshBuilder.CreateBox("w2", { width:20, height:6, depth:0.2 }, scene);
+      w2.position = new BABYLON.Vector3(0,3,-10);
+      w2.material = wallMat;
+
+      const w3 = BABYLON.MeshBuilder.CreateBox("w3", { width:0.2, height:6, depth:20 }, scene);
+      w3.position = new BABYLON.Vector3(10,3,0);
+      w3.material = wallMat;
+
+      const w4 = BABYLON.MeshBuilder.CreateBox("w4", { width:0.2, height:6, depth:20 }, scene);
+      w4.position = new BABYLON.Vector3(-10,3,0);
+      w4.material = wallMat;
+
+      // stand
+      const stand = BABYLON.MeshBuilder.CreateCylinder("c", { diameter:3, height:0.6, tessellation:48 }, scene);
+      stand.position = new BABYLON.Vector3(0,0.3,0);
+      const standMat = new BABYLON.StandardMaterial("sm", scene);
+      standMat.diffuseColor = new BABYLON.Color3(0.25,0.22,0.18);
+      standMat.specularColor = new BABYLON.Color3(0.4,0.35,0.3);
+      stand.material = standMat;
+
+      // dummy product box
+      const box = BABYLON.MeshBuilder.CreateBox("box", { size:1.4 }, scene);
+      box.position = new BABYLON.Vector3(0,1.3,0);
+      const boxMat = new BABYLON.StandardMaterial("bm", scene);
+      boxMat.diffuseColor = new BABYLON.Color3(0.6,0.55,0.2);
+      box.material = boxMat;
+
+      scene.registerBeforeRender(() => {
+        box.rotation.y += 0.005;
+      });
+
+      return scene;
+    };
+
+    const scene = createScene();
+    engine.runRenderLoop(() => scene.render());
+    window.addEventListener("resize", () => engine.resize());
+  })();
+
+  // --- DATA ---
+  fetch(`/api/expo/${slug}`)
+    .then(r => r.json())
     .then(data => {
       if (!data.company) {
         document.body.innerHTML = "Firma bulunamadı";
         return;
       }
 
-      document.getElementById("companyName").innerText = data.company.name;
-      document.getElementById("companyInfo").innerHTML = `
-        <strong>Slug:</strong> ${data.company.slug}<br/>
-        ${data.company.country || ""} ${data.company.city || ""}
+      companyNameEl.innerText = data.company.name;
+      companyInfoEl.innerHTML = `
+        <b>Slug:</b> ${data.company.slug}<br/>
+        ${data.company.country || ""} ${data.company.city || ""} ${data.company.website ? " • " + data.company.website : ""}
+        <div class="muted" style="margin-top:6px">Ürün limiti: ${data.limit}</div>
       `;
 
-      const productsEl = document.getElementById("products");
+      if (data.featured) featuredPill.style.display = "inline-block";
 
-      if (!data.products || !data.products.length) {
-        productsEl.innerHTML = "<p>Henüz ürün eklenmemiş.</p>";
+      const items = data.products || [];
+      if (!items.length) {
+        productsEl.innerHTML = "<div class='muted'>Henüz ürün eklenmemiş.</div>";
         return;
       }
 
       productsEl.innerHTML = "";
-      data.products.forEach(p => {
+      items.forEach(p => {
+        const img = (p.product_images && p.product_images.length)
+          ? p.product_images[0].image_url
+          : "";
+
         const div = document.createElement("div");
-        div.className = "product";
+        div.className = "card";
+
         div.innerHTML = `
+          ${img ? `<img class="prod" src="${img}" alt="${p.name}">` : ""}
           <h3>${p.name}</h3>
-          <div>${p.description || ""}</div>
-          <div class="price">${p.base_price} ${p.currency}</div>
+          <div class="muted">${p.description || ""}</div>
+          <div class="price">${money(p.base_price)} ${p.currency || ""}</div>
         `;
         productsEl.appendChild(div);
       });
     })
     .catch(err => {
-      document.body.innerHTML = "Expo yüklenemedi";
       console.error(err);
+      document.body.innerHTML = "Expo yüklenemedi";
     });
 </script>
+
 </body>
 </html>
