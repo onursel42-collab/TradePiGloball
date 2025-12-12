@@ -1,71 +1,93 @@
-// =========================
-// CAMERA PARALLAX
-// =========================
-const room = document.getElementById("room");
+// =======================
+// 1) PODLARI YÜKLE
+// =======================
 
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 20;
-  const y = (e.clientY / window.innerHeight - 0.5) * -20;
+const podsEl = document.getElementById("pods");
+const roomEl = document.getElementById("room");
 
-  room.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+async function loadShowroomPlans() {
+  try {
+    const res = await fetch("/api/plans/home");
+    if (!res.ok) {
+      console.error("Plans fetch failed", res.status);
+      return;
+    }
+
+    const json = await res.json();
+    const plans = json.plans || [];
+
+    podsEl.innerHTML = "";
+
+    plans.forEach((p, index) => {
+      const pod = document.createElement("article");
+      pod.className = "pod";
+
+      // sahte derinlik: orta daha önde, sağ/sol biraz arkada
+      const depthMap = [40, 0, 40];
+      const liftMap = [-6, -10, -6];
+      pod.style.setProperty("--depth", `${-depthMap[index] || 0}px`);
+      pod.style.setProperty("--lift", `${liftMap[index] || -6}px`);
+
+      pod.innerHTML = `
+        <div class="pod-badge">${p.badge || "Paket"}</div>
+        <h2>${p.name}</h2>
+        <p class="pod-segment">${p.segment || ""}</p>
+        <p class="pod-desc">${p.description || ""}</p>
+        <p class="pod-price">
+          ${Number(p.monthly_price || 0).toLocaleString("tr-TR")} ₺
+          <span>/ ay</span>
+        </p>
+      `;
+
+      podsEl.appendChild(pod);
+    });
+  } catch (err) {
+    console.error("Showroom plans error", err);
+  }
+}
+
+loadShowroomPlans();
+
+// =======================
+// 2) KAMERA PARALLAX
+// =======================
+
+let targetRotX = 10;
+let targetRotY = 0;
+let currentRotX = 10;
+let currentRotY = 0;
+
+function handlePointer(xNorm, yNorm) {
+  // xNorm, yNorm = [-1, 1] aralığında
+  targetRotY = xNorm * 10; // sağ-sol
+  targetRotX = 8 + yNorm * -6; // yukarı-aşağı
+}
+
+// Mouse
+window.addEventListener("mousemove", (e) => {
+  const xNorm = (e.clientX / window.innerWidth - 0.5) * 2;
+  const yNorm = (e.clientY / window.innerHeight - 0.5) * 2;
+  handlePointer(xNorm, yNorm);
 });
 
-// Mobile tilt
-window.addEventListener("deviceorientation", (e) => {
-  const x = e.gamma / 3;
-  const y = e.beta / 6;
-  room.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-});
-
-// =========================
-// SUPABASE – ÜRÜNLERİ ÇEK
-// =========================
-import { createClient } from "https://esm.sh/@supabase/supabase-js";
-
-const supabase = createClient(
-  "https://YOUR-PROJECT.supabase.co",
-  "PUBLIC-ANON-KEY"
+// Touch (mobil)
+window.addEventListener(
+  "touchmove",
+  (e) => {
+    const t = e.touches[0];
+    const xNorm = (t.clientX / window.innerWidth - 0.5) * 2;
+    const yNorm = (t.clientY / window.innerHeight - 0.5) * 2;
+    handlePointer(xNorm, yNorm);
+  },
+  { passive: true }
 );
 
-async function loadProducts() {
-  const { data, error } = await supabase
-    .from("products")
-    .select("id, name")
-    .limit(12);
+function animate() {
+  currentRotX += (targetRotX - currentRotX) * 0.06;
+  currentRotY += (targetRotY - currentRotY) * 0.06;
 
-  if (error) {
-    console.error("Ürün okunamadı:", error);
-    return;
-  }
-
-  placePods(data);
+  roomEl.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+  requestAnimationFrame(animate);
 }
 
-// =========================
-// PODLARI OLUŞTUR
-// =========================
-function placePods(products) {
-  const podsDiv = document.getElementById("pods");
-  podsDiv.innerHTML = "";
-
-  const radius = 350; // ürünlerin dairesel dizilimi
-  const count = products.length;
-
-  products.forEach((p, i) => {
-    const angle = (i / count) * Math.PI * 2;
-
-    const x = Math.cos(angle) * radius + window.innerWidth / 2 - 90;
-    const y = Math.sin(angle) * radius + window.innerHeight / 2 - 90;
-
-    const pod = document.createElement("div");
-    pod.className = "pod";
-    pod.style.left = `${x}px`;
-    pod.style.top = `${y}px`;
-    pod.textContent = p.name;
-
-    podsDiv.appendChild(pod);
-  });
-}
-
-// BAŞLAT
-loadProducts();
+animate();
