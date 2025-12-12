@@ -1,162 +1,173 @@
-<!doctype html>
+  <!doctype html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
   <title>TradePiGlobal · B2B Marketplace & Dijital Fuar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #f4f4fc, #e8ecff);
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .hero h1 {
-      max-width: 600px;
-      margin: auto;
-      font-size: 24px;
-      font-weight: 700;
-    }
-    .hero-buttons {
-      margin-top: 20px;
-    }
-    .btn-main, .btn-sub {
-      padding: 10px 20px;
-      border-radius: 10px;
-      margin: 5px;
-      display: inline-block;
-      text-decoration: none;
-      color: white;
-      background: #ff7a3d;
-    }
-    .btn-sub { background: #ccc; color: black; }
-    .hero-info {
-      margin-top: 10px;
-      font-size: 13px;
-      opacity: 0.7;
-    }
-
-    /* SEKTÖRLER */
-    .block-title {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 20px;
-    }
-    .sektor-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 10px;
-      gap: 10px;
-    }
-    .sector-chip {
-      padding: 8px 14px;
-      border-radius: 12px;
-      border: none;
-      background: #eee;
-    }
-
-    /* EXPO */
-    .expo-area {
-      margin: 40px auto;
-      max-width: 900px;
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      padding: 20px;
-    }
-    .expo-left, .expo-preview {
-      flex: 1;
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-    }
-
-    /* PLANLAR */
-    .plan-grid {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-      flex-wrap: wrap;
-    }
-    .plan-card {
-      width: 250px;
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-    }
-    .detay-btn {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-      color: white;
-      background: #444;
-      padding: 8px 14px;
-      border-radius: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 13px;
-      opacity: 0.7;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
-
-  <section class="hero">
-    <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
-
-    <div class="hero-buttons">
-      <a class="btn-main" href="/seller">Satıcı Olarak Başla</a>
-      <a class="btn-sub" href="/buyer">Alıcı / İthalatçı Giriş Yap</a>
-      <a class="btn-sub" href="/rfq">RFQ Oluştur</a>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="logo">TPG</div>
+    <nav class="nav-links">
+      <a href="/">Marketplace</a>
+      <a href="/rfq">RFQ / Teklif</a>
+      <a href="/expo">Dijital Expo</a>
+      <a href="/plans">Paketler</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="chip">TL · USD · Pi yapılandırılabilir</span>
+      <a href="/login" class="btn-sub small">Giriş Yap</a>
+      <a href="/signup" class="btn-main small">Üye Ol</a>
     </div>
+  </header>
 
-    <p class="hero-info">
-      Onaylı firma profilleri · RFQ akışı · Dijital fuar · Çoklu para birimi desteği
-    </p>
-  </section>
+  <!-- HERO ALANI -->
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <p class="eyebrow">B2B TİCARET & DİJİTAL FUAR ALTYAPISI</p>
+        <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
+        <p class="hero-info">
+          Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B ticaret ve dijital vitrin altyapısı.
+        </p>
 
-  <h2 class="block-title">Sektörlere göre B2B marketplace</h2>
+        <div class="hero-buttons">
+          <a class="btn-main" href="/seller">Satıcı Olarak Başla</a>
+          <a class="btn-sub" href="/buyer">Alıcı / İthalatçı Giriş Yap</a>
+          <a class="btn-outline" href="/rfq">RFQ Oluştur</a>
+        </div>
 
-  <div class="sektor-row">
-    <button class="sector-chip">Sanayi & Üretim</button>
-    <button class="sector-chip">Gıda & Tarım</button>
-    <button class="sector-chip">Tekstil & Konfeksiyon</button>
-    <button class="sector-chip">Elektronik & Cihazlar</button>
-    <button class="sector-chip">Yapı & İnşaat</button>
-    <button class="sector-chip">Mobilya & Dekorasyon</button>
-    <button class="sector-chip">Kimya & Plastikler</button>
-    <button class="sector-chip">Lojistik & Taşımacılık</button>
-    <button class="sector-chip">Enerji & Maden</button>
-    <button class="sector-chip">Sağlık & Medikal</button>
-  </div>
+        <div class="hero-tags">
+          <span class="chip">Onaylı firma profilleri</span>
+          <span class="chip">RFQ tabanlı teklif akışı</span>
+          <span class="chip">Dijital fuar & showroom</span>
+          <span class="chip">Çoklu para birimi desteği</span>
+        </div>
+      </div>
 
-  <section class="expo-area">
-    <div class="expo-left">
-      <h3>Dijital fuar giriş alanı</h3>
-      <p>Ziyaretçiler bu alandan 3D fuara geçer.</p>
-      <a class="btn-main" href="/expo">Dijital Expo’ya Gir</a>
+      <aside class="hero-summary">
+        <h3>Platform özeti</h3>
+        <ul>
+          <li>Onaylı firma profilleri ve ürün vitrinleri</li>
+          <li>RFQ ve toplu teklif akışı</li>
+          <li>Dijital fuar ve showroom alanları</li>
+          <li>Çoklu para birimi desteği (TL, USD, Pi yapılandırılabilir)</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- SEKTÖRLER -->
+    <section class="block">
+      <h2 class="block-title">Sektörlere göre B2B marketplace</h2>
+      <p class="block-subtitle">
+        Üretici ve distribütör ürünlerini kurumsal alıcılarla buluştur.
+      </p>
+      <div class="sektor-row" data-sector-list>
+        <!-- sektörler main.js ile otomatik doluyor -->
+      </div>
+    </section>
+
+    <!-- RFQ SATIRI -->
+    <section class="block rfq-strip">
+      <div class="rfq-text">
+        <h3>RFQ & Teklif akışı</h3>
+        <p>
+          Tek tıkla teklif iste. Miktar, teslimat ülkesi ve hedef fiyat belirleyerek RFQ oluştur,
+          uygun satıcılar tekliflerini göndersin.
+        </p>
+      </div>
+      <div class="rfq-actions">
+        <a href="/rfq" class="btn-main">RFQ Oluştur</a>
+      </div>
+    </section>
+
+    <!-- EXPO ALANI -->
+    <section class="block expo-area">
+      <div class="expo-left">
+        <h3>Dijital fuar giriş alanı</h3>
+        <p>
+          Unreal Engine veya Babylon.js ile hazırlanacak sahne için giriş noktası.
+          Ziyaretçiler bu alandan expo’ya geçer.
+        </p>
+        <a class="btn-main" href="/expo">Dijital Expo’ya Gir</a>
+      </div>
+
+      <div class="expo-preview">
+        <h4>3D DIGITAL EXPO PREVIEW</h4>
+        <p>Bu alan, 3D dijital fuar önizlemesi içindir. Şu an Babylon sahnesi ile ışıklar yanıyor 💡</p>
+      </div>
+    </section>
+
+    <!-- PLANLAR -->
+    <section class="block">
+      <div class="plans-header">
+        <h2 class="block-title">Satıcı üyelik paketleri</h2>
+        <p class="block-subtitle">
+          Slot bazlı üyelik ve fuar alanları aynı altyapıda yönetilir. Detaylı liste ayrı sayfada.
+        </p>
+      </div>
+
+      <div class="plan-grid">
+        <!-- PLAN KARTI 1 -->
+        <article class="plan-card" data-plan-card="1">
+          <div class="plan-head">
+            <span class="badge">Başlangıç</span>
+            <h3 data-plan-name>Yükleniyor...</h3>
+          </div>
+          <p class="plan-desc" data-plan-desc></p>
+          <p class="plan-price" data-plan-price></p>
+          <p class="plan-meta">Yeni başlayan tedarikçiler için</p>
+          <a class="detay-btn" href="/plans">Detay</a>
+        </article>
+
+        <!-- PLAN KARTI 2 -->
+        <article class="plan-card" data-plan-card="2">
+          <div class="plan-head">
+            <span class="badge badge-hot">En çok tercih edilen</span>
+            <h3 data-plan-name>Yükleniyor...</h3>
+          </div>
+          <p class="plan-desc" data-plan-desc></p>
+          <p class="plan-price" data-plan-price></p>
+          <p class="plan-meta">Marka & marketplace erişimi</p>
+          <a class="detay-btn" href="/plans">Detay</a>
+        </article>
+
+        <!-- PLAN KARTI 3 -->
+        <article class="plan-card" data-plan-card="3">
+          <div class="plan-head">
+            <span class="badge badge-pro">Kurumsal</span>
+            <h3 data-plan-name>Yükleniyor...</h3>
+          </div>
+          <p class="plan-desc" data-plan-desc></p>
+          <p class="plan-price" data-plan-price></p>
+          <p class="plan-meta">Özel ekip ve özel anlaşmalar</p>
+          <a class="detay-btn" href="/plans">Detay</a>
+        </article>
+      </div>
+
+      <div class="plans-cta">
+        <a href="/plans" class="btn-sub">Tüm Paketleri Gör</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/kvkk">Gizlilik Politikası</a>
+      <a href="/terms">Kullanım Şartları</a>
+      <a href="/seller-terms">Satıcı Sözleşmesi</a>
+      <a href="/buyer-terms">Alıcı Sözleşmesi</a>
+      <a href="/cookies">Çerez Politikası</a>
+      <a href="/iletisim">İletişim</a>
     </div>
-    <div class="expo-preview">
-      <h3>3D DIGITAL EXPO PREVIEW</h3>
-      <p>Bu alan Unreal / Babylon ile eklenecek tam 3D preview içindir.</p>
-    </div>
-  </section>
+    <p>© 2025 TradePiGloball. Tüm hakları saklıdır.</p>
+  </footer>
 
-  <h2 class="block-title">Satıcı üyelik paketleri</h2>
-
-  <div class="plan-grid">
-    <div class="plan-card">
-      <h3>Basic Fair 50</h3>
-      <p>50 slot · giriş seviyesi fuar alanı</p>
+  <!-- JS -->
+  <script src="/main.js"></script>
+</body>
+</html>
