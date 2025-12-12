@@ -91,12 +91,10 @@
       // Firma bilgisi
       document.getElementById("companyName").innerText = data.company.name;
 
-      document.getElementById("companyInfo").innerHTML = `
-        <strong>Slug:</strong> ${data.company.slug}<br/>
-        ${data.company.country || ""} ${data.company.city || ""}
-      `;
-
-      // Ürünler
+      document.getElementById("companyInfo").innerHTML =
+  `<strong>Slug:</strong> ${data.company.slug}<br/>
+   ${data.company.country || ""} ${data.company.city || ""}`;
+     // Ürünler
       const productsEl = document.getElementById("products");
 
       if (!data.products.length) {
