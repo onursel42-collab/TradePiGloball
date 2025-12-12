@@ -287,36 +287,7 @@ app.get("/rfq", (req, res) => {
 
   <p><a href="/">← Ana sayfaya dön</a></p>
 </body>
-</html>`);
-});
-
-/**
- * DİJİTAL EXPO SAYFASI (PLACEHOLDER)
- */
-app.get("/expo", (req, res) => {
-  res.send(`<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <title>3D Digital Expo | TradePiGlobal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-<body class="expo-shell">
-  <h1>3D Digital Expo</h1>
-  <p>Bu alan 3D dijital fuar alanının önizlemesi içindir.</p>
-  <p>Tam sürümde Unreal Engine / Babylon.js sahnesi buraya gömülecek.</p>
-
-  <div class="expo-placeholder">
-    3D sahne için placeholder alan
-  </div>
-
-  <p><a href="/">← Ana sayfaya dön</a></p>
-</body>
-</html>`);
-});
-
-/**
+</html>
  * SUNUCUYU BAŞLAT
  */
 const port = process.env.PORT || 3000;
