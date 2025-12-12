@@ -286,21 +286,4 @@ app.get("/rfq", (req, res) => {
   <p><a href="/">← Ana sayfaya dön</a></p>
 </body>
 </html>`);
-});
-
-/**
- * DİJİTAL EXPO SAYFASI (PLACEHOLDER)
- * /expo
- */
-app.get("/expo", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "expo.html"));
-});
-});
-
-/**
- * SUNUCUYU BAŞLAT
- */
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log("Server running at port:", port);
-});
+}); 
