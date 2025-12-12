@@ -1,174 +1,197 @@
-  <!doctype html>
+<!doctype html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <title>TradePiGlobal · B2B Marketplace & Dijital Fuar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/styles.css" />
+  <title>TradePiGlobal</title>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:#eef2f7;color:#111}
+    header{padding:14px 18px;background:#fff;display:flex;align-items:center;gap:12px;position:sticky;top:0;border-bottom:1px solid #e7eaf0}
+    .logo{width:34px;height:34px;border-radius:10px;background:#ff7a18;display:grid;place-items:center;color:#fff;font-weight:800}
+    .nav{display:flex;gap:14px;flex:1;justify-content:center;color:#444;font-size:14px}
+    .nav a{color:#444;text-decoration:none}
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+    .btn.primary{background:#111;color:#fff}
+    .btn.ghost{background:#eef2f7;color:#111}
+    main{padding:18px;max-width:1100px;margin:0 auto}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:stretch}
+    .panel{background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 26px rgba(0,0,0,.08)}
+    .title{font-size:26px;font-weight:900;margin:6px 0}
+    .muted{opacity:.75}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .chip{padding:10px 12px;border-radius:999px;background:#111;color:#fff;font-size:13px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:14px}
+    .card{background:#111;border-radius:16px;color:#fff;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+    .card.light{background:#fff;color:#111;box-shadow:0 8px 26px rgba(0,0,0,.08)}
+    input, textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid #e3e7ef;font-size:14px}
+    textarea{min-height:90px;resize:vertical}
+    .small{font-size:13px}
+  </style>
 </head>
-
 <body>
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="logo">TPG</div>
-    <nav class="nav-links">
-      <a href="/">Marketplace</a>
-      <a href="/rfq">RFQ / Teklif</a>
-      <a href="/expo">Dijital Expo</a>
-      <a href="/plans">Paketler</a>
-    </nav>
-    <div class="nav-actions">
-      <span class="chip">TL · USD · Pi yapılandırılabilir</span>
-      <a href="/login" class="btn-sub small">Giriş Yap</a>
-      <a href="/signup" class="btn-main small">Üye Ol</a>
+
+<header>
+  <div class="logo">TPG</div>
+  <div class="nav">
+    <a href="#marketplace">Marketplace</a>
+    <a href="#rfq">RFQ / Teklif</a>
+    <a href="#expo">Dijital Expo</a>
+    <a href="#plans">Paketler</a>
+  </div>
+  <div class="actions">
+    <button class="btn ghost" onclick="alert('Login sonra bağlayacağız')">Giriş Yap</button>
+    <button class="btn primary" onclick="alert('Üyelik sonra bağlayacağız')">Üye Ol</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="panel">
+      <div class="muted small">B2B TİCARET & DİJİTAL FUAR ALTYAPISI</div>
+      <div class="title">Global B2B ticaret ve dijital fuar tek platformda.</div>
+      <div class="muted">Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B ticaret ve dijital vitrin altyapısı.</div>
+
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn primary" onclick="document.getElementById('rfq').scrollIntoView({behavior:'smooth'})">RFQ Oluştur</button>
+        <button class="btn ghost" onclick="document.getElementById('expo').scrollIntoView({behavior:'smooth'})">Dijital Expo’ya Gir</button>
+      </div>
+
+      <div style="margin-top:14px" class="muted small">
+        ✔ Onaylı firma profilleri & ürün vitrinleri <br/>
+        ✔ RFQ → teklif akışı <br/>
+        ✔ Dijital fuar & showroom alanları
+      </div>
     </div>
-  </header>
 
-  <!-- HERO ALANI -->
-  <main>
-    <section class="hero">
-      <div class="hero-left">
-        <p class="eyebrow">B2B TİCARET & DİJİTAL FUAR ALTYAPISI</p>
-        <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
-        <p class="hero-info">
-          Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B ticaret ve dijital vitrin altyapısı.
-        </p>
-
-        <div class="hero-buttons">
-          <a class="btn-main" href="/seller">Satıcı Olarak Başla</a>
-          <a class="btn-sub" href="/buyer">Alıcı / İthalatçı Giriş Yap</a>
-          <a class="btn-outline" href="/rfq">RFQ Oluştur</a>
-        </div>
-
-        <div class="hero-tags">
-          <span class="chip">Onaylı firma profilleri</span>
-          <span class="chip">RFQ tabanlı teklif akışı</span>
-          <span class="chip">Dijital fuar & showroom</span>
-          <span class="chip">Çoklu para birimi desteği</span>
-        </div>
+    <div class="panel">
+      <div style="font-weight:800;margin-bottom:10px">Platform özeti</div>
+      <div class="muted small">
+        - Çoklu para birimi (TL/USD/Pi)<br/>
+        - Paket bazlı ürün limiti<br/>
+        - Expo sayfaları: /expo/:slug<br/>
+        - API: /api/expo/:slug
       </div>
-
-      <aside class="hero-summary">
-        <h3>Platform özeti</h3>
-        <ul>
-          <li>Onaylı firma profilleri ve ürün vitrinleri</li>
-          <li>RFQ ve toplu teklif akışı</li>
-          <li>Dijital fuar ve showroom alanları</li>
-          <li>Çoklu para birimi desteği (TL, USD, Pi yapılandırılabilir)</li>
-        </ul>
-      </aside>
-    </section>
-
-    <!-- SEKTÖRLER -->
-    <section class="block">
-      <h2 class="block-title">Sektörlere göre B2B marketplace</h2>
-      <p class="block-subtitle">
-        Üretici ve distribütör ürünlerini kurumsal alıcılarla buluştur.
-      </p>
-      <div class="sektor-row" data-sector-list>
-        <!-- sektörler main.js ile otomatik doluyor -->
+      <div style="margin-top:12px">
+        <input id="goSlug" placeholder="Expo için firma slug (örn: tradepigloball)" />
+        <button class="btn primary" style="margin-top:10px;width:100%" onclick="goExpo()">Expo’ya Git</button>
       </div>
-    </section>
-
-    <!-- RFQ SATIRI -->
-    <section class="block rfq-strip">
-      <div class="rfq-text">
-        <h3>RFQ & Teklif akışı</h3>
-        <p>
-          Tek tıkla teklif iste. Miktar, teslimat ülkesi ve hedef fiyat belirleyerek RFQ oluştur,
-          uygun satıcılar tekliflerini göndersin.
-        </p>
-      </div>
-      <div class="rfq-actions">
-        <a href="/rfq" class="btn-main">RFQ Oluştur</a>
-      </div>
-    </section>
-
-    <!-- EXPO ALANI -->
-    <section class="block expo-area">
-      <div class="expo-left">
-        <h3>Dijital fuar giriş alanı</h3>
-        <p>
-          Unreal Engine veya Babylon.js ile hazırlanacak sahne için giriş noktası.
-          Ziyaretçiler bu alandan expo’ya geçer.
-        </p>
-        <a class="btn-main" href="/expo">Dijital Expo’ya Gir</a>
-      </div>
-
-      <div class="expo-preview">
-        <h4>3D DIGITAL EXPO PREVIEW</h4>
-        <p>Bu alan, 3D dijital fuar önizlemesi içindir. Şu an Babylon sahnesi ile ışıklar yanıyor 💡</p>
-      </div>
-    </section>
-
-    <!-- PLANLAR -->
-    <section class="block">
-      <div class="plans-header">
-        <h2 class="block-title">Satıcı üyelik paketleri</h2>
-        <p class="block-subtitle">
-          Slot bazlı üyelik ve fuar alanları aynı altyapıda yönetilir. Detaylı liste ayrı sayfada.
-        </p>
-      </div>
-
-      <div class="plan-grid">
-        <!-- PLAN KARTI 1 -->
-        <article class="plan-card" data-plan-card="1">
-          <div class="plan-head">
-            <span class="badge">Başlangıç</span>
-            <h3 data-plan-name>Yükleniyor...</h3>
-          </div>
-          <p class="plan-desc" data-plan-desc></p>
-          <p class="plan-price" data-plan-price></p>
-          <p class="plan-meta">Yeni başlayan tedarikçiler için</p>
-          <a class="detay-btn" href="/plans">Detay</a>
-        </article>
-
-        <!-- PLAN KARTI 2 -->
-        <article class="plan-card" data-plan-card="2">
-          <div class="plan-head">
-            <span class="badge badge-hot">En çok tercih edilen</span>
-            <h3 data-plan-name>Yükleniyor...</h3>
-          </div>
-          <p class="plan-desc" data-plan-desc></p>
-          <p class="plan-price" data-plan-price></p>
-          <p class="plan-meta">Marka & marketplace erişimi</p>
-          <a class="detay-btn" href="/plans">Detay</a>
-        </article>
-
-        <!-- PLAN KARTI 3 -->
-        <article class="plan-card" data-plan-card="3">
-          <div class="plan-head">
-            <span class="badge badge-pro">Kurumsal</span>
-            <h3 data-plan-name>Yükleniyor...</h3>
-          </div>
-          <p class="plan-desc" data-plan-desc></p>
-          <p class="plan-price" data-plan-price></p>
-          <p class="plan-meta">Özel ekip ve özel anlaşmalar</p>
-          <a class="detay-btn" href="/plans">Detay</a>
-        </article>
-      </div>
-
-      <div class="plans-cta">
-        <a href="/plans" class="btn-sub">Tüm Paketleri Gör</a>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="/kvkk">Gizlilik Politikası</a>
-      <a href="/terms">Kullanım Şartları</a>
-      <a href="/seller-terms">Satıcı Sözleşmesi</a>
-      <a href="/buyer-terms">Alıcı Sözleşmesi</a>
-      <a href="/cookies">Çerez Politikası</a>
-      <a href="/iletisim">İletişim</a>
     </div>
-    <p>© 2025 TradePiGloball. Tüm hakları saklıdır.</p>
-  </footer>
-<a href="/showroom.html" class="expo-btn">Dijital Showroom’a Gir</a>
-  <!-- JS -->
-  <script src="/main.js"></script> 
- <script src="/showroom.js"></script> 
+  </section>
+
+  <section id="marketplace" style="margin-top:18px">
+    <div class="panel">
+      <div style="font-weight:900;margin-bottom:10px">Sektörlere göre B2B marketplace</div>
+      <div class="muted small">Şimdilik sektör filtreleri hazır; marketplace liste ekranını sonra bağlarız.</div>
+      <div class="chips" id="sectors"></div>
+    </div>
+  </section>
+
+  <section id="rfq" style="margin-top:14px" class="row">
+    <div class="card">
+      <div style="font-weight:900;font-size:18px">RFQ & Teklif akışı</div>
+      <div class="muted small" style="margin-top:6px">
+        Tek tıkla teklif iste: Miktar, teslimat, hedef fiyat… satıcılar teklifini göndersin.
+      </div>
+
+      <div style="margin-top:12px">
+        <input id="buyer_name" placeholder="Ad Soyad" />
+        <input id="buyer_email" placeholder="E-posta" style="margin-top:10px" />
+        <input id="sector" placeholder="Sektör" style="margin-top:10px" />
+        <input id="country" placeholder="Ülke" style="margin-top:10px" />
+        <input id="city" placeholder="Şehir" style="margin-top:10px" />
+        <textarea id="message" placeholder="RFQ mesajı (ne arıyorsun?)" style="margin-top:10px"></textarea>
+        <button class="btn primary" style="margin-top:10px;width:100%" onclick="sendRFQ()">RFQ Gönder</button>
+        <div id="rfqResult" class="muted small" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#ff7a18,#af002d 70%,#319197);">
+      <div style="font-weight:900;font-size:18px">3D DIGITAL EXPO PREVIEW</div>
+      <div class="muted small" style="margin-top:6px;color:#fff">
+        Expo sayfasında Babylon sahnesi render oluyor. Şu an showroom preview aktif.
+      </div>
+      <button class="btn ghost" style="margin-top:12px" onclick="goExpo()">Dijital Expo’ya Gir</button>
+    </div>
+  </section>
+
+  <section id="plans" style="margin-top:14px">
+    <div class="panel">
+      <div style="font-weight:900;margin-bottom:6px">Satıcı üyelik paketleri</div>
+      <div class="muted small">Paketler Supabase’den geliyor: membership_plans</div>
+      <div class="grid" id="plansGrid"></div>
+    </div>
+  </section>
+
+  <div style="height:40px"></div>
+</main>
+
+<script>
+  function goExpo(){
+    const slug = (document.getElementById("goSlug").value || "tradepigloball").trim();
+    window.location.href = "/expo/" + encodeURIComponent(slug);
+  }
+
+  // sectors
+  fetch("/api/sectors").then(r=>r.json()).then(({sectors})=>{
+    const el = document.getElementById("sectors");
+    el.innerHTML = "";
+    (sectors || []).forEach(s=>{
+      const d = document.createElement("div");
+      d.className = "chip";
+      d.innerText = s;
+      el.appendChild(d);
+    });
+  });
+
+  // plans home
+  fetch("/api/plans/home").then(r=>r.json()).then(({plans})=>{
+    const grid = document.getElementById("plansGrid");
+    grid.innerHTML = "";
+    (plans || []).forEach(p=>{
+      const c = document.createElement("div");
+      c.className = "card light";
+      c.innerHTML = `
+        <div style="font-weight:900;font-size:18px">${p.name}</div>
+        <div class="muted small" style="margin-top:6px">Kod: ${p.code}</div>
+        <div style="margin-top:10px;font-weight:900">${p.product_limit} ürün limiti</div>
+        <div class="muted small" style="margin-top:10px">${p.featured ? "Öne çıkan plan" : ""}</div>
+      `;
+      grid.appendChild(c);
+    });
+
+    if (!plans || !plans.length){
+      grid.innerHTML = "<div class='muted'>Plan bulunamadı. membership_plans tablosu boş olabilir.</div>";
+    }
+  });
+
+  // rfq submit
+  function sendRFQ(){
+    const payload = {
+      buyer_name: document.getElementById("buyer_name").value,
+      buyer_email: document.getElementById("buyer_email").value,
+      sector: document.getElementById("sector").value,
+      country: document.getElementById("country").value,
+      city: document.getElementById("city").value,
+      message: document.getElementById("message").value,
+    };
+
+    fetch("/api/rfq", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(r=>r.json())
+    .then(d=>{
+      document.getElementById("rfqResult").innerText =
+        d.ok ? "✅ RFQ kaydedildi (id: " + d.rfq.id + ")" : "❌ Hata: " + (d.error || "bilinmiyor");
+    })
+    .catch(err=>{
+      document.getElementById("rfqResult").innerText = "❌ RFQ gönderilemedi";
+      console.error(err);
+    });
+  }
+</script>
 </body>
 </html>
