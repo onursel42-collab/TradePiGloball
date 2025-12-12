@@ -412,3 +412,62 @@ html,body{
   border: 1px solid rgba(15,23,42,.12) !important;
   color: var(--text) !important;
 }
+/* === FORCE LIGHT (FINAL) === */
+:root{
+  --bg: #f6f8ff;
+  --panel: rgba(255,255,255,.85);
+  --panel2: rgba(255,255,255,.65);
+  --card: rgba(255,255,255,.78);
+  --border: rgba(15,23,42,.10);
+  --line: rgba(15,23,42,.10);
+
+  --text:#0f172a;
+  --muted:#475569;
+
+  --primary1:#ff7a18;
+  --primary2:#6b6ff6;
+
+  --shadow: 0 24px 60px rgba(15,23,42,.10);
+}
+
+html,body{
+  background: linear-gradient(180deg,#f6f8ff 0%, #eef2ff 45%, #ffffff 100%) !important;
+  color: var(--text) !important;
+}
+
+body{
+  background:
+    radial-gradient(900px 260px at 20% 20%, rgba(255,122,24,.18), transparent 60%),
+    radial-gradient(700px 240px at 85% 35%, rgba(107,111,246,.14), transparent 60%),
+    linear-gradient(180deg,#f6f8ff 0%, #eef2ff 45%, #ffffff 100%) !important;
+}
+
+.topbar,.nav,header{
+  background: rgba(255,255,255,.72) !important;
+  border-bottom: 1px solid rgba(15,23,42,.08) !important;
+}
+
+.hero,.card,.company-card,.rfq,.panel{
+  background: rgba(255,255,255,.78) !important;
+  border: 1px solid rgba(15,23,42,.10) !important;
+  box-shadow: 0 14px 40px rgba(15,23,42,.10) !important;
+}
+
+.nav__link{ color:#334155 !important; }
+.nav__link:hover{ background: rgba(15,23,42,.05) !important; color:#0f172a !important; }
+
+.chip{
+  background: rgba(255,255,255,.85) !important;
+  border: 1px solid rgba(15,23,42,.10) !important;
+  color: #0f172a !important;
+}
+.chip.is-active, .chip.active{
+  background: rgba(255,122,24,.14) !important;
+  border-color: rgba(255,122,24,.35) !important;
+}
+
+.btn-primary, .btn--primary{
+  background: linear-gradient(135deg,var(--primary1),var(--primary2)) !important;
+  color:#fff !important;
+  border:0 !important;
+}
