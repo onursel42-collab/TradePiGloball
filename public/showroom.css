@@ -1,63 +1,224 @@
+/* GENEL */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background: #0d0c0c;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #02030a;
+  color: #f5f5ff;
 }
 
-/* ANA KAPSAYICI */
-.showroom-container {
-  width: 100vw;
-  height: 100vh;
+.showroom-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+.showroom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  gap: 12px;
+  background: radial-gradient(circle at 0 0, #ffb34722, transparent 55%),
+              radial-gradient(circle at 100% 0, #ff5f6d22, transparent 55%),
+              #050614;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb347, #ff5f6d);
+  color: #050614;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  box-shadow: 0 0 18px rgba(255, 184, 88, 0.6);
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+
+.title-block p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.back-link {
+  font-size: 12px;
+  color: #c5c8ff;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at 0 0, #ffffff10, transparent 55%);
+}
+
+/* SAHNE */
+
+.showroom-main {
+  flex: 1;
   position: relative;
-  perspective: 1200px;
+  overflow: hidden;
 }
 
-/* GOLD AURA – TAVAN */
-.gold-aura {
-  position: absolute;
-  top: 0;
-  left: 0;
+.room {
+  position: relative;
   width: 100%;
-  height: 40%;
-  background: radial-gradient(circle at center,
-      rgba(255, 208, 0, 0.55) 0%,
-      rgba(255, 180, 0, 0.20) 40%,
-      rgba(0, 0, 0, 0) 100%);
-  filter: blur(45px);
+  height: calc(100vh - 70px);
+  overflow: hidden;
+  perspective: 900px;
+  transform-style: preserve-3d;
+  background:
+    radial-gradient(circle at 50% 18%, #f5d97c 0, #1a1100 26%, #000 56%);
+}
+
+/* GOLD AURA TAVAN */
+
+.roof-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255, 230, 150, 0.8), transparent 55%),
+    radial-gradient(circle at 30% 0%, rgba(255, 204, 120, 0.5), transparent 55%),
+    radial-gradient(circle at 70% 5%, rgba(255, 170, 90, 0.4), transparent 55%);
+  mix-blend-mode: screen;
   pointer-events: none;
 }
 
-/* ODA */
-.room {
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.1s linear;
-}
+/* ZEMİN */
 
-/* ÜRÜN PODYUMLARI */
-.pod {
-  width: 180px;
-  height: 180px;
-  background: rgba(20, 20, 20, 0.9);
-  border: 2px solid rgba(255, 200, 0, 0.4);
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(255, 200, 0, 0.4);
+.floor {
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: gold;
-  font-weight: bold;
-  font-size: 18px;
-  text-shadow: 0 0 8px rgba(255, 200, 0, 0.9);
-  transform-style: preserve-3d;
+  left: -20vw;
+  bottom: -42vh;
+  width: 140vw;
+  height: 70vh;
+  background:
+    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.2), transparent 55%),
+    radial-gradient(circle at 50% 60%, rgba(0, 0, 0, 0.9), #000);
+  transform-origin: top center;
+  transform: rotateX(68deg);
+  box-shadow:
+    0 -40px 80px rgba(0, 0, 0, 0.9) inset,
+    0 -10px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* Hover efekti */
-.pod:hover {
-  transform: translateZ(40px) scale(1.08);
-  box-shadow: 0 0 45px rgba(255, 220, 0, 0.8);
-  cursor: pointer;
+/* POD’LAR */
+
+.pods {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 18px 40px;
+  pointer-events: none;
+}
+
+.pod {
+  pointer-events: auto;
+  width: min(32%, 220px);
+  min-width: 150px;
+  padding: 14px 14px 16px;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, #0c0f20, #060712);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 25px 40px rgba(0, 0, 0, 0.9),
+    0 0 22px rgba(255, 184, 88, 0.25);
+  transform-origin: center center;
+  transform:
+    translateZ(var(--depth, 0px))
+    translateY(var(--lift, 0px))
+    rotateX(12deg);
+  backdrop-filter: blur(12px);
+  color: #f8f7ff;
+  position: relative;
+}
+
+/* “slot sayısı” yerine burada plan tipi & özet görünecek */
+
+.pod-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: radial-gradient(circle at 0 0, #ffb34755, transparent 60%);
+  color: #ffd9a0;
+}
+
+.pod h2 {
+  margin: 8px 0 4px;
+  font-size: 14px;
+}
+
+.pod-segment {
+  margin: 0 0 6px;
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.pod-desc {
+  margin: 0 0 10px;
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.pod-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffe9b0;
+}
+
+.pod-price span {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* FOOTER */
+
+.showroom-footer {
+  padding: 8px 14px 10px;
+  font-size: 11px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  background: #050614;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 640px) {
+  .pods {
+    gap: 10px;
+    padding-inline: 10px;
+  }
+  .pod {
+    width: 33%;
+    padding: 10px 10px 12px;
+  }
 }
