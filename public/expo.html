@@ -16,17 +16,40 @@
       padding: 20px;
       background: #0b0e13;
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
     header h1 {
       margin: 0;
       font-size: 22px;
+      line-height: 1.2;
     }
-    main {
-      padding: 20px;
+    header a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.85;
+      font-size: 14px;
+      white-space: nowrap;
     }
-    .company-info {
-      margin-bottom: 30px;
+    header a:hover { opacity: 1; }
+
+    main { padding: 20px; }
+    .company-info { margin-bottom: 18px; opacity: 0.9; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      font-size: 12px;
+      margin-left: 8px;
+      vertical-align: middle;
+      opacity: 0.9;
     }
+
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -34,25 +57,28 @@
     }
     .product {
       background: #fff;
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
     }
-    .product h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-    .price {
-      font-weight: 600;
-      margin-top: 8px;
+    .product h3 { margin: 0 0 8px; font-size: 16px; }
+    .muted { opacity: 0.8; font-size: 13px; }
+    .price { font-weight: 700; margin-top: 10px; }
+    .error {
+      padding: 14px;
+      background: #fff3f3;
+      border: 1px solid #ffd1d1;
+      border-radius: 12px;
+      color: #a40000;
     }
     .placeholder-3d {
-      margin: 40px 0;
-      padding: 40px;
+      margin: 22px 0 28px;
+      padding: 40px 16px;
       background: #e9ecf1;
-      border-radius: 12px;
+      border-radius: 14px;
       text-align: center;
-      font-weight: 500;
+      font-weight: 600;
       color: #555;
     }
   </style>
@@ -62,6 +88,7 @@
 
 <header>
   <h1 id="companyName">Expo</h1>
+  <a href="/">← Ana sayfa</a>
 </header>
 
 <main>
@@ -69,7 +96,7 @@
 
   <div class="placeholder-3d">
     3D EXPO ALANI<br/>
-    (Babylon / Three.js buraya bağlanacak)
+    <span class="muted">(Babylon / Three.js buraya bağlanacak)</span>
   </div>
 
   <h2>Ürünler</h2>
@@ -77,45 +104,83 @@
 </main>
 
 <script>
-  // URL'den slug al: /expo/:slug
-  const slug = window.location.pathname.split("/").pop();
+  // slug: /expo/:slug veya /showroom/:slug
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  const slug = parts[1] || ""; // ["expo","tradepigloball"] -> "tradepigloball"
 
-  fetch(`/api/expo/${slug}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.company) {
-        document.body.innerHTML = "Firma bulunamadı";
+  const companyNameEl = document.getElementById("companyName");
+  const companyInfoEl = document.getElementById("companyInfo");
+  const productsEl = document.getElementById("products");
+
+  // slug yoksa kullanıcıya söyle
+  if (!slug || slug === "expo" || slug === "showroom") {
+    companyInfoEl.innerHTML = `<div class="error">
+      URL’de firma slug yok. Örnek: <b>/expo/tradepigloball</b>
+    </div>`;
+    productsEl.innerHTML = "";
+    throw new Error("Slug missing");
+  }
+
+  // loading
+  companyInfoEl.innerHTML = `<span class="muted">Yükleniyor...</span>`;
+  productsEl.innerHTML = "";
+
+  fetch(`/api/expo/${encodeURIComponent(slug)}`)
+    .then(async (res) => {
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error(`API ${res.status}: ${txt || "Hata"}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      if (!data || !data.company) {
+        companyInfoEl.innerHTML = `<div class="error">Firma bulunamadı</div>`;
         return;
+      }
+
+      // Başlık + featured badge
+      companyNameEl.innerText = data.company.name || "Expo";
+      if (data.featured) {
+        companyNameEl.innerHTML = `${companyNameEl.innerText} <span class="badge">FEATURED</span>`;
       }
 
       // Firma bilgisi
-      document.getElementById("companyName").innerText = data.company.name;
+      const c = data.company;
+      const loc = [c.country, c.city].filter(Boolean).join(" / ");
+      const website = c.website ? `<a href="${c.website}" target="_blank" rel="noopener">Website</a>` : "";
+      companyInfoEl.innerHTML = `
+        <div><strong>Slug:</strong> ${c.slug || ""}</div>
+        <div class="muted">${loc || ""} ${website ? "• " + website : ""}</div>
+        <div class="muted">Limit: ${data.limit ?? 0}</div>
+      `;
 
-      document.getElementById("companyInfo").innerHTML =
-  `<strong>Slug:</strong> ${data.company.slug}<br/>
-   ${data.company.country || ""} ${data.company.city || ""}`;
-     // Ürünler
-      const productsEl = document.getElementById("products");
-
-      if (!data.products.length) {
-        productsEl.innerHTML = "<p>Henüz ürün eklenmemiş.</p>";
+      // Ürünler
+      const products = Array.isArray(data.products) ? data.products : [];
+      if (!products.length) {
+        productsEl.innerHTML = `<div class="muted">Henüz ürün eklenmemiş.</div>`;
         return;
       }
 
-      data.products.forEach(p => {
+      products.forEach((p) => {
         const div = document.createElement("div");
         div.className = "product";
+
+        const price = (p.base_price ?? "") !== "" ? `${p.base_price} ${p.currency || ""}`.trim() : "Fiyat yok";
+        const desc = (p.description || "").trim();
+
         div.innerHTML = `
-          <h3>${p.name}</h3>
-          <div>${p.description || ""}</div>
-          <div class="price">${p.base_price} ${p.currency}</div>
+          <h3>${p.name || "Ürün"}</h3>
+          ${desc ? `<div>${desc}</div>` : `<div class="muted">Açıklama yok</div>`}
+          <div class="price">${price}</div>
         `;
         productsEl.appendChild(div);
       });
     })
-    .catch(err => {
-      document.body.innerHTML = "Expo yüklenemedi";
+    .catch((err) => {
       console.error(err);
+      companyInfoEl.innerHTML = `<div class="error">Expo yüklenemedi: ${err.message}</div>`;
+      productsEl.innerHTML = "";
     });
 </script>
 
