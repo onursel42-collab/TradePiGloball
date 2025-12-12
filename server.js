@@ -23,29 +23,12 @@ app.get("/health", (req, res) => {
   res.json({ ok: true, message: "Backend çalışıyor ✅" });
 });
 
-/**
- * ✅ EXPO SAYFA ROUTE’LARI
- *  - /expo/:slug      => showroom.html (senin fetch burada /api/expo/:slug çağırıyor)
- *  - /showroom/:slug  => aynı dosya (sen bazen /showroom deniyorsun diye)
- *  - /expo            => showroom.html (slug yoksa da açsın)
- *  - /showroom        => showroom.html
- */
+// Expo sayfaları
 app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => {
   res.sendFile(path.join(__dirname, "public", "showroom.html"));
 });
 
-/**
- * ✅ EXPO DATA API
- * GET /api/expo/:slug
- *
- * Dönen şekil:
- * {
- *   company: {...},
- *   products: [...],
- *   limit: 20,
- *   featured: false
- * }
- */
+// Expo API
 app.get("/api/expo/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
@@ -58,25 +41,23 @@ app.get("/api/expo/:slug", async (req, res) => {
       .single();
 
     if (eCompany || !company) {
-      return res.status(404).json({ company: null, products: [], error: "Firma bulunamadı" });
+      return res
+        .status(404)
+        .json({ company: null, products: [], error: "Firma bulunamadı" });
     }
 
-    // 2) plan/limit (company_memberships -> membership_plans)
-    // Senin sample:
-    // company_memberships: company_id, plan_id, status
-    // membership_plans: id, code, name, product_limit, featured
-    const { data: membership, error: eMembership } = await supabase
+    // 2) plan/limit
+    const { data: membership } = await supabase
       .from("company_memberships")
       .select("status, plan_id, membership_plans ( product_limit, featured, code, name )")
       .eq("company_id", company.id)
       .eq("status", "active")
       .maybeSingle();
 
-    // membership yoksa default limit
     const limit = membership?.membership_plans?.product_limit ?? 20;
     const featured = !!membership?.membership_plans?.featured;
 
-    // 3) products
+    // 3) products  ✅ BURASI DEĞİŞTİ (product_images eklendi)
     const { data: products, error: eProducts } = await supabase
       .from("products")
       .select(`
@@ -96,7 +77,8 @@ app.get("/api/expo/:slug", async (req, res) => {
         hs_code,
         is_active,
         created_at,
-        updated_at
+        updated_at,
+        product_images ( image_url, sort )
       `)
       .eq("company_id", company.id)
       .eq("is_active", true)
