@@ -1,188 +1,31 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <title>Expo | TradePiGlobal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f7fa;
-      color: #111;
-    }
-    header {
-      padding: 20px;
-      background: #0b0e13;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.2;
-    }
-    header a {
-      color: #fff;
-      text-decoration: none;
-      opacity: 0.85;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-    header a:hover { opacity: 1; }
-
-    main { padding: 20px; }
-    .company-info { margin-bottom: 18px; opacity: 0.9; }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #111827;
-      color: #fff;
-      font-size: 12px;
-      margin-left: 8px;
-      vertical-align: middle;
-      opacity: 0.9;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .product {
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .product h3 { margin: 0 0 8px; font-size: 16px; }
-    .muted { opacity: 0.8; font-size: 13px; }
-    .price { font-weight: 700; margin-top: 10px; }
-    .error {
-      padding: 14px;
-      background: #fff3f3;
-      border: 1px solid #ffd1d1;
-      border-radius: 12px;
-      color: #a40000;
-    }
-    .placeholder-3d {
-      margin: 22px 0 28px;
-      padding: 40px 16px;
-      background: #e9ecf1;
-      border-radius: 14px;
-      text-align: center;
-      font-weight: 600;
-      color: #555;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Showroom</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
-
 <body>
-
-<header>
-  <h1 id="companyName">Expo</h1>
-  <a href="/">← Ana sayfa</a>
-</header>
-
-<main>
-  <div class="company-info" id="companyInfo"></div>
-
-  <div class="placeholder-3d">
-    3D EXPO ALANI<br/>
-    <span class="muted">(Babylon / Three.js buraya bağlanacak)</span>
+  <div class="container">
+    <div class="card">
+      <div class="card-title">Showroom</div>
+      <div class="card-meta" id="meta">Yükleniyor...</div>
+      <div class="muted" id="info"></div>
+    </div>
   </div>
 
-  <h2>Ürünler</h2>
-  <div class="products" id="products"></div>
-</main>
-
-<script>
-  // slug: /expo/:slug veya /showroom/:slug
-  const parts = window.location.pathname.split("/").filter(Boolean);
-  const slug = parts[1] || ""; // ["expo","tradepigloball"] -> "tradepigloball"
-
-  const companyNameEl = document.getElementById("companyName");
-  const companyInfoEl = document.getElementById("companyInfo");
-  const productsEl = document.getElementById("products");
-
-  // slug yoksa kullanıcıya söyle
-  if (!slug || slug === "expo" || slug === "showroom") {
-    companyInfoEl.innerHTML = `<div class="error">
-      URL’de firma slug yok. Örnek: <b>/expo/tradepigloball</b>
-    </div>`;
-    productsEl.innerHTML = "";
-    throw new Error("Slug missing");
-  }
-
-  // loading
-  companyInfoEl.innerHTML = `<span class="muted">Yükleniyor...</span>`;
-  productsEl.innerHTML = "";
-
-  fetch(`/api/expo/${encodeURIComponent(slug)}`)
-    .then(async (res) => {
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error(`API ${res.status}: ${txt || "Hata"}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (!data || !data.company) {
-        companyInfoEl.innerHTML = `<div class="error">Firma bulunamadı</div>`;
-        return;
-      }
-
-      // Başlık + featured badge
-      companyNameEl.innerText = data.company.name || "Expo";
-      if (data.featured) {
-        companyNameEl.innerHTML = `${companyNameEl.innerText} <span class="badge">FEATURED</span>`;
-      }
-
-      // Firma bilgisi
-      const c = data.company;
-      const loc = [c.country, c.city].filter(Boolean).join(" / ");
-      const website = c.website ? `<a href="${c.website}" target="_blank" rel="noopener">Website</a>` : "";
-      companyInfoEl.innerHTML = `
-        <div><strong>Slug:</strong> ${c.slug || ""}</div>
-        <div class="muted">${loc || ""} ${website ? "• " + website : ""}</div>
-        <div class="muted">Limit: ${data.limit ?? 0}</div>
-      `;
-
-      // Ürünler
-      const products = Array.isArray(data.products) ? data.products : [];
-      if (!products.length) {
-        productsEl.innerHTML = `<div class="muted">Henüz ürün eklenmemiş.</div>`;
-        return;
-      }
-
-      products.forEach((p) => {
-        const div = document.createElement("div");
-        div.className = "product";
-
-        const price = (p.base_price ?? "") !== "" ? `${p.base_price} ${p.currency || ""}`.trim() : "Fiyat yok";
-        const desc = (p.description || "").trim();
-
-        div.innerHTML = `
-          <h3>${p.name || "Ürün"}</h3>
-          ${desc ? `<div>${desc}</div>` : `<div class="muted">Açıklama yok</div>`}
-          <div class="price">${price}</div>
-        `;
-        productsEl.appendChild(div);
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      companyInfoEl.innerHTML = `<div class="error">Expo yüklenemedi: ${err.message}</div>`;
-      productsEl.innerHTML = "";
-    });
-</script>
-
+  <script>
+    const slug = location.pathname.split("/").pop();
+    async function run(){
+      const r = await fetch("/api/expo/" + encodeURIComponent(slug));
+      const data = await r.json();
+      document.querySelector("#meta").textContent =
+        (data.company?.name || slug) + " · ürün: " + (data.products?.length || 0) + " · limit: " + (data.limit ?? "-");
+      document.querySelector("#info").textContent =
+        data.featured ? "Öne çıkan vitrin" : "Standart vitrin";
+    }
+    run().catch(()=>{ document.querySelector("#meta").textContent="Yüklenemedi"; });
+  </script>
 </body>
 </html>
