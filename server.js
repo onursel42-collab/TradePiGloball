@@ -178,7 +178,7 @@ const { data: products, error: e2 } = await supabase
     length_cm,
     created_at
   `)
-  .eq("seller_id", company.id)
+  .eq("company_id", company.id)
   .eq("is_active", true)
   .order("created_at", { ascending: false })
   .limit(limit);
