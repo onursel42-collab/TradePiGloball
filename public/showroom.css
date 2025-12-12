@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  background: #0d0c0c;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* ANA KAPSAYICI */
+.showroom-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  perspective: 1200px;
+}
+
+/* GOLD AURA – TAVAN */
+.gold-aura {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: radial-gradient(circle at center,
+      rgba(255, 208, 0, 0.55) 0%,
+      rgba(255, 180, 0, 0.20) 40%,
+      rgba(0, 0, 0, 0) 100%);
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+/* ODA */
+.room {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.1s linear;
+}
+
+/* ÜRÜN PODYUMLARI */
+.pod {
+  width: 180px;
+  height: 180px;
+  background: rgba(20, 20, 20, 0.9);
+  border: 2px solid rgba(255, 200, 0, 0.4);
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(255, 200, 0, 0.4);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gold;
+  font-weight: bold;
+  font-size: 18px;
+  text-shadow: 0 0 8px rgba(255, 200, 0, 0.9);
+  transform-style: preserve-3d;
+}
+
+/* Hover efekti */
+.pod:hover {
+  transform: translateZ(40px) scale(1.08);
+  box-shadow: 0 0 45px rgba(255, 220, 0, 0.8);
+  cursor: pointer;
+}
