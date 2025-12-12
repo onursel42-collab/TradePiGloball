@@ -20,21 +20,31 @@ app.use(express.static(path.join(__dirname, "public")));
 // health
 app.get("/health", (req, res) => {
   res.json({ ok: true, message: "Backend çalışıyor ✅" });
-});
-
 /**
  * PAGES
- * / -> index.html
- * /expo/:slug , /showroom/:slug -> showroom.html
  */
-app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "showroom.html"));
-});
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-/**
+app.get("/explore", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "explore.html"));
+});
+
+app.get("/seller", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "seller.html"));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+// expo & showroom
+app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "showroom.html"));
+});
+
+
  * COMPANY LIST (Ana sayfa firma kartları için)
  */
 app.get("/api/companies", async (req, res) => {
