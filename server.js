@@ -45,8 +45,8 @@ app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => 
 });
 
 
- * COMPANY LIST (Ana sayfa firma kartları için)
- */
+ / COMPANY LIST (Ana sayfa firma kartları için)
+ 
 app.get("/api/companies", async (req, res) => {
   try {
     const limit = Math.min(parseInt(req.query.limit || "12", 10), 50);
