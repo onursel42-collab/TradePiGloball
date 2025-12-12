@@ -1,202 +1,123 @@
-const $ = (sel) => document.querySelector(sel);
-
 let activeSector = "";
+let pageLimit = 24;         // ilk dolum
+let pageStep = 24;          // daha fazla
+let searchQ = "";
 
-async function fetchJSON(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
+const chipsEl = document.getElementById("chips");
+const cardsEl = document.getElementById("cards");
+const loadMoreBtn = document.getElementById("loadMore");
+const qInput = document.getElementById("q");
+const tickerValue = document.getElementById("tickerValue");
+
+// --- Helpers
+function el(tag, attrs = {}, children = []) {
+  const n = document.createElement(tag);
+  Object.entries(attrs).forEach(([k, v]) => {
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  });
+  children.forEach((c) => n.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+  return n;
 }
 
-function chip(label, active, onClick) {
-  const b = document.createElement("button");
-  b.className = "chip" + (active ? " active" : "");
-  b.type = "button";
-  b.textContent = label;
-  b.addEventListener("click", onClick);
-  return b;
+function setActiveChip(sector) {
+  [...chipsEl.querySelectorAll(".chip")].forEach((c) => {
+    c.classList.toggle("is-active", c.dataset.sector === sector);
+  });
 }
 
 async function loadSectors() {
-  const box = $("#sectorChips");
-  if (!box) return;
+  const res = await fetch("/api/sectors");
+  const json = await res.json();
+  const sectors = (json.sectors || []).slice(0, 200);
 
-  box.innerHTML = "";
-  const all = chip("Tümü", activeSector === "", () => {
+  chipsEl.innerHTML = "";
+
+  const all = el("button", { class: "chip is-active", "data-sector": "" }, ["Tümü"]);
+  all.addEventListener("click", () => {
     activeSector = "";
-    loadCompanies();
-    loadSectors();
+    setActiveChip("");
+    pageLimit = 24;
+    cardsEl.innerHTML = "";
+    loadCompanies(true);
   });
-  box.appendChild(all);
+  chipsEl.appendChild(all);
 
-  try {
-    const { sectors } = await fetchJSON("/api/sectors");
-    sectors.forEach((s) => {
-      box.appendChild(
-        chip(s, activeSector === s, () => {
-          activeSector = s;
-          loadCompanies();
-          loadSectors();
-        })
-      );
+  sectors.forEach((s) => {
+    const b = el("button", { class: "chip", "data-sector": s }, [s]);
+    b.addEventListener("click", () => {
+      activeSector = s;
+      setActiveChip(s);
+      pageLimit = 24;
+      cardsEl.innerHTML = "";
+      loadCompanies(true);
     });
-  } catch (e) {
-    // sessiz geç
-  }
+    chipsEl.appendChild(b);
+  });
 }
 
 function companyCard(c) {
-  const div = document.createElement("div");
-  div.className = "card";
+  const sector = c.sector || "—";
+  const place = [c.country, c.city].filter(Boolean).join(" · ") || "—";
 
-  const title = document.createElement("div");
-  title.className = "card-title";
-  title.textContent = c.name || c.slug || "Firma";
+  const card = el("a", { class: "card", href: `/expo/${c.slug || ""}` }, [
+    el("div", { class: "card__top" }, [
+      el("div", {}, [
+        el("h3", { class: "card__name" }, [c.name || "Firma"]),
+        el("div", { class: "card__meta" }, [`${sector} · ${place}`]),
+      ]),
+      el("div", { class: "card__tag" }, ["Dünyaya Gir"]),
+    ]),
+  ]);
 
-  const meta = document.createElement("div");
-  meta.className = "card-meta";
-  const parts = [];
-  if (c.sector) parts.push(c.sector);
-  if (c.city) parts.push(c.city);
-  if (c.country) parts.push(c.country);
-  meta.textContent = parts.join(" · ") || "Sektör";
-
-  const actions = document.createElement("div");
-  actions.className = "card-actions";
-
-  const badge = document.createElement("span");
-  badge.className = "badge";
-  badge.textContent = "3D Showroom";
-
-  const btn = document.createElement("a");
-  btn.className = "btn btn-ghost btn-small";
-  btn.href = `/showroom/${encodeURIComponent(c.slug || "")}`;
-  btn.textContent = "Expo’ya Gir";
-
-  actions.appendChild(badge);
-  actions.appendChild(btn);
-
-  div.appendChild(title);
-  div.appendChild(meta);
-  div.appendChild(actions);
-  return div;
+  return card;
 }
 
-async function loadCompanies() {
-  const grid = $("#companyGrid");
-  if (!grid) return;
-
+async function loadCompanies(reset = false) {
   const params = new URLSearchParams();
-  params.set("limit", "12");
+  params.set("limit", String(pageLimit));
   if (activeSector) params.set("sector", activeSector);
 
-  grid.innerHTML = "";
+  const res = await fetch(`/api/companies?${params.toString()}`);
+  const json = await res.json();
+  const list = json.companies || [];
 
-  try {
-    const { companies } = await fetchJSON(`/api/companies?${params.toString()}`);
-    (companies || []).forEach((c) => grid.appendChild(companyCard(c)));
-    if (!companies?.length) {
-      const empty = document.createElement("div");
-      empty.className = "muted";
-      empty.textContent = "Firma bulunamadı.";
-      grid.appendChild(empty);
-    }
-  } catch (e) {
-    const err = document.createElement("div");
-    err.className = "muted";
-    err.textContent = "Firmalar yüklenemedi.";
-    grid.appendChild(err);
-  }
+  // Basit arama (client-side)
+  const filtered = searchQ
+    ? list.filter((x) => (x.name || "").toLowerCase().includes(searchQ.toLowerCase()))
+    : list;
+
+  if (reset) cardsEl.innerHTML = "";
+
+  filtered.forEach((c) => cardsEl.appendChild(companyCard(c)));
 }
 
-function planCard(p) {
-  const div = document.createElement("div");
-  div.className = "card";
+// --- Events
+loadMoreBtn.addEventListener("click", () => {
+  pageLimit = Math.min(pageLimit + pageStep, 50); // server zaten max 50
+  loadCompanies(false);
+});
 
-  const title = document.createElement("div");
-  title.className = "card-title";
-  title.textContent = p.name || "Paket";
+qInput.addEventListener("input", () => {
+  searchQ = qInput.value.trim();
+  cardsEl.innerHTML = "";
+  loadCompanies(true);
+});
 
-  const meta = document.createElement("div");
-  meta.className = "card-meta";
-  meta.textContent = `Ürün limiti: ${p.product_limit ?? "-"} · Kod: ${p.code ?? "-"}`;
-
-  const actions = document.createElement("div");
-  actions.className = "card-actions";
-
-  const badge = document.createElement("span");
-  badge.className = "badge";
-  badge.textContent = p.featured ? "Öne Çıkan" : "Standart";
-
-  const btn = document.createElement("button");
-  btn.className = "btn btn-primary btn-small";
-  btn.type = "button";
-  btn.textContent = "Detay";
-
-  actions.appendChild(badge);
-  actions.appendChild(btn);
-
-  div.appendChild(title);
-  div.appendChild(meta);
-  div.appendChild(actions);
-  return div;
+// --- Ticker (şimdilik placeholder)
+function updateTickerMock() {
+  // burada sonra /api/market bağlarız; şimdilik canlı hissi
+  const now = new Date();
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  tickerValue.textContent = `LIVE · ${mm}:${ss}`;
 }
+updateTickerMock();
+setInterval(updateTickerMock, 30000);
 
-async function loadPlans() {
-  const grid = $("#planGrid");
-  if (!grid) return;
-
-  grid.innerHTML = "";
-  try {
-    const { plans } = await fetchJSON("/api/plans/home");
-    (plans || []).forEach((p) => grid.appendChild(planCard(p)));
-    if (!plans?.length) {
-      const empty = document.createElement("div");
-      empty.className = "muted";
-      empty.textContent = "Plan bulunamadı.";
-      grid.appendChild(empty);
-    }
-  } catch (e) {
-    const err = document.createElement("div");
-    err.className = "muted";
-    err.textContent = "Planlar yüklenemedi.";
-    grid.appendChild(err);
-  }
-}
-
-function bindRFQ() {
-  const form = $("#rfqForm");
-  const status = $("#rfqStatus");
-  if (!form) return;
-
-  form.addEventListener("submit", async (ev) => {
-    ev.preventDefault();
-    status.textContent = "Gönderiliyor...";
-
-    const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
-
-    try {
-      const r = await fetch("/api/rfq", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data.error || "Hata");
-
-      status.textContent = "✅ RFQ alındı";
-      form.reset();
-    } catch (e) {
-      status.textContent = "❌ " + (e.message || "Hata");
-    }
-  });
-}
-
-$("#refreshCompanies")?.addEventListener("click", () => loadCompanies());
-
-loadSectors();
-loadCompanies();
-loadPlans();
-bindRFQ();
+// --- Init
+(async function init() {
+  await loadSectors();
+  await loadCompanies(true);
+})();
