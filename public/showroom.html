@@ -2,35 +2,82 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <title>3D Showroom · TradePiGlobal</title>
+  <title>Expo | TradePiGlobal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/showroom.css" />
+
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; color: #111; }
+    header { padding: 20px; background: #0b0e13; color: #fff; }
+    header h1 { margin: 0; font-size: 22px; }
+    main { padding: 20px; }
+    .company-info { margin-bottom: 30px; }
+    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .product { background: #fff; border-radius: 8px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .product h3 { margin: 0 0 8px; font-size: 16px; }
+    .price { font-weight: 600; margin-top: 8px; }
+    .placeholder-3d { margin: 40px 0; padding: 40px; background: #e9ecf1; border-radius: 12px; text-align: center; font-weight: 500; color: #555; }
+  </style>
 </head>
+
 <body>
+<header>
+  <h1 id="companyName">Expo</h1>
+</header>
 
-  <div class="showroom-shell">
-    <header class="showroom-header">
-      <a href="/" class="logo">TPG</a>
-      <div class="title-block">
-        <h1>3D Showroom</h1>
-        <p>Galacticos satıcı vitrini · Gold Aura tavan</p>
-      </div>
-      <a href="/" class="back-link">← Ana sayfa</a>
-    </header>
+<main>
+  <div class="company-info" id="companyInfo"></div>
 
-    <main class="showroom-main">
-      <div id="room" class="room">
-        <div class="roof-glow"></div>
-        <div class="floor"></div>
-        <div id="pods" class="pods"><!-- JS dolduracak --></div>
-      </div>
-    </main>
-
-    <footer class="showroom-footer">
-      <p>Veriler Supabase fair_plans → /api/plans/home endpoint’inden canlı gelir.</p>
-    </footer>
+  <div class="placeholder-3d">
+    3D EXPO ALANI<br/>
+    (Babylon / Three.js buraya bağlanacak)
   </div>
 
-  <script src="/showroom.js"></script>
+  <h2>Ürünler</h2>
+  <div class="products" id="products"></div>
+</main>
+
+<script>
+  // /expo/:slug  -> slug al (sonunda / olsa bile çalışsın)
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  const slug = parts[parts.length - 1];
+
+  fetch(`/api/expo/${encodeURIComponent(slug)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.company) {
+        document.body.innerHTML = "Firma bulunamadı";
+        return;
+      }
+
+      document.getElementById("companyName").innerText = data.company.name;
+      document.getElementById("companyInfo").innerHTML = `
+        <strong>Slug:</strong> ${data.company.slug}<br/>
+        ${data.company.country || ""} ${data.company.city || ""}
+      `;
+
+      const productsEl = document.getElementById("products");
+
+      if (!data.products || !data.products.length) {
+        productsEl.innerHTML = "<p>Henüz ürün eklenmemiş.</p>";
+        return;
+      }
+
+      productsEl.innerHTML = "";
+      data.products.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <h3>${p.name}</h3>
+          <div>${p.description || ""}</div>
+          <div class="price">${p.base_price} ${p.currency}</div>
+        `;
+        productsEl.appendChild(div);
+      });
+    })
+    .catch(err => {
+      document.body.innerHTML = "Expo yüklenemedi";
+      console.error(err);
+    });
+</script>
 </body>
 </html>
