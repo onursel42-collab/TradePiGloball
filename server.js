@@ -285,4 +285,4 @@ app.get("/rfq", (req, res) => {
 
   <p><a href="/">← Ana sayfaya dön</a></p>
 </body>
-</html>`
+</html>
