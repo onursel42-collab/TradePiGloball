@@ -3,195 +3,652 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TradePiGlobal</title>
+  <title>TradePiGlobal | Global B2B + Dijital Expo</title>
+  <meta name="description" content="Global B2B ticaret ve dijital fuar altyapısı. Firma merkezli 3D showroom deneyimi." />
+
   <style>
-    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:#eef2f7;color:#111}
-    header{padding:14px 18px;background:#fff;display:flex;align-items:center;gap:12px;position:sticky;top:0;border-bottom:1px solid #e7eaf0}
-    .logo{width:34px;height:34px;border-radius:10px;background:#ff7a18;display:grid;place-items:center;color:#fff;font-weight:800}
-    .nav{display:flex;gap:14px;flex:1;justify-content:center;color:#444;font-size:14px}
-    .nav a{color:#444;text-decoration:none}
-    .actions{display:flex;gap:10px;align-items:center}
-    .btn{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
-    .btn.primary{background:#111;color:#fff}
-    .btn.ghost{background:#eef2f7;color:#111}
-    main{padding:18px;max-width:1100px;margin:0 auto}
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:stretch}
-    .panel{background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 26px rgba(0,0,0,.08)}
-    .title{font-size:26px;font-weight:900;margin:6px 0}
-    .muted{opacity:.75}
-    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-    .chip{padding:10px 12px;border-radius:999px;background:#111;color:#fff;font-size:13px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:14px}
-    .card{background:#111;border-radius:16px;color:#fff;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
-    .card.light{background:#fff;color:#111;box-shadow:0 8px 26px rgba(0,0,0,.08)}
-    input, textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid #e3e7ef;font-size:14px}
-    textarea{min-height:90px;resize:vertical}
-    .small{font-size:13px}
+    :root{
+      --bg:#0b1020;
+      --card:#0f172a;
+      --card2:#101b36;
+      --text:#e7eaf3;
+      --muted:#a9b3cf;
+      --line:rgba(255,255,255,.08);
+      --btn:#ffffff;
+      --btnText:#0b1020;
+      --accent: linear-gradient(135deg, #ff6a00 0%, #ff2d55 45%, #7c3aed 100%);
+      --shadow: 0 16px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 14px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(124,58,237,.22), transparent 60%),
+                  radial-gradient(900px 500px at 85% 15%, rgba(255,45,85,.18), transparent 60%),
+                  radial-gradient(1000px 600px at 40% 100%, rgba(255,106,0,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1200px; margin:0 auto; padding:18px}
+
+    /* Navbar */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,16,32,.55);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav .row{
+      display:flex; align-items:center; gap:14px; justify-content:space-between;
+      padding:14px 18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: var(--accent);
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .navlinks{display:flex; gap:14px; align-items:center; color:var(--muted); font-weight:600; font-size:14px}
+    .navlinks a{padding:8px 10px; border-radius:10px}
+    .navlinks a:hover{background: rgba(255,255,255,.06); color:var(--text)}
+    .actions{display:flex; gap:10px; align-items:center}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-weight:700;
+    }
+    .btn:hover{background: rgba(255,255,255,.10)}
+    .btn.primary{
+      background: var(--btn);
+      color: var(--btnText);
+      border-color: transparent;
+    }
+    .btn.primary:hover{filter: brightness(.95)}
+    .btn.ghost{background:transparent}
+
+    /* Hero */
+    .hero{
+      padding:26px 0 8px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .heroCard{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      padding:22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 250px at 30% 0%, rgba(255,106,0,.18), transparent 60%),
+                  radial-gradient(700px 250px at 80% 10%, rgba(124,58,237,.18), transparent 60%);
+      z-index:0;
+    }
+    .heroCard > *{position:relative; z-index:1}
+
+    .kicker{color:var(--muted); font-weight:700; letter-spacing:.4px; font-size:12px; text-transform:uppercase}
+    h1{margin:10px 0 12px; font-size:34px; line-height:1.15}
+    .sub{margin:0; color:var(--muted); font-size:15px; line-height:1.6; max-width:62ch}
+    .heroBtns{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+
+    /* Right panel */
+    .panelTitle{font-weight:800; margin:0 0 10px}
+    .panelList{margin:0; padding-left:18px; color:var(--muted); line-height:1.6}
+    .panelBox{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+    }
+    .inline{
+      display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;
+    }
+    .input{
+      flex:1;
+      min-width:180px;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      outline:none;
+      font-weight:700;
+    }
+    .hint{color:var(--muted); font-size:12px; margin-top:8px}
+
+    /* Sections */
+    .section{margin:18px 0}
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:14px;
+      margin-bottom:12px;
+    }
+    .sectionHead h2{margin:0; font-size:18px}
+    .sectionHead p{margin:0; color:var(--muted); font-size:13px}
+
+    /* Chips */
+    .chips{display:flex; gap:10px; flex-wrap:wrap}
+    .chip{
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      cursor:pointer;
+      font-weight:800;
+      font-size:12px;
+    }
+    .chip:hover{background: rgba(255,255,255,.10)}
+    .chip.active{
+      background: var(--btn);
+      color: var(--btnText);
+      border-color: transparent;
+    }
+
+    /* Grid cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 4;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card.small{grid-column: span 3}
+    .card.wide{grid-column: span 6}
+    .cardTitle{margin:0 0 6px; font-weight:900}
+    .cardMeta{color:var(--muted); font-size:12px; margin:0}
+    .divider{height:1px; background:var(--line); margin:12px 0}
+
+    .companyCard{
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .companyCard:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.06);
+    }
+    .companyTop{
+      display:flex; align-items:center; gap:10px;
+    }
+    .companyLogo{
+      width:38px; height:38px; border-radius:12px;
+      background: rgba(255,255,255,.10);
+      border:1px solid var(--line);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      overflow:hidden;
+    }
+    .badge{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      color: var(--muted);
+      font-weight:900;
+      font-size:11px;
+    }
+    .ctaRow{
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top:12px;
+    }
+
+    /* RFQ */
+    .form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .textarea{
+      grid-column: 1 / -1;
+      min-height: 110px;
+      resize: vertical;
+    }
+    .formFooter{
+      grid-column: 1 / -1;
+      display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .ok{color:#b8ffb8; font-weight:800; font-size:13px}
+    .err{color:#ffb8b8; font-weight:800; font-size:13px}
+
+    /* Footer */
+    footer{
+      margin-top:22px;
+      padding:20px 0 30px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size:12px;
+      text-align:center;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{grid-template-columns: 1fr; }
+      .card{grid-column: span 6}
+      .card.small{grid-column: span 6}
+      .card.wide{grid-column: span 12}
+      h1{font-size:28px}
+    }
+    @media (max-width: 620px){
+      .navlinks{display:none}
+      .card{grid-column: span 12}
+      .form{grid-template-columns: 1fr}
+    }
   </style>
 </head>
+
 <body>
-
-<header>
-  <div class="logo">TPG</div>
   <div class="nav">
-    <a href="#marketplace">Marketplace</a>
-    <a href="#rfq">RFQ / Teklif</a>
-    <a href="#expo">Dijital Expo</a>
-    <a href="#plans">Paketler</a>
+    <div class="wrap row">
+      <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:14px; width:100%">
+        <div class="brand">
+          <div class="logo"></div>
+          <div>
+            <div style="font-size:14px; line-height:1">TPG</div>
+            <div style="font-size:12px; color:var(--muted); font-weight:800; margin-top:2px">TradePiGlobal</div>
+          </div>
+        </div>
+
+        <div class="navlinks">
+          <a href="#marketplace">Marketplace</a>
+          <a href="#rfq">RFQ / Teklif</a>
+          <a href="#expo">Dijital Expo</a>
+          <a href="#plans">Paketler</a>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="btnLogin">Giriş Yap</button>
+          <button class="btn primary" id="btnJoin">Üye Ol</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="actions">
-    <button class="btn ghost" onclick="alert('Login sonra bağlayacağız')">Giriş Yap</button>
-    <button class="btn primary" onclick="alert('Üyelik sonra bağlayacağız')">Üye Ol</button>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="heroCard">
+        <div class="kicker">B2B + Dijital Fuar Altyapısı</div>
+        <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
+        <p class="sub">
+          Burada ürün listesi değil, <b>firma deneyimi</b> var. Kullanıcı ürün görür, ama tıkladığında
+          firmanın <b>3D showroom’una</b> girer. Satıcı değil, <b>firma merkezli</b> dijital fuar altyapısı.
+        </p>
+
+        <div class="heroBtns">
+          <a class="btn primary" href="#expo">Dijital Expo’ya Gir</a>
+          <a class="btn" href="#rfq">RFQ Oluştur</a>
+          <a class="btn" href="#plans">Paketleri İncele</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <span class="badge">Onaylı firma profilleri</span>
+          <span class="badge">RFQ → Teklif akışı</span>
+          <span class="badge">Showroom + Ürün rafları</span>
+          <span class="badge">Çoklu para birimi</span>
+        </div>
+      </div>
+
+      <aside class="panelBox">
+        <h3 class="panelTitle">Platform özeti</h3>
+        <ul class="panelList">
+          <li>Firma profili → showroom → ürün rafları</li>
+          <li>Ürün limiti pakete göre</li>
+          <li>Expo URL: <code>/expo/:slug</code></li>
+          <li>API: <code>/api/expo/:slug</code></li>
+        </ul>
+
+        <div class="inline" style="margin-top:14px">
+          <input class="input" id="expoSlug" placeholder="Expo için firma slug (örn: tradepigloball)" />
+          <button class="btn primary" id="goExpo">Expo’ya Git</button>
+        </div>
+        <div class="hint">Slug yaz → butona bas → direkt showroom açılır.</div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <span class="badge">Hedef: “AVM giriş ekranı”</span>
+          <span class="badge">Tıklayınca: “mağazaya gir”</span>
+        </div>
+      </aside>
+    </section>
+
+    <!-- SECTORS -->
+    <section class="section" id="marketplace">
+      <div class="sectionHead">
+        <div>
+          <h2>Sektörlere göre B2B marketplace</h2>
+          <p>Filtre chip’leri Supabase’den gelsin; yoksa fallback.</p>
+        </div>
+      </div>
+      <div class="chips" id="sectorChips">
+        <span class="chip">Yükleniyor…</span>
+      </div>
+    </section>
+
+    <!-- COMPANY GRID (CLICK => /expo/:slug) -->
+    <section class="section" id="expo">
+      <div class="sectionHead">
+        <div>
+          <h2>Dijital fuar giriş alanı (Firma Kartları)</h2>
+          <p>Bu kartlara tıklanınca ürün listesine değil, doğrudan firmanın showroom’una girilir.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+          <span class="badge" id="companyCount">—</span>
+          <button class="btn" id="refreshCompanies">Yenile</button>
+        </div>
+      </div>
+
+      <div class="grid" id="companiesGrid">
+        <div class="card wide">
+          <p class="cardMeta">Firma listesi yükleniyor…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RFQ -->
+    <section class="section" id="rfq">
+      <div class="sectionHead">
+        <div>
+          <h2>RFQ & Teklif akışı</h2>
+          <p>Tek form → Supabase rfqs tablosuna kaydolur (POST /api/rfq).</p>
+        </div>
+      </div>
+
+      <div class="card wide">
+        <div class="form" id="rfqForm">
+          <input class="input" id="rfqName" placeholder="Ad Soyad" />
+          <input class="input" id="rfqEmail" placeholder="E-posta" />
+          <input class="input" id="rfqSector" placeholder="Sektör" />
+          <input class="input" id="rfqCountry" placeholder="Ülke" />
+          <input class="input" id="rfqCity" placeholder="Şehir" />
+          <input class="input" id="rfqCompany" placeholder="Firma (opsiyonel)" />
+          <textarea class="input textarea" id="rfqMessage" placeholder="RFQ mesajı (ne arıyorsun?)"></textarea>
+
+          <div class="formFooter">
+            <button class="btn primary" id="sendRfq">RFQ Gönder</button>
+            <div id="rfqStatus" class="cardMeta"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section class="section" id="plans">
+      <div class="sectionHead">
+        <div>
+          <h2>Satıcı üyelik paketleri</h2>
+          <p>/api/plans/home → 3 öne çıkan paket.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="plansGrid">
+        <div class="card wide">
+          <p class="cardMeta">Paketler yükleniyor…</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © TradePiGlobal — Firma merkezli dijital expo & B2B altyapısı.
+    </footer>
   </div>
-</header>
 
-<main>
-  <section class="hero">
-    <div class="panel">
-      <div class="muted small">B2B TİCARET & DİJİTAL FUAR ALTYAPISI</div>
-      <div class="title">Global B2B ticaret ve dijital fuar tek platformda.</div>
-      <div class="muted">Üreticiler, distribütörler ve kurumsal alıcılar için etkileşimli B2B ticaret ve dijital vitrin altyapısı.</div>
+  <script>
+    // -------------------------
+    // Helpers
+    // -------------------------
+    const $ = (id) => document.getElementById(id);
 
-      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn primary" onclick="document.getElementById('rfq').scrollIntoView({behavior:'smooth'})">RFQ Oluştur</button>
-        <button class="btn ghost" onclick="document.getElementById('expo').scrollIntoView({behavior:'smooth'})">Dijital Expo’ya Gir</button>
-      </div>
-
-      <div style="margin-top:14px" class="muted small">
-        ✔ Onaylı firma profilleri & ürün vitrinleri <br/>
-        ✔ RFQ → teklif akışı <br/>
-        ✔ Dijital fuar & showroom alanları
-      </div>
-    </div>
-
-    <div class="panel">
-      <div style="font-weight:800;margin-bottom:10px">Platform özeti</div>
-      <div class="muted small">
-        - Çoklu para birimi (TL/USD/Pi)<br/>
-        - Paket bazlı ürün limiti<br/>
-        - Expo sayfaları: /expo/:slug<br/>
-        - API: /api/expo/:slug
-      </div>
-      <div style="margin-top:12px">
-        <input id="goSlug" placeholder="Expo için firma slug (örn: tradepigloball)" />
-        <button class="btn primary" style="margin-top:10px;width:100%" onclick="goExpo()">Expo’ya Git</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="marketplace" style="margin-top:18px">
-    <div class="panel">
-      <div style="font-weight:900;margin-bottom:10px">Sektörlere göre B2B marketplace</div>
-      <div class="muted small">Şimdilik sektör filtreleri hazır; marketplace liste ekranını sonra bağlarız.</div>
-      <div class="chips" id="sectors"></div>
-    </div>
-  </section>
-
-  <section id="rfq" style="margin-top:14px" class="row">
-    <div class="card">
-      <div style="font-weight:900;font-size:18px">RFQ & Teklif akışı</div>
-      <div class="muted small" style="margin-top:6px">
-        Tek tıkla teklif iste: Miktar, teslimat, hedef fiyat… satıcılar teklifini göndersin.
-      </div>
-
-      <div style="margin-top:12px">
-        <input id="buyer_name" placeholder="Ad Soyad" />
-        <input id="buyer_email" placeholder="E-posta" style="margin-top:10px" />
-        <input id="sector" placeholder="Sektör" style="margin-top:10px" />
-        <input id="country" placeholder="Ülke" style="margin-top:10px" />
-        <input id="city" placeholder="Şehir" style="margin-top:10px" />
-        <textarea id="message" placeholder="RFQ mesajı (ne arıyorsun?)" style="margin-top:10px"></textarea>
-        <button class="btn primary" style="margin-top:10px;width:100%" onclick="sendRFQ()">RFQ Gönder</button>
-        <div id="rfqResult" class="muted small" style="margin-top:8px"></div>
-      </div>
-    </div>
-
-    <div class="card" style="background:linear-gradient(135deg,#ff7a18,#af002d 70%,#319197);">
-      <div style="font-weight:900;font-size:18px">3D DIGITAL EXPO PREVIEW</div>
-      <div class="muted small" style="margin-top:6px;color:#fff">
-        Expo sayfasında Babylon sahnesi render oluyor. Şu an showroom preview aktif.
-      </div>
-      <button class="btn ghost" style="margin-top:12px" onclick="goExpo()">Dijital Expo’ya Gir</button>
-    </div>
-  </section>
-
-  <section id="plans" style="margin-top:14px">
-    <div class="panel">
-      <div style="font-weight:900;margin-bottom:6px">Satıcı üyelik paketleri</div>
-      <div class="muted small">Paketler Supabase’den geliyor: membership_plans</div>
-      <div class="grid" id="plansGrid"></div>
-    </div>
-  </section>
-
-  <div style="height:40px"></div>
-</main>
-
-<script>
-  function goExpo(){
-    const slug = (document.getElementById("goSlug").value || "tradepigloball").trim();
-    window.location.href = "/expo/" + encodeURIComponent(slug);
-  }
-
-  // sectors
-  fetch("/api/sectors").then(r=>r.json()).then(({sectors})=>{
-    const el = document.getElementById("sectors");
-    el.innerHTML = "";
-    (sectors || []).forEach(s=>{
-      const d = document.createElement("div");
-      d.className = "chip";
-      d.innerText = s;
-      el.appendChild(d);
-    });
-  });
-
-  // plans home
-  fetch("/api/plans/home").then(r=>r.json()).then(({plans})=>{
-    const grid = document.getElementById("plansGrid");
-    grid.innerHTML = "";
-    (plans || []).forEach(p=>{
-      const c = document.createElement("div");
-      c.className = "card light";
-      c.innerHTML = `
-        <div style="font-weight:900;font-size:18px">${p.name}</div>
-        <div class="muted small" style="margin-top:6px">Kod: ${p.code}</div>
-        <div style="margin-top:10px;font-weight:900">${p.product_limit} ürün limiti</div>
-        <div class="muted small" style="margin-top:10px">${p.featured ? "Öne çıkan plan" : ""}</div>
-      `;
-      grid.appendChild(c);
-    });
-
-    if (!plans || !plans.length){
-      grid.innerHTML = "<div class='muted'>Plan bulunamadı. membership_plans tablosu boş olabilir.</div>";
+    function toast(msg){
+      // basit, sinir bozmayan şekilde:
+      alert(msg);
     }
-  });
 
-  // rfq submit
-  function sendRFQ(){
-    const payload = {
-      buyer_name: document.getElementById("buyer_name").value,
-      buyer_email: document.getElementById("buyer_email").value,
-      sector: document.getElementById("sector").value,
-      country: document.getElementById("country").value,
-      city: document.getElementById("city").value,
-      message: document.getElementById("message").value,
-    };
+    function goExpoBySlug(slug){
+      const s = (slug || "").trim();
+      if(!s) return toast("Slug yaz (örn: tradepigloball)");
+      window.location.href = "/expo/" + encodeURIComponent(s);
+    }
 
-    fetch("/api/rfq", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(r=>r.json())
-    .then(d=>{
-      document.getElementById("rfqResult").innerText =
-        d.ok ? "✅ RFQ kaydedildi (id: " + d.rfq.id + ")" : "❌ Hata: " + (d.error || "bilinmiyor");
-    })
-    .catch(err=>{
-      document.getElementById("rfqResult").innerText = "❌ RFQ gönderilemedi";
-      console.error(err);
+    // -------------------------
+    // NAV buttons (şimdilik stub)
+    // -------------------------
+    $("btnLogin").addEventListener("click", () => toast("Login sonra bağlayacağız"));
+    $("btnJoin").addEventListener("click", () => toast("Kayıt sonra bağlayacağız"));
+
+    // Expo goto
+    $("goExpo").addEventListener("click", () => goExpoBySlug($("expoSlug").value));
+    $("expoSlug").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") goExpoBySlug(e.target.value);
     });
-  }
-</script>
+
+    // -------------------------
+    // Load sectors
+    // -------------------------
+    async function loadSectors(){
+      const wrap = $("sectorChips");
+      wrap.innerHTML = `<span class="chip">Yükleniyor…</span>`;
+      try{
+        const res = await fetch("/api/sectors");
+        const json = await res.json();
+        const sectors = json.sectors || [];
+        if(!sectors.length){
+          wrap.innerHTML = `<span class="chip">Sektör yok</span>`;
+          return;
+        }
+        wrap.innerHTML = sectors.map((s, i) =>
+          `<button class="chip" data-sector="${encodeURIComponent(s)}">${s}</button>`
+        ).join("");
+
+        // tıklanınca sadece filtrelemek için state tutuyoruz (şimdilik)
+        wrap.querySelectorAll(".chip").forEach(btn => {
+          btn.addEventListener("click", () => {
+            wrap.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+            btn.classList.add("active");
+            const sector = decodeURIComponent(btn.getAttribute("data-sector"));
+            loadCompanies({ sector });
+          });
+        });
+      }catch(err){
+        wrap.innerHTML = `<span class="chip">Sektör yüklenemedi</span>`;
+      }
+    }
+
+    // -------------------------
+    // Companies (CLICK => /expo/:slug)
+    // نیاز: GET /api/companies?limit=12&sector=...
+    // -------------------------
+    async function loadCompanies({ sector } = {}){
+      const grid = $("companiesGrid");
+      grid.innerHTML = `
+        <div class="card wide">
+          <p class="cardMeta">Firmalar yükleniyor…</p>
+        </div>
+      `;
+
+      try{
+        const qs = new URLSearchParams();
+        qs.set("limit", "12");
+        if(sector) qs.set("sector", sector);
+
+        const res = await fetch("/api/companies?" + qs.toString());
+        const json = await res.json();
+        const companies = json.companies || [];
+
+        $("companyCount").textContent = companies.length ? (companies.length + " firma") : "Firma yok";
+
+        if(!companies.length){
+          grid.innerHTML = `
+            <div class="card wide">
+              <p class="cardTitle">Firma bulunamadı</p>
+              <p class="cardMeta">/api/companies endpoint’i yoksa aşağıdaki server.js patch’i ekle.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = companies.map(c => {
+          const initials = (c.name || "?").trim().slice(0,1).toUpperCase();
+          const meta = [c.sector, c.country, c.city].filter(Boolean).join(" • ");
+          return `
+            <div class="card companyCard" data-slug="${c.slug}">
+              <div class="companyTop">
+                <div class="companyLogo">${initials}</div>
+                <div style="min-width:0">
+                  <p class="cardTitle" style="margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.name}</p>
+                  <p class="cardMeta" style="margin:2px 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${meta || "—"}</p>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap">
+                <span class="badge">Showroom</span>
+                <span class="badge">Ürün Rafları</span>
+                ${c.featured ? `<span class="badge">Öne Çıkan</span>` : ``}
+              </div>
+              <div class="ctaRow">
+                <span class="cardMeta">/expo/${c.slug}</span>
+                <button class="btn primary" type="button">Mağazaya Gir</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        grid.querySelectorAll(".companyCard").forEach(card => {
+          card.addEventListener("click", () => {
+            const slug = card.getAttribute("data-slug");
+            goExpoBySlug(slug);
+          });
+        });
+
+      }catch(err){
+        $("companyCount").textContent = "—";
+        grid.innerHTML = `
+          <div class="card wide">
+            <p class="cardTitle">Firma listesi yüklenemedi</p>
+            <p class="cardMeta">Muhtemel sebep: /api/companies yok. Aşağıdaki server.js patch’i ekle.</p>
+          </div>
+        `;
+      }
+    }
+
+    $("refreshCompanies").addEventListener("click", () => loadCompanies());
+
+    // -------------------------
+    // Plans (home)
+    // -------------------------
+    async function loadPlans(){
+      const grid = $("plansGrid");
+      grid.innerHTML = `<div class="card wide"><p class="cardMeta">Paketler yükleniyor…</p></div>`;
+      try{
+        const res = await fetch("/api/plans/home");
+        const json = await res.json();
+        const plans = json.plans || [];
+        if(!plans.length){
+          grid.innerHTML = `<div class="card wide"><p class="cardTitle">Plan bulunamadı</p><p class="cardMeta">fair_plans tablosu boş olabilir.</p></div>`;
+          return;
+        }
+        grid.innerHTML = plans.map(p => `
+          <div class="card small">
+            <p class="badge">${(p.code || "plan").toUpperCase()}</p>
+            <div style="height:8px"></div>
+            <p class="cardTitle">${p.name || "Plan"}</p>
+            <p class="cardMeta">${p.description || ""}</p>
+            <div class="divider"></div>
+            <p class="cardMeta"><b>Ürün limiti:</b> ${p.product_limit ?? "-"}</p>
+            <div style="height:10px"></div>
+            <button class="btn" type="button" onclick="alert('Satın alma/checkout sonra bağlanacak')">Detay</button>
+          </div>
+        `).join("");
+      }catch(err){
+        grid.innerHTML = `<div class="card wide"><p class="cardTitle">Paketler yüklenemedi</p><p class="cardMeta">${err.message}</p></div>`;
+      }
+    }
+
+    // -------------------------
+    // RFQ Submit
+    // -------------------------
+    $("sendRfq").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const status = $("rfqStatus");
+      status.textContent = "Gönderiliyor…";
+      status.className = "cardMeta";
+
+      const payload = {
+        full_name: $("rfqName").value.trim(),
+        email: $("rfqEmail").value.trim(),
+        sector: $("rfqSector").value.trim(),
+        country: $("rfqCountry").value.trim(),
+        city: $("rfqCity").value.trim(),
+        company_name: $("rfqCompany").value.trim(),
+        message: $("rfqMessage").value.trim(),
+        created_at: new Date().toISOString()
+      };
+
+      try{
+        const res = await fetch("/api/rfq", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+        if(!res.ok){
+          status.textContent = "Hata: " + (json?.error || "RFQ kaydedilemedi");
+          status.className = "err";
+          return;
+        }
+
+        status.textContent = "RFQ gönderildi ✅";
+        status.className = "ok";
+
+        // form reset
+        $("rfqMessage").value = "";
+      }catch(err){
+        status.textContent = "Hata: " + err.message;
+        status.className = "err";
+      }
+    });
+
+    // -------------------------
+    // Boot
+    // -------------------------
+    (async function init(){
+      await loadSectors();
+      await loadCompanies();
+      await loadPlans();
+    })();
+  </script>
 </body>
-</html>
+      </html>
