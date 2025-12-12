@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>TradePiGlobal · 3D Digital Expo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background: #050816;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      display: block;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(5, 8, 22, 0.85);
+      border-radius: 999px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 10;
+    }
+    .top-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff7a3d, #ff4fb1);
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .top-title {
+      opacity: 0.9;
+    }
+    .top-back {
+      margin-left: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      opacity: 0.8;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      border-radius: 999px;
+      z-index: 10;
+    }
+  </style>
+
+  <!-- Babylon.js CDN -->
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-badge">LIVE EXPO</div>
+  <div class="top-title">TradePiGlobal 3D Digital B2B Expo</div>
+  <div class="top-back" onclick="window.location.href='/'">← Ana sayfa</div>
+</div>
+
+<div class="hint">
+  Parmağınla döndür · Yakınlaştır · Standlara dokun
+</div>
+
+<canvas id="renderCanvas"></canvas>
+
+<script>
+  const canvas = document.getElementById("renderCanvas");
+  const engine = new BABYLON.Engine(canvas, true);
+
+  const createScene = function () {
+    const scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color4(0.02, 0.03, 0.09, 1.0);
+
+    // Kamera (mobil için orbit)
+    const camera = new BABYLON.ArcRotateCamera(
+      "camera",
+      -Math.PI / 2,
+      Math.PI / 3,
+      50,
+      new BABYLON.Vector3(0, 0, 0),
+      scene
+    );
+    camera.attachControl(canvas, true);
+    camera.lowerRadiusLimit = 20;
+    camera.upperRadiusLimit = 80;
+
+    // Işıklar
+    const light1 = new BABYLON.HemisphericLight(
+      "light1",
+      new BABYLON.Vector3(0, 1, 0),
+      scene
+    );
+    light1.intensity = 0.7;
+
+    const spot = new BABYLON.SpotLight(
+      "spot",
+      new BABYLON.Vector3(0, 30, 0),
+      new BABYLON.Vector3(0, -1, 0),
+      Math.PI / 2,
+      10,
+      scene
+    );
+    spot.intensity = 1.2;
+    spot.diffuse = new BABYLON.Color3(1, 0.7, 0.9);
+
+    // Zemin (Expo Adası)
+    const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
+    groundMat.diffuseColor = new BABYLON.Color3(0.06, 0.08, 0.18);
+    groundMat.specularColor = new BABYLON.Color3(0, 0, 0);
+
+    const ground = BABYLON.MeshBuilder.CreateDisc(
+      "ground",
+      { radius: 25, tessellation: 48 },
+      scene
+    );
+    ground.rotation.x = Math.PI / 2;
+    ground.material = groundMat;
+
+    // Neon kenar (outline)
+    const groundEdges = ground.clone("groundEdges");
+    const edgeMat = new BABYLON.StandardMaterial("edgeMat", scene);
+    edgeMat.emissiveColor = new BABYLON.Color3(0.8, 0.2, 1.0);
+    edgeMat.wireframe = true;
+    groundEdges.scaling = new BABYLON.Vector3(1.03, 1.03, 1.03);
+    groundEdges.material = edgeMat;
+
+    // Merkez LOGO heykeli
+    const logoCore = BABYLON.MeshBuilder.CreateTorus(
+      "logoCore",
+      { diameter: 10, thickness: 1, tessellation: 48 },
+      scene
+    );
+    logoCore.position.y = 4;
+
+    const logoMat = new BABYLON.StandardMaterial("logoMat", scene);
+    logoMat.emissiveColor = new BABYLON.Color3(0.95, 0.5, 1.0);
+    logoMat.diffuseColor = new BABYLON.Color3(0.2, 0.05, 0.4);
+    logoCore.material = logoMat;
+
+    scene.registerBeforeRender(() => {
+      logoCore.rotation.y += 0.005;
+    });
+
+    // Stand oluşturma fonksiyonu
+    function createStand(name, position, color, label) {
+      const stand = BABYLON.MeshBuilder.CreateBox(
+        name,
+        { width: 5, depth: 5, height: 2 },
+        scene
+      );
+      stand.position = position;
+
+      const mat = new BABYLON.StandardMaterial(name + "_mat", scene);
+      mat.diffuseColor = color.scale(0.3);
+      mat.emissiveColor = color.scale(0.8);
+      stand.material = mat;
+
+      const panel = BABYLON.MeshBuilder.CreateBox(
+        name + "_panel",
+        { width: 4.5, height: 2, depth: 0.1 },
+        scene
+      );
+      panel.position = position.add(new BABYLON.Vector3(0, 2.2, 0));
+      panel.rotation = new BABYLON.Vector3(0, position.x > 0 ? -0.3 : 0.3, 0);
+
+      const panelMat = new BABYLON.StandardMaterial(name + "_panelMat", scene);
+      panelMat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+      panelMat.alpha = 0.12;
+      panel.material = panelMat;
+
+      // Stand başlığını GUI ile yaz
+      const advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+        name + "_ui",
+        true,
+        scene
+      );
+      const rect = new BABYLON.GUI.Rectangle();
+      rect.width = "160px";
+      rect.height = "30px";
+      rect.cornerRadius = 15;
+      rect.thickness = 0;
+      rect.background = "rgba(5,8,22,0.7)";
+      advancedTexture.addControl(rect);
+      rect.linkWithMesh(panel);
+      rect.linkOffsetY = -30;
+
+      const text = new BABYLON.GUI.TextBlock();
+      text.text = label;
+      text.color = "white";
+      text.fontSize = 12;
+      rect.addControl(text);
+
+      stand.metadata = { label };
+
+      return stand;
+    }
+
+    // Dört ana stand:
+    const sellerStand = createStand(
+      "sellerStand",
+      new BABYLON.Vector3(-12, 1, 8),
+      new BABYLON.Color3(0.3, 0.8, 1.0),
+      "Satıcı Alanı"
+    );
+
+    const buyerStand = createStand(
+      "buyerStand",
+      new BABYLON.Vector3(12, 1, 8),
+      new BABYLON.Color3(0.6, 1.0, 0.6),
+      "Alıcı / İthalatçı"
+    );
+
+    const rfqStand = createStand(
+      "rfqStand",
+      new BABYLON.Vector3(-12, 1, -8),
+      new BABYLON.Color3(1.0, 0.8, 0.4),
+      "RFQ · Teklif Talebi"
+    );
+
+    const vipStand = createStand(
+      "vipStand",
+      new BABYLON.Vector3(12, 1, -8),
+      new BABYLON.Color3(1.0, 0.4, 0.8),
+      "VIP / Galacticos Panel"
+    );
+
+    // Tıklama (tap) ile etkileşim
+    scene.onPointerObservable.add((pointerInfo) => {
+      if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERPICK) {
+        const pick = pointerInfo.pickInfo;
+        if (!pick.hit || !pick.pickedMesh) return;
+        const m = pick.pickedMesh;
+
+        let target = m;
+        if (m.name.includes("_panel")) {
+          const baseName = m.name.replace("_panel", "");
+          target = scene.getMeshByName(baseName) || m;
+        }
+
+        if (!target || !target.metadata) return;
+
+        const label = target.metadata.label || "";
+
+        if (label.includes("Satıcı")) {
+          alert("Satıcı onboarding sayfasına gideceğiz (ileride /seller).");
+        } else if (label.includes("Alıcı")) {
+          alert("Alıcı / ithalatçı akışı (ileride /buyer).");
+        } else if (label.includes("RFQ")) {
+          alert("RFQ formu açılacak (ileride /rfq).");
+        } else if (label.includes("VIP")) {
+          alert("Galacticos owner panel (ileride özel dashboard).");
+        }
+      }
+    });
+
+    return scene;
+  };
+
+  const scene = createScene();
+
+  engine.runRenderLoop(function () {
+    scene.render();
+  });
+
+  window.addEventListener("resize", function () {
+    engine.resize();
+  });
+</script>
+
+</body>
+</html>
