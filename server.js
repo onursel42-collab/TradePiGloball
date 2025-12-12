@@ -12,31 +12,30 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// __dirname ayarı (ESM için)
+// __dirname (ESM için)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Statik dosyalar (index.html, css, js vs)
+// Statik dosyalar (public klasörü: index.html, styles.css, main.js vs.)
 app.use(express.static("public"));
 
 /**
- * HEALTH CHECK / BACKEND ÇALIŞIYOR MU
+ * HEALTH CHECK
  */
 app.get("/health", (req, res) => {
-  res.json({ ok: true, message: "TradePiGloball backend çalışıyor ✅" });
+  res.json({ ok: true, message: "TradePiGlobal backend çalışıyor ✅" });
 });
 
 /**
  * ANA SAYFA
- * /  -> public/index.html gönderir
+ * / -> public/index.html
  */
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 /**
  * API: TÜM PLANLAR (JSON)
- * /api/plans
  */
 app.get("/api/plans", async (req, res) => {
   try {
@@ -54,13 +53,14 @@ app.get("/api/plans", async (req, res) => {
     return res.json({ plans: data });
   } catch (err) {
     console.error("Server error (/api/plans):", err);
-    return res.status(500).json({ error: "server error", details: err.message });
+    return res
+      .status(500)
+      .json({ error: "server error", details: err.message });
   }
 });
 
 /**
  * API: ANA SAYFA İÇİN ÖNE ÇIKAN 3 PLAN
- * /api/plans/home
  */
 app.get("/api/plans/home", async (req, res) => {
   try {
@@ -80,12 +80,14 @@ app.get("/api/plans/home", async (req, res) => {
     return res.json({ plans: data });
   } catch (err) {
     console.error("Server error (/api/plans/home):", err);
-    return res.status(500).json({ error: "server error", details: err.message });
+    return res
+      .status(500)
+      .json({ error: "server error", details: err.message });
   }
 });
 
 /**
- * /plans -> TÜM PAKETLERİ LİSTELEYEN HTML SAYFA
+ * /plans -> TÜM PAKETLERİ LİSTELEYEN HTML SAYFASI
  */
 function buildPlansHtml(plans) {
   return `<!doctype html>
@@ -112,9 +114,15 @@ function buildPlansHtml(plans) {
         </div>
         <p class="slot-info">${p.slot_count} slot · ${p.description || ""}</p>
         <div class="price-block">
-          <p><strong>Aylık:</strong> ${p.monthly_price.toLocaleString("tr-TR")} ₺</p>
-          <p><strong>3 Aylık:</strong> ${p.quarterly_price.toLocaleString("tr-TR")} ₺</p>
-          <p><strong>Yıllık:</strong> ${p.yearly_price.toLocaleString("tr-TR")} ₺</p>
+          <p><strong>Aylık:</strong> ${p.monthly_price.toLocaleString(
+            "tr-TR"
+          )} ₺</p>
+          <p><strong>3 Aylık:</strong> ${p.quarterly_price.toLocaleString(
+            "tr-TR"
+          )} ₺</p>
+          <p><strong>Yıllık:</strong> ${p.yearly_price.toLocaleString(
+            "tr-TR"
+          )} ₺</p>
         </div>
         <p class="meta">
           TL · USD · Pi yapılandırılabilir
@@ -155,8 +163,6 @@ app.get("/plans", async (req, res) => {
 
 /**
  * API: SEKTÖRLER
- * 2 seçenek var: Supabase tablosundan ya da statik array.
- * Aşağıdaki kod, önce Supabase'ten okumayı dener, hata alırsa statik liste döner.
  */
 const FALLBACK_SECTORS = [
   "Sanayi & Üretim",
@@ -179,7 +185,10 @@ app.get("/api/sectors", async (req, res) => {
       .order("id", { ascending: true });
 
     if (error) {
-      console.warn("Supabase error (sectors), fallback kullanılacak:", error.message);
+      console.warn(
+        "Supabase error (sectors), fallback kullanılacak:",
+        error.message
+      );
       return res.json({ sectors: FALLBACK_SECTORS });
     }
 
@@ -196,13 +205,6 @@ app.get("/api/sectors", async (req, res) => {
 
 /**
  * RFQ OLUŞTURMA - API
- * POST /api/rfq
- * Body örneği:
- * {
- *   company_name, contact_name, email, phone,
- *   sector, product_title, quantity, unit,
- *   target_country, target_price, currency, notes
- * }
  */
 app.post("/api/rfq", async (req, res) => {
   try {
@@ -222,14 +224,14 @@ app.post("/api/rfq", async (req, res) => {
     return res.status(201).json({ ok: true, rfq: data });
   } catch (err) {
     console.error("Server error (/api/rfq):", err);
-    return res.status(500).json({ error: "server error", details: err.message });
+    return res
+      .status(500)
+      .json({ error: "server error", details: err.message });
   }
 });
 
 /**
  * RFQ FORM SAYFASI
- * /rfq
- * (Şimdilik basit bir form; sonra front-endte modala bağlarız.)
  */
 app.get("/rfq", (req, res) => {
   res.send(`<!doctype html>
@@ -285,4 +287,39 @@ app.get("/rfq", (req, res) => {
 
   <p><a href="/">← Ana sayfaya dön</a></p>
 </body>
-</html>
+</html>`);
+});
+
+/**
+ * DİJİTAL EXPO SAYFASI (PLACEHOLDER)
+ */
+app.get("/expo", (req, res) => {
+  res.send(`<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>3D Digital Expo | TradePiGlobal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="expo-shell">
+  <h1>3D Digital Expo</h1>
+  <p>Bu alan 3D dijital fuar alanının önizlemesi içindir.</p>
+  <p>Tam sürümde Unreal Engine / Babylon.js sahnesi buraya gömülecek.</p>
+
+  <div class="expo-placeholder">
+    3D sahne için placeholder alan
+  </div>
+
+  <p><a href="/">← Ana sayfaya dön</a></p>
+</body>
+</html>`);
+});
+
+/**
+ * SUNUCUYU BAŞLAT
+ */
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log("Server running at port:", port);
+});
