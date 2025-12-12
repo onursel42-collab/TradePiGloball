@@ -33,7 +33,31 @@ app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+/**
+ * COMPANY LIST (Ana sayfa firma kartları için)
+ */
+app.get("/api/companies", async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit || "12", 10), 50);
+    const sector = (req.query.sector || "").trim();
 
+    let q = supabase
+      .from("companies")
+      .select("id,name,slug,sector,country,city,website,created_at,updated_at")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (sector) q = q.eq("sector", sector);
+
+    const { data, error } = await q;
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.json({ companies: data || [] });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 /**
  * PLANS
  */
