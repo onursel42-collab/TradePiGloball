@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -12,198 +11,118 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// __dirname ayarı (ESM)
+// __dirname (ESM)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Statik dosyalar: public klasörü (index.html, styles.css, main.js)
+// public klasörü statik (index.html, showroom.html vs.)
 app.use(express.static(path.join(__dirname, "public")));
 
-// Sağlık kontrolü
+// Health
 app.get("/health", (req, res) => {
-  res.json({ ok: true, message: "TradePiGlobal backend çalışıyor ✅" });
+  res.json({ ok: true, message: "Backend çalışıyor ✅" });
 });
 
-// TÜM PLANLAR (JSON)
-app.get("/api/plans", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("fair_plans")
-      .select("*")
-      .eq("is_active", true)
-      .order("monthly_price", { ascending: true });
-
-    if (error) {
-      console.error("Supabase error (/api/plans):", error);
-      return res.status(500).json({ error: "supabase error", details: error });
-    }
-
-    res.json({ plans: data || [] });
-  } catch (err) {
-    console.error("Server error (/api/plans):", err);
-    res.status(500).json({ error: "server error", details: err.message });
-  }
-});
-
-// ANA SAYFA İÇİN 3 ÖNE ÇIKAN PLAN
-app.get("/api/plans/home", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("fair_plans")
-      .select("*")
-      .eq("is_active", true)
-      .eq("is_featured", true)
-      .order("monthly_price", { ascending: true })
-      .limit(3);
-
-    if (error) {
-      console.error("Supabase error (/api/plans/home):", error);
-      return res.status(500).json({ error: "supabase error", details: error });
-    }
-
-    res.json({ plans: data || [] });
-  } catch (err) {
-    console.error("Server error (/api/plans/home):", err);
-    res.status(500).json({ error: "server error", details: err.message });
-  }
-});
-
-// Sektör listesi (fallback'li)
-const FALLBACK_SECTORS = [
-  "Sanayi & Üretim",
-  "Gıda & Tarım",
-  "Tekstil & Konfeksiyon",
-  "Elektronik & Cihazlar",
-  "Yapı & İnşaat",
-  "Mobilya & Dekorasyon",
-  "Kimya & Plastikler",
-  "Lojistik & Taşımacılık",
-  "Enerji & Maden",
-  "Sağlık & Medikal",
-];
-
-app.get("/api/sectors", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("sectors")
-      .select("name")
-      .order("id", { ascending: true });
-
-    if (error) {
-      console.warn("Supabase error (sectors), fallback kullanılacak:", error.message);
-      return res.json({ sectors: FALLBACK_SECTORS });
-    }
-
-    if (!data || data.length === 0) {
-      return res.json({ sectors: FALLBACK_SECTORS });
-    }
-
-    res.json({ sectors: data.map((s) => s.name) });
-  } catch (err) {
-    console.error("Server error (/api/sectors):", err);
-    res.json({ sectors: FALLBACK_SECTORS });
-  }
-});
-
-// RFQ kaydetme API
-app.post("/api/rfq", async (req, res) => {
-  try {
-    const payload = req.body || {};
-
-    const { data, error } = await supabase
-      .from("rfqs")
-      .insert([payload])
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Supabase error (/api/rfq):", error);
-      return res.status(500).json({ error: "supabase error", details: error });
-    }
-
-    res.status(201).json({ ok: true, rfq: data });
-  } catch (err) {
-    console.error("Server error (/api/rfq):", err);
-    res.status(500).json({ error: "server error", details: err.message });
-  }
-});
-// EXPO (FUAR = SHOWROOM) TEK SAYFA
-app.get("/expo", (req, res) => {
+/**
+ * ✅ EXPO SAYFA ROUTE’LARI
+ *  - /expo/:slug      => showroom.html (senin fetch burada /api/expo/:slug çağırıyor)
+ *  - /showroom/:slug  => aynı dosya (sen bazen /showroom deniyorsun diye)
+ *  - /expo            => showroom.html (slug yoksa da açsın)
+ *  - /showroom        => showroom.html
+ */
+app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => {
   res.sendFile(path.join(__dirname, "public", "showroom.html"));
 });
 
-app.get("/expo/:slug", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "showroom.html"));
-});
-
-// EXPO DATA API (firma bazlı)
+/**
+ * ✅ EXPO DATA API
+ * GET /api/expo/:slug
+ *
+ * Dönen şekil:
+ * {
+ *   company: {...},
+ *   products: [...],
+ *   limit: 20,
+ *   featured: false
+ * }
+ */
 app.get("/api/expo/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
 
-    // Firma
-    const { data: company, error: e1 } = await supabase
+    // 1) company
+    const { data: company, error: eCompany } = await supabase
       .from("companies")
-      .select("id,name,slug,sector,country,city,website")
+      .select("id,name,slug,sector,country,city,website,created_at,updated_at")
       .eq("slug", slug)
       .single();
 
-    if (e1) {
-      return res.status(404).json({ error: "Firma bulunamadı" });
+    if (eCompany || !company) {
+      return res.status(404).json({ company: null, products: [], error: "Firma bulunamadı" });
     }
 
-    // Paket / limit (demo fallback)
-    const { data: sub } = await supabase
-      .from("subscriptions")
-      .select("status, plans(product_limit,featured)")
+    // 2) plan/limit (company_memberships -> membership_plans)
+    // Senin sample:
+    // company_memberships: company_id, plan_id, status
+    // membership_plans: id, code, name, product_limit, featured
+    const { data: membership, error: eMembership } = await supabase
+      .from("company_memberships")
+      .select("status, plan_id, membership_plans ( product_limit, featured, code, name )")
       .eq("company_id", company.id)
       .eq("status", "active")
       .maybeSingle();
 
-    const limit = sub?.plans?.product_limit ?? 20;
+    // membership yoksa default limit
+    const limit = membership?.membership_plans?.product_limit ?? 20;
+    const featured = !!membership?.membership_plans?.featured;
 
-  // Ürünler
-const { data: products, error: e2 } = await supabase
-  .from("products")
-  .select(`
-    id,
-    name,
-    description,
-    base_price,
-    currency,
-    moq,
-    weight_kg,
-    width_cm,
-    height_cm,
-    length_cm,
-    created_at
-  `)
-  .eq("company_id", company.id)
-  .eq("is_active", true)
-  .order("created_at", { ascending: false })
-  .limit(limit);
+    // 3) products
+    const { data: products, error: eProducts } = await supabase
+      .from("products")
+      .select(`
+        id,
+        company_id,
+        category_id,
+        name,
+        sku,
+        description,
+        base_price,
+        currency,
+        moq,
+        weight_kg,
+        width_cm,
+        height_cm,
+        length_cm,
+        hs_code,
+        is_active,
+        created_at,
+        updated_at
+      `)
+      .eq("company_id", company.id)
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(limit);
 
-if (e2) {
-  return res.status(500).json({ error: e2.message });
-}
+    if (eProducts) {
+      return res.status(500).json({ error: eProducts.message });
+    }
 
-    res.json({
+    return res.json({
       company,
       products: products || [],
       limit,
-      featured: !!sub?.plans?.featured,
+      featured,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 });
-// Ana sayfa (index.html) – garanti olsun diye
+
+// Ana sayfa garanti
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// SUNUCU
+// Server
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log("Server running at port:", port);
-});
+app.listen(port, () => console.log("Server running on port:", port));
