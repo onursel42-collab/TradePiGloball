@@ -2,562 +2,491 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <title>TradePiGlobal | Global B2B + Dijital Expo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TradePiGloball · B2B Marketplace</title>
 
   <style>
     :root{
-      --bg0:#070914;
-      --bg1:#0b1024;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.10);
-      --text:#eaf0ff;
-      --muted: rgba(234,240,255,.72);
-      --muted2: rgba(234,240,255,.55);
-      --brand1:#ff4fd8;
-      --brand2:#6b6bff;
-      --brand3:#35d6ff;
-      --shadow: 0 18px 45px rgba(0,0,0,.45);
-      --shadow2: 0 10px 22px rgba(0,0,0,.35);
-      --r:18px;
+      --bg0:#070813;
+      --bg1:#090a18;
+      --text:#e9e9ef;
+      --muted:rgba(233,233,239,.75);
+
+      /* Kart rengi (SENİN İSTEDİĞİN RENK DİLİ) */
+      --glass: rgba(110, 40, 140, 0.30);
+      --glass2: rgba(255,255,255,0.06);
+      --stroke: rgba(255,255,255,0.10);
+
+      --primaryA:#b44cff;
+      --primaryB:#ff5fd8;
+      --chip: rgba(255,255,255,0.08);
+
+      --shadow: 0 14px 40px rgba(0,0,0,.45);
+      --r: 18px;
     }
-    *{ box-sizing:border-box; }
+
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
+
+      /* ✅ SADECE ARKA PLAN DEĞİŞTİ (kartlar aynı vibe) */
       background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(255,79,216,.18), transparent 60%),
-        radial-gradient(1000px 700px at 85% 30%, rgba(53,214,255,.14), transparent 60%),
-        radial-gradient(900px 600px at 55% 95%, rgba(107,107,255,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+        radial-gradient(1100px 650px at 15% -10%, rgba(180,76,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 85% 10%, rgba(255,95,216,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #060612 100%);
       min-height:100vh;
     }
-    a{ color:inherit; text-decoration:none; }
-    .wrap{ max-width:1100px; margin:0 auto; padding:18px 14px 70px; }
 
-    /* NAV */
-    .nav{
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 80px;}
+
+    /* ===== TOP BAR ===== */
+    .topbar{
       display:flex; align-items:center; justify-content:space-between;
-      padding:12px 14px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.22);
-      backdrop-filter: blur(10px);
-      border-radius: 999px;
-      box-shadow: var(--shadow2);
-      position: sticky; top:12px; z-index: 50;
+      gap:12px; padding:10px 2px 18px;
     }
     .brand{
-      display:flex; align-items:center; gap:10px; min-width:180px;
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.3px;
     }
     .logo{
       width:34px; height:34px; border-radius:10px;
-      background: linear-gradient(135deg, var(--brand1), var(--brand2), var(--brand3));
-      box-shadow: 0 10px 25px rgba(255,79,216,.18);
+      background: linear-gradient(135deg, rgba(180,76,255,.95), rgba(255,95,216,.85));
+      box-shadow: 0 10px 30px rgba(180,76,255,.25);
     }
-    .brand b{ font-size:14px; letter-spacing:.2px; }
-    .brand small{ display:block; margin-top:1px; font-size:11px; color:var(--muted2); }
-    .navlinks{
-      display:flex; gap:18px; align-items:center;
-      color: var(--muted);
-      font-size:13px;
-    }
-    .navlinks a{ opacity:.88; }
-    .navlinks a:hover{ opacity:1; }
-    .navcta{
-      display:flex; gap:10px; align-items:center;
-    }
+    .brand small{display:block; font-weight:600; opacity:.85; margin-top:1px}
+
+    .top-actions{display:flex; gap:10px; align-items:center}
     .btn{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding:9px 12px;
-      border-radius: 999px;
-      font-size:13px;
-      cursor:pointer;
-      transition: transform .08s ease, background .15s ease, opacity .15s ease;
+      display:inline-flex; align-items:center; justify-content:center;
+      height:42px; padding:0 14px; border-radius:14px;
+      border:1px solid transparent;
+      font-weight:700; letter-spacing:.2px;
+      cursor:pointer; user-select:none;
+      transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+      white-space:nowrap;
     }
-    .btn:hover{ background: rgba(255,255,255,.10); }
-    .btn:active{ transform: translateY(1px); }
-    .btn.primary{
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{
+      background: linear-gradient(135deg, var(--primaryA), var(--primaryB));
+      box-shadow: 0 12px 34px rgba(180,76,255,.28);
       border:none;
-      background: linear-gradient(135deg, rgba(255,79,216,.95), rgba(107,107,255,.95));
-      box-shadow: 0 16px 36px rgba(107,107,255,.22);
+      color:#fff;
     }
+    .btn-primary:hover{box-shadow: 0 16px 44px rgba(180,76,255,.36)}
+    .btn-secondary{
+      background: rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.12);
+      color:var(--text);
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover{background: rgba(255,255,255,0.10)}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(196,181,253,.35);
+      color:#c4b5fd;
+    }
+    .btn-ghost:hover{background: rgba(196,181,253,.08)}
 
-    /* HERO */
+    /* ===== HERO ===== */
     .hero{
-      margin-top:16px;
-      border:1px solid var(--stroke);
-      background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border-radius: calc(var(--r) + 6px);
+      margin-top:8px;
       padding:18px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
+      border-radius: calc(var(--r) + 8px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border:1px solid rgba(255,255,255,0.06);
     }
-    .hero:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(700px 260px at 20% 0%, rgba(255,79,216,.18), transparent 55%),
-        radial-gradient(600px 250px at 95% 40%, rgba(53,214,255,.16), transparent 55%);
-      pointer-events:none;
-    }
-    .heroInner{
-      position:relative;
+    .hero-inner{
       display:grid;
-      grid-template-columns: 1.35fr .65fr;
+      grid-template-columns: 1.2fr 0.8fr;
       gap:16px;
-      align-items:stretch;
     }
-    @media (max-width: 860px){
-      .heroInner{ grid-template-columns: 1fr; }
-      .navlinks{ display:none; }
-      .brand{ min-width:auto; }
+    @media (max-width: 920px){
+      .hero-inner{grid-template-columns:1fr}
     }
 
-    .heroLeft{
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.18);
-      border-radius: var(--r);
+    .hero-left{
       padding:18px;
-    }
-    .kicker{
-      font-size:12px; letter-spacing:.8px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom:10px;
-    }
-    h1{
-      margin:0 0 8px;
-      font-size: 30px;
-      line-height: 1.15;
-    }
-    .lead{
-      margin:0 0 14px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height:1.55;
-      max-width: 58ch;
-    }
-    .heroActions{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
-    }
-    .chips{
-      margin-top:12px;
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .chip{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-      font-size:12px;
-      padding:7px 10px;
-      border-radius: 999px;
-    }
-
-    .heroRight{
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.18);
       border-radius: var(--r);
-      padding:14px;
-      display:flex; flex-direction:column; gap:10px;
     }
-    .miniTitle{ font-size:12px; color: var(--muted2); letter-spacing:.6px; text-transform:uppercase; }
-    .expoGo{
-      display:flex; gap:10px; align-items:center;
+    .hero h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 3.2vw, 44px);
+      line-height:1.05;
+      letter-spacing:-0.4px;
     }
-    .input{
-      flex:1;
+    .hero p{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size: 15.5px;
+      line-height:1.5;
+      max-width: 56ch;
+    }
+    .hero-ctas{display:flex; flex-wrap:wrap; gap:10px}
+
+    /* ✅ SENİN İSTEDİĞİN KART RENGİ KALDI */
+    .hero-card{
+      padding:18px;
+      border-radius: var(--r);
+      background: var(--glass);
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      border-radius: 999px;
-      padding:10px 12px;
-      outline:none;
-      font-size:13px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      display:flex; flex-direction:column; gap:12px;
+      min-height: 190px;
+    }
+    .mini{
+      font-weight:800; letter-spacing:.2px;
+      font-size:13px; opacity:.9;
+    }
+    .stats{
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .stat{
+      padding:12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+    .stat b{display:block; font-size:18px}
+    .stat span{display:block; font-size:12px; opacity:.75; margin-top:2px}
+
+    /* ===== SECTORS ===== */
+    .section{
+      margin-top:22px;
+    }
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:10px;
+      margin: 0 0 10px;
+      padding: 0 4px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+      opacity:.95;
     }
     .hint{
-      margin:2px 2px 0;
-      font-size:12px;
-      color: var(--muted2);
-      line-height:1.4;
+      font-size:12px; color:rgba(233,233,239,.65);
     }
-
-    /* SECTORS (hero altına, yatay kaydırma) */
-    .sectionTitle{
-      margin:18px 4px 10px;
-      font-size: 13px;
-      color: var(--muted);
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .hscroll{
+    .sector-row{
       display:flex; gap:10px;
       overflow:auto;
-      padding: 6px 2px 10px;
-      scrollbar-width: none;
+      padding: 8px 4px 2px;
+      scroll-snap-type: x mandatory;
     }
-    .hscroll::-webkit-scrollbar{ display:none; }
-    .pill{
-      white-space:nowrap;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
+    .sector-row::-webkit-scrollbar{height:8px}
+    .sector-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12); border-radius:999px}
+    .chip{
+      scroll-snap-align:start;
       padding:10px 12px;
       border-radius: 999px;
+      background: var(--chip);
+      border:1px solid rgba(255,255,255,0.10);
+      color: rgba(233,233,239,.88);
+      font-weight:700;
       font-size: 13px;
+      white-space:nowrap;
       cursor:pointer;
-      user-select:none;
-      transition: background .15s ease, transform .08s ease;
+      transition: background .12s ease, transform .12s ease;
     }
-    .pill:hover{ background: rgba(255,255,255,.10); }
-    .pill.active{
-      border-color: rgba(255,79,216,.35);
-      background: linear-gradient(135deg, rgba(255,79,216,.18), rgba(107,107,255,.16));
+    .chip:hover{background: rgba(255,255,255,0.12)}
+    .chip.active{
+      background: rgba(180,76,255,0.22);
+      border-color: rgba(180,76,255,0.35);
+      color:#fff;
     }
 
-    /* COMPANY GRID (Temu tarzı kartlar) */
+    /* ===== COMPANY GRID ===== */
     .grid{
       display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap:12px;
-      margin-top: 8px;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 14px;
+      padding: 4px;
     }
-    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(3, 1fr);} }
-    @media (max-width: 740px){ .grid{ grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 420px){ .grid{ grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 1050px){ .grid{grid-template-columns: repeat(3,1fr)} }
+    @media (max-width: 760px){ .grid{grid-template-columns: repeat(2,1fr)} }
+    @media (max-width: 420px){ .grid{grid-template-columns: 1fr} }
 
     .card{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      border-radius: 16px;
+      border-radius: var(--r);
+      background: var(--glass2);
+      border:1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 12px 28px rgba(0,0,0,.30);
       overflow:hidden;
-      box-shadow: var(--shadow2);
+      position:relative;
       cursor:pointer;
-      transition: transform .10s ease, background .15s ease, border-color .15s ease;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
     }
     .card:hover{
       transform: translateY(-2px);
-      background: rgba(255,255,255,.07);
-      border-color: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,0.16);
+      box-shadow: 0 16px 40px rgba(0,0,0,.42);
     }
+
     .thumb{
-      height: 132px;
+      height: 110px;
       background:
-        radial-gradient(260px 140px at 35% 30%, rgba(255,79,216,.20), transparent 60%),
-        radial-gradient(220px 140px at 80% 70%, rgba(53,214,255,.16), transparent 60%),
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-      border-bottom:1px solid rgba(255,255,255,.08);
-      display:flex; align-items:flex-start; justify-content:space-between;
-      padding:10px;
+        radial-gradient(240px 90px at 30% 20%, rgba(180,76,255,.35), transparent 65%),
+        radial-gradient(240px 120px at 80% 0%, rgba(255,95,216,.22), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-bottom:1px solid rgba(255,255,255,0.08);
     }
-    .badge{
-      font-size:11px;
-      padding:6px 9px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      color: var(--muted);
-    }
-    .avatar{
-      width:34px; height:34px; border-radius: 12px;
-      background: rgba(0,0,0,.28);
-      border:1px solid rgba(255,255,255,.14);
-      display:grid; place-items:center;
-      font-weight:700; color: rgba(255,255,255,.9);
-    }
-    .cardBody{ padding:10px 10px 12px; }
-    .name{
-      margin:0;
-      font-size:14px;
-      line-height:1.25;
-    }
-    .meta{
-      margin-top:6px;
-      font-size:12px;
-      color: var(--muted2);
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .meta span{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      padding:4px 7px;
-      border-radius:999px;
-    }
-    .ctaRow{
+    .card-body{padding:12px}
+    .name{font-weight:900; letter-spacing:.1px; margin:0 0 6px; font-size:14.5px}
+    .meta{margin:0; font-size:12.5px; color:rgba(233,233,239,.72); line-height:1.3}
+    .tag{
+      display:inline-flex;
       margin-top:10px;
-      display:flex; gap:8px; align-items:center; justify-content:space-between;
-    }
-    .go{
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(180,76,255,0.12);
+      border:1px solid rgba(180,76,255,0.20);
       font-size:12px;
+      font-weight:800;
+      color:#eeddff;
+    }
+
+    .card-cta{
+      position:absolute;
+      right:10px; bottom:10px;
       padding:8px 10px;
       border-radius: 12px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-    }
-    .smallMuted{ font-size:12px; color: var(--muted2); }
-
-    .foot{
-      margin-top:26px;
-      text-align:center;
-      color: rgba(234,240,255,.55);
+      background: rgba(0,0,0,0.28);
+      border:1px solid rgba(255,255,255,0.12);
       font-size:12px;
+      font-weight:800;
+      opacity:0;
+      transform: translateY(3px);
+      transition: opacity .12s ease, transform .12s ease;
+      backdrop-filter: blur(8px);
     }
-    .err{
-      margin:10px 4px 0;
-      color:#ffd6ea;
-      background: rgba(255,79,216,.08);
-      border:1px solid rgba(255,79,216,.18);
-      padding:10px 12px;
-      border-radius: 12px;
-      display:none;
+    .card:hover .card-cta{opacity:1; transform: translateY(0)}
+
+    /* ===== FOOTER ===== */
+    footer{
+      margin-top:26px;
+      padding:18px 6px 0;
+      color: rgba(233,233,239,.55);
+      font-size: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
+      border-top:1px solid rgba(255,255,255,0.06);
     }
+    .links{display:flex; gap:12px; flex-wrap:wrap}
+    .links a{opacity:.75}
+    .links a:hover{opacity:1}
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <!-- NAV -->
-    <div class="nav">
+    <!-- TOP BAR -->
+    <div class="topbar">
       <div class="brand">
-        <div class="logo"></div>
+        <div class="logo" aria-hidden="true"></div>
         <div>
-          <b>TPG</b>
-          <small>TradePiGlobal</small>
+          TradePiGloball
+          <small>B2B Marketplace</small>
         </div>
       </div>
 
-      <div class="navlinks">
-        <a href="#marketplace">Marketplace</a>
-        <a href="#rfq">RFQ / Teklif</a>
-        <a href="#expo">Dijital Expo</a>
-        <a href="#paketler">Paketler</a>
-      </div>
-
-      <div class="navcta">
-        <button class="btn" id="btnLogin">Giriş Yap</button>
-        <button class="btn primary" id="btnSignup">Üye Ol</button>
+      <div class="top-actions">
+        <a class="btn btn-secondary" href="/login">Giriş Yap</a>
+        <a class="btn btn-primary" href="/signup">Üye Ol</a>
       </div>
     </div>
 
     <!-- HERO -->
-    <section class="hero" id="top">
-      <div class="heroInner">
-        <div class="heroLeft">
-          <div class="kicker">B2B + DİJİTAL FUAR ALTYAPISI</div>
-          <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
-          <p class="lead">
-            Burada ürün listesi değil, firma deneyimi var. Kullanıcı ürünü/firma kartını görür,
-            tıklayınca firmanın <b>3D showroom</b> alanına girer. Satıcı değil, firma merkezli dijital expo altyapısı.
+    <section class="hero">
+      <div class="hero-inner">
+
+        <div class="hero-left">
+          <h1>Global B2B ticaret, tek platformda.</h1>
+          <p>
+            Firmaları keşfet. 3D showroom deneyimiyle ürünleri daha net gör.
+            RFQ ile hızlı teklif topla.
           </p>
 
-          <div class="heroActions">
-            <a class="btn primary" href="#expo">Dijital Expo’ya Gir</a>
-            <button class="btn" id="btnRfqTop">RFQ Oluştur</button>
-            <a class="btn" href="#paketler">Paketleri İncele</a>
-          </div>
-
-          <div class="chips">
-            <div class="chip">Onaylı firma profilleri</div>
-            <div class="chip">RFQ → teklif akışı</div>
-            <div class="chip">Showroom + ürün rafları</div>
-            <div class="chip">Çoklu para birimi</div>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="/expo">Dijital Expo’ya Gir</a>
+            <a class="btn btn-secondary" href="/rfq">RFQ Oluştur</a>
+            <a class="btn btn-ghost" href="/plans">Paketleri İncele</a>
           </div>
         </div>
 
-        
-        </div>
+        <!-- ✅ Kart rengi kalsın: burada -->
+        <aside class="hero-card">
+          <div class="mini">Öne Çıkanlar</div>
+          <div class="stats">
+            <div class="stat"><b>3D</b><span>Showroom deneyimi</span></div>
+            <div class="stat"><b>RFQ</b><span>Hızlı teklif akışı</span></div>
+            <div class="stat"><b>TL / USD</b><span>Çoklu para birimi</span></div>
+            <div class="stat"><b>Kurumsal</b><span>Firma odaklı yapı</span></div>
+          </div>
+        </aside>
+
       </div>
     </section>
 
-    <!-- ✅ PLATFORM ÖZETİ KUTUSU SİLİNDİ → buraya SEKTÖRLER geliyor -->
-    <div class="sectionTitle" id="marketplace">
-      <span>Sektörlere göre B2B marketplace</span>
-      <span class="smallMuted" id="countLabel">—</span>
-    </div>
+    <!-- SECTORS -->
+    <section class="section">
+      <div class="section-title">
+        <h2>Sektörler</h2>
+        <div class="hint">Kaydır · Seç · Filtrele</div>
+      </div>
+      <div class="sector-row" id="sectorRow"></div>
+    </section>
 
-    <div class="hscroll" id="sectorChips">
-      <!-- js dolduracak -->
-    </div>
+    <!-- COMPANY GRID -->
+    <section class="section">
+      <div class="section-title">
+        <h2>Firmalar</h2>
+        <div class="hint" id="gridHint">Yeni eklenenler</div>
+      </div>
 
-    <!-- TEMU tarzı firma kartları -->
-    <div class="sectionTitle" style="margin-top:6px;">
-      <span>Dijital fuar giriş alanı (Firma Kartları)</span>
-      <button class="btn" id="btnRefresh">Yenile</button>
-    </div>
+      <div class="grid" id="companyGrid"></div>
+    </section>
 
-    <div class="grid" id="companyGrid"></div>
-
-    <!-- ✅ RFQ FORM SİLİNDİ (üstte buton var) -->
-    <!-- ✅ PAKETLER SİLİNDİ (şimdilik) -->
-
-    <div class="foot">
-      © TradePiGlobal — Firma merkezli dijital expo & B2B altyapısı.
-    </div>
+    <!-- FOOTER -->
+    <footer>
+      <div>© 2025 TradePiGloball</div>
+      <div class="links">
+        <a href="/terms">Kullanım Şartları</a>
+        <a href="/privacy">Gizlilik</a>
+        <a href="/kvkk">KVKK</a>
+        <a href="/contact">İletişim</a>
+      </div>
+    </footer>
 
   </div>
 
-<script>
-  // --- helpers
-  const $ = (id) => document.getElementById(id);
-  const safe = (v) => (v == null ? "" : String(v));
-  const firstLetter = (s) => (safe(s).trim()[0] || "•").toUpperCase();
-
-  // --- actions
-  $("btnLogin").onclick  = () => alert("Login sonra bağlayacağız");
-  $("btnSignup").onclick = () => alert("Kayıt sonra bağlayacağız");
-  $("btnRfqTop").onclick = () => alert("RFQ akışını sonra bağlayacağız (şimdilik buton var)");
-
-  $("btnGoExpo").onclick = () => {
-    const slug = safe($("expoSlug").value).trim();
-    if (!slug) return alert("Slug yaz: örn tradepigloball");
-    window.location.href = "/expo/" + encodeURIComponent(slug);
-  };
-
-  $("expoSlug").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") $("btnGoExpo").click();
-  });
-
-  // --- data sources
-  async function fetchJSON(url){
-    const res = await fetch(url);
-    const txt = await res.text();
-    try { return JSON.parse(txt); }
-    catch { throw new Error("JSON değil: " + txt.slice(0,120)); }
-  }
-
-  // sectors
-  const FALLBACK_SECTORS = [
-    "Sanayi & Üretim","Gıda & Tarım","Tekstil & Konfeksiyon","Elektronik & Cihazlar",
-    "Yapı & İnşaat","Mobilya & Dekorasyon","Kimya & Plastikler","Lojistik & Taşımacılık",
-    "Enerji & Maden","Sağlık & Medikal"
-  ];
-
-  let activeSector = "";
-  let lastCompanies = [];
-
-  function renderSectors(sectors){
-    const box = $("sectorChips");
-    box.innerHTML = "";
-
-    const all = document.createElement("div");
-    all.className = "pill" + (!activeSector ? " active" : "");
-    all.textContent = "Tümü";
-    all.onclick = () => { activeSector = ""; paintSectors(); loadCompanies(); };
-    box.appendChild(all);
-
-    sectors.forEach(name => {
-      const el = document.createElement("div");
-      el.className = "pill" + (activeSector === name ? " active" : "");
-      el.textContent = name;
-      el.onclick = () => { activeSector = name; paintSectors(); loadCompanies(); };
-      box.appendChild(el);
-    });
-  }
-
-  function paintSectors(){
-    // küçük hack: tekrar render
-    const pills = Array.from(document.querySelectorAll(".pill"));
-    pills.forEach(p => {
-      if (p.textContent === "Tümü"){
-        p.classList.toggle("active", !activeSector);
-      } else {
-        p.classList.toggle("active", p.textContent === activeSector);
-      }
-    });
-  }
-
-  // company cards
-  function companyCard(c){
-    const el = document.createElement("div");
-    el.className = "card";
-    const name = safe(c.name) || safe(c.slug) || "Firma";
-    const slug = safe(c.slug);
-    const sector = safe(c.sector);
-    const country = safe(c.country);
-    const city = safe(c.city);
-
-    el.innerHTML = `
-      <div class="thumb">
-        <div class="badge">${sector || "Firma"}</div>
-        <div class="avatar">${firstLetter(name)}</div>
-      </div>
-      <div class="cardBody">
-        <p class="name">${name}</p>
-        <div class="meta">
-          ${country || city ? `<span>${[country,city].filter(Boolean).join(" / ")}</span>` : `<span>Global</span>`}
-          ${slug ? `<span>@${slug}</span>` : ``}
-        </div>
-
-        <div class="ctaRow">
-          <div class="smallMuted">Tıkla → 3D showroom</div>
-          <div class="go">Expo’ya Gir</div>
-        </div>
-      </div>
-    `;
-
-    el.onclick = () => {
-      if (!slug) return alert("Bu firmada slug yok.");
-      window.location.href = "/expo/" + encodeURIComponent(slug);
+  <script>
+    // --- helpers
+    const qs = (k) => new URLSearchParams(location.search).get(k) || "";
+    const setQS = (k, v) => {
+      const p = new URLSearchParams(location.search);
+      if (!v) p.delete(k); else p.set(k, v);
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
     };
-    return el;
-  }
 
-  function renderCompanies(companies){
-    const grid = $("companyGrid");
-    grid.innerHTML = "";
-    companies.forEach(c => grid.appendChild(companyCard(c)));
-    $("countLabel").textContent = `${companies.length} firma`;
-  }
+    const sectorRow = document.getElementById("sectorRow");
+    const grid = document.getElementById("companyGrid");
+    const gridHint = document.getElementById("gridHint");
 
-  // LOADERS
-  async function loadSectors(){
-    try{
-      const j = await fetchJSON("/api/sectors");
-      const sectors = (j.sectors && j.sectors.length) ? j.sectors : FALLBACK_SECTORS;
-      renderSectors(sectors);
-    }catch(e){
-      renderSectors(FALLBACK_SECTORS);
+    let activeSector = qs("sector");
+
+    // --- render sectors
+    async function loadSectors(){
+      sectorRow.innerHTML = "";
+      const res = await fetch("/api/sectors");
+      const json = await res.json();
+      const sectors = json.sectors || [];
+
+      // "Tümü" chip
+      const all = document.createElement("button");
+      all.className = "chip" + (!activeSector ? " active" : "");
+      all.textContent = "Tümü";
+      all.onclick = () => {
+        activeSector = "";
+        setQS("sector", "");
+        paintActiveChips();
+        loadCompanies();
+      };
+      sectorRow.appendChild(all);
+
+      sectors.forEach(name => {
+        const b = document.createElement("button");
+        b.className = "chip" + (activeSector === name ? " active" : "");
+        b.textContent = name;
+        b.onclick = () => {
+          activeSector = name;
+          setQS("sector", name);
+          paintActiveChips();
+          loadCompanies();
+        };
+        sectorRow.appendChild(b);
+      });
     }
-  }
 
-  // Bu endpoint server.js'de olmalı: GET /api/companies?limit=24&sector=...
-  async function loadCompanies(){
-    $("topErr").style.display = "none";
-    $("topErr").textContent = "";
+    function paintActiveChips(){
+      [...sectorRow.querySelectorAll(".chip")].forEach(ch => {
+        const txt = ch.textContent;
+        if (!activeSector && txt === "Tümü") ch.classList.add("active");
+        else if (activeSector && txt === activeSector) ch.classList.add("active");
+        else ch.classList.remove("active");
+      });
+    }
 
-    const limit = 24;
-    const qs = new URLSearchParams();
-    qs.set("limit", String(limit));
-    if (activeSector) qs.set("sector", activeSector);
+    // --- render companies
+    function cardHTML(c){
+      const loc = [c.country, c.city].filter(Boolean).join(" · ");
+      const sector = c.sector || "Sektör";
+      return `
+        <div class="card" data-slug="${c.slug}">
+          <div class="thumb"></div>
+          <div class="card-body">
+            <p class="name">${escapeHTML(c.name || "Firma")}</p>
+            <p class="meta">${escapeHTML(sector)}${loc ? " · " + escapeHTML(loc) : ""}</p>
+            <div class="tag">3D Showroom</div>
+          </div>
+          <div class="card-cta">Expo’ya Gir</div>
+        </div>
+      `;
+    }
 
-    try{
-      const j = await fetchJSON("/api/companies?" + qs.toString());
-      const companies = j.companies || [];
-      lastCompanies = companies;
-      renderCompanies(companies);
+    async function loadCompanies(){
+      grid.innerHTML = "";
+      gridHint.textContent = activeSector ? ("Filtre: " + activeSector) : "Yeni eklenenler";
+
+      const url = new URL(location.origin + "/api/companies");
+      url.searchParams.set("limit", "12");
+      if (activeSector) url.searchParams.set("sector", activeSector);
+
+      const res = await fetch(url.pathname + url.search);
+      const json = await res.json();
+      const companies = json.companies || [];
+
       if (!companies.length){
-        $("topErr").style.display = "block";
-        $("topErr").textContent = "Firma bulunamadı. Supabase 'companies' tablosunda veri var mı kontrol et.";
+        grid.innerHTML = `<div style="padding:14px;opacity:.75">Bu filtrede firma yok.</div>`;
+        return;
       }
-    }catch(e){
-      $("topErr").style.display = "block";
-      $("topErr").textContent = "Ana sayfa firmaları çekemedi: /api/companies yok veya hata var.";
-      renderCompanies(lastCompanies.length ? lastCompanies : []);
+
+      grid.innerHTML = companies.map(cardHTML).join("");
+
+      // click → /expo/:slug
+      [...grid.querySelectorAll(".card")].forEach(el => {
+        el.addEventListener("click", () => {
+          const slug = el.getAttribute("data-slug");
+          if (slug) location.href = "/expo/" + slug;
+        });
+      });
     }
-  }
 
-  $("btnRefresh").onclick = loadCompanies;
+    // basic XSS guard for strings we inject
+    function escapeHTML(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[s]));
+    }
 
-  // init
-  (async function init(){
-    await loadSectors();
-    await loadCompanies();
-  })();
-</script>
+    // boot
+    (async function init(){
+      try{
+        await loadSectors();
+        await loadCompanies();
+      }catch(e){
+        console.error(e);
+        grid.innerHTML = `<div style="padding:14px;opacity:.75">Şu an içerik yüklenemedi.</div>`;
+      }
+    })();
+  </script>
 </body>
 </html>
