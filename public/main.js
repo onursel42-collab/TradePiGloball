@@ -1,43 +1,55 @@
-// -----------------------------
-// SEKTÖRLERİ GETİR
-// -----------------------------
-async function sektorleriYukle() {
-  const alan = document.getElementById("sektor-listesi");
-  if (!alan) return;
+// Sektörleri doldur
+async function loadSectors() {
+  try {
+    const res = await fetch("/api/sectors");
+    const json = await res.json();
+    const container = document.querySelector("[data-sector-list]");
+    if (!container) return;
 
-  const res = await fetch("/api/sectors");
-  const json = await res.json();
+    const sectors = json.sectors || [];
+    container.innerHTML = "";
 
-  alan.innerHTML = "";
-
-  json.sectors.forEach((s) => {
-    const btn = document.createElement("button");
-    btn.className = "sektor-chip";
-    btn.textContent = s;
-    alan.appendChild(btn);
-  });
+    sectors.forEach((name) => {
+      const chip = document.createElement("button");
+      chip.className = "sector-chip";
+      chip.type = "button";
+      chip.textContent = name;
+      container.appendChild(chip);
+    });
+  } catch (err) {
+    console.error("Sektörler yüklenemedi:", err);
+  }
 }
 
-// -----------------------------
-// ANA SAYFADAKİ 3 PLAN
-// -----------------------------
-async function planlariYukle() {
-  const res = await fetch("/api/plans/home");
-  const json = await res.json();
+// Ana sayfadaki 3 plan kartını doldur
+async function loadHomePlans() {
+  try {
+    const res = await fetch("/api/plans/home");
+    const json = await res.json();
+    const plans = json.plans || [];
 
-  json.plans.forEach((plan, index) => {
-    const kart = document.querySelector(`[data-kart="${index + 1}"]`);
-    if (!kart) return;
+    plans.forEach((p, index) => {
+      const card = document.querySelector(`[data-plan-card="${index + 1}"]`);
+      if (!card) return;
 
-    kart.querySelector(".p-name").textContent = plan.name;
-    kart.querySelector(".p-desc").textContent = plan.description || "";
-    kart.querySelector(".p-price").textContent =
-      plan.monthly_price.toLocaleString("tr-TR") + " ₺ / ay";
-  });
+      const nameEl = card.querySelector("[data-plan-name]");
+      const descEl = card.querySelector("[data-plan-desc]");
+      const priceEl = card.querySelector("[data-plan-price]");
+
+      if (nameEl) nameEl.textContent = p.name || "Plan";
+      if (descEl) descEl.textContent = p.description || "";
+      if (priceEl) {
+        const fiyat = p.monthly_price || 0;
+        priceEl.textContent = fiyat.toLocaleString("tr-TR") + " ₺ / ay";
+      }
+    });
+  } catch (err) {
+    console.error("Planlar yüklenemedi:", err);
+  }
 }
 
-// -----------------------------
-// ÇALIŞTIR
-// -----------------------------
-sektorleriYukle();
-planlariYukle();
+// Sayfa yüklendiğinde
+document.addEventListener("DOMContentLoaded", () => {
+  loadSectors();
+  loadHomePlans();
+});
