@@ -44,8 +44,6 @@ app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => 
   res.sendFile(path.join(__dirname, "public", "showroom.html"));
 });
 
-
- / COMPANY LIST (Ana sayfa firma kartları için)
  
 app.get("/api/companies", async (req, res) => {
   try {
