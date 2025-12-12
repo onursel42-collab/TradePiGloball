@@ -24,7 +24,7 @@ app.get("/health", (req, res) => {
 
 /**
  * PAGES
- * /          -> index.html
+ * / -> index.html
  * /expo/:slug , /showroom/:slug -> showroom.html
  */
 app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => {
@@ -33,6 +33,7 @@ app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 /**
  * COMPANY LIST (Ana sayfa firma kartları için)
  */
@@ -50,7 +51,6 @@ app.get("/api/companies", async (req, res) => {
     if (sector) q = q.eq("sector", sector);
 
     const { data, error } = await q;
-
     if (error) return res.status(500).json({ error: error.message });
 
     res.json({ companies: data || [] });
@@ -58,6 +58,7 @@ app.get("/api/companies", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
 /**
  * PLANS
  */
@@ -118,7 +119,7 @@ app.get("/api/sectors", async (req, res) => {
 
     if (error || !data?.length) return res.json({ sectors: FALLBACK_SECTORS });
     res.json({ sectors: data.map((x) => x.name) });
-  } catch {
+  } catch (e) {
     res.json({ sectors: FALLBACK_SECTORS });
   }
 });
@@ -173,8 +174,6 @@ app.get("/api/expo/:slug", async (req, res) => {
     const limit = membership?.membership_plans?.product_limit ?? 20;
     const featured = !!membership?.membership_plans?.featured;
 
-    // ✅ BURASI SENİN SORDUĞUN YER:
-    // products select içine product_images join EKLİYORUZ (işte tam buraya!)
     const { data: products, error: eProducts } = await supabase
       .from("products")
       .select(`
@@ -204,7 +203,6 @@ app.get("/api/expo/:slug", async (req, res) => {
 
     if (eProducts) return res.status(500).json({ error: eProducts.message });
 
-    // images sıralama (frontend uğraşmasın diye)
     const normalized = (products || []).map((p) => ({
       ...p,
       product_images: (p.product_images || []).sort((a, b) => (a.sort ?? 1) - (b.sort ?? 1)),
