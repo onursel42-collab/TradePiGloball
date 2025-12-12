@@ -127,7 +127,64 @@ app.post("/api/rfq", async (req, res) => {
     res.status(500).json({ error: "server error", details: err.message });
   }
 });
+// EXPO (FUAR = SHOWROOM) TEK SAYFA
+app.get("/expo", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "showroom.html"));
+});
 
+app.get("/expo/:slug", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "showroom.html"));
+});
+
+// EXPO DATA API (firma bazlı)
+app.get("/api/expo/:slug", async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    // Firma
+    const { data: company, error: e1 } = await supabase
+      .from("companies")
+      .select("id,name,slug,sector,country,city,website")
+      .eq("slug", slug)
+      .single();
+
+    if (e1) {
+      return res.status(404).json({ error: "Firma bulunamadı" });
+    }
+
+    // Paket / limit (demo fallback)
+    const { data: sub } = await supabase
+      .from("subscriptions")
+      .select("status, plans(product_limit,featured)")
+      .eq("company_id", company.id)
+      .eq("status", "active")
+      .maybeSingle();
+
+    const limit = sub?.plans?.product_limit ?? 20;
+
+    // Ürünler
+    const { data: products, error: e2 } = await supabase
+      .from("products")
+      .select("id,name,description,price,currency,image_url,created_at")
+      .eq("company_id", company.id)
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (e2) {
+      return res.status(500).json({ error: e2.message });
+    }
+
+    res.json({
+      company,
+      products: products || [],
+      limit,
+      featured: !!sub?.plans?.featured,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 // Ana sayfa (index.html) – garanti olsun diye
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
