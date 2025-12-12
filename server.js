@@ -16,10 +16,11 @@ const __dirname = path.dirname(__filename);
 
 // static
 app.use(express.static(path.join(__dirname, "public")));
-
 // health
 app.get("/health", (req, res) => {
   res.json({ ok: true, message: "Backend çalışıyor ✅" });
+});
+
 /**
  * PAGES
  */
@@ -44,8 +45,7 @@ app.get(["/expo", "/expo/:slug", "/showroom", "/showroom/:slug"], (req, res) => 
   res.sendFile(path.join(__dirname, "public", "showroom.html"));
 });
 
- 
-app.get("/api/companies", async (req, res) => {
+ app.get("/api/companies", async (req, res) => {
   try {
     const limit = Math.min(parseInt(req.query.limit || "12", 10), 50);
     const sector = (req.query.sector || "").trim();
