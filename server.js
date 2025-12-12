@@ -162,18 +162,30 @@ app.get("/api/expo/:slug", async (req, res) => {
 
     const limit = sub?.plans?.product_limit ?? 20;
 
-    // Ürünler
-    const { data: products, error: e2 } = await supabase
-      .from("products")
-      .select("id,name,description,price,currency,image_url,created_at")
-      .eq("company_id", company.id)
-      .eq("is_active", true)
-      .order("created_at", { ascending: false })
-      .limit(limit);
+  // Ürünler
+const { data: products, error: e2 } = await supabase
+  .from("products")
+  .select(`
+    id,
+    name,
+    description,
+    base_price,
+    currency,
+    moq,
+    weight_kg,
+    width_cm,
+    height_cm,
+    length_cm,
+    created_at
+  `)
+  .eq("seller_id", company.id)
+  .eq("is_active", true)
+  .order("created_at", { ascending: false })
+  .limit(limit);
 
-    if (e2) {
-      return res.status(500).json({ error: e2.message });
-    }
+if (e2) {
+  return res.status(500).json({ error: e2.message });
+}
 
     res.json({
       company,
