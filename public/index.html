@@ -1,107 +1,94 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8" />
   <title>TradePiGloball · B2B Marketplace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
+
 <body>
+  <!-- HEADER -->
   <header class="topbar">
-    <div class="brand">
-      <div class="logo"></div>
-      <div>
-        <div class="brand-name">TradePiGloball</div>
-        <div class="brand-sub">B2B Marketplace</div>
-      </div>
+    <div class="topbar__left">
+      <a class="brand" href="/">
+        <span class="brand__mark"></span>
+        <span class="brand__name">TradePiGloball</span>
+      </a>
     </div>
 
-    <nav class="nav">
-      <a href="#sectors">Sektörler</a>
-      <a href="#firms">Firmalar</a>
-      <a href="/showroom/tradepigloball">Dijital Expo</a>
-      <a href="#plans">Paketler</a>
-    </nav>
+    <div class="topbar__right">
+      <div class="ticker" id="ticker">
+        <span class="ticker__dot"></span>
+        <span class="ticker__label">Market</span>
+        <span class="ticker__value" id="tickerValue">—</span>
+      </div>
 
-    <div class="actions">
-      <button class="btn btn-ghost" type="button">Giriş Yap</button>
-      <button class="btn btn-primary" type="button">Üye Ol</button>
+      <nav class="nav">
+        <a class="nav__link" href="/login">Giriş Yap</a>
+        <a class="nav__btn" href="/seller">Firma Olarak Katıl</a>
+      </nav>
     </div>
   </header>
 
-  <main class="container">
+  <!-- HERO (KAPI) -->
+  <main class="page">
     <section class="hero">
-      <div class="hero-left">
-        <h1>Global B2B ticaret, tek platformda.</h1>
-        <p>
-          Firmaları keşfet. 3D showroom deneyimiyle ürünleri daha net gör.
-          RFQ ile hızlı teklif topla.
-        </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="/showroom/tradepigloball">Dijital Expo’ya Gir</a>
-          <a class="btn btn-ghost" href="#rfq">RFQ Oluştur</a>
-          <a class="btn btn-ghost" href="#plans">Paketleri İncele</a>
-        </div>
-      </div>
+      <div class="hero__bg"></div>
 
-      <div class="hero-right">
-        <div class="mini-grid">
-          <div class="mini-card"><div class="mini-title">3D</div><div class="mini-sub">Showroom deneyimi</div></div>
-          <div class="mini-card"><div class="mini-title">RFQ</div><div class="mini-sub">Hızlı teklif akışı</div></div>
-          <div class="mini-card"><div class="mini-title">TL / USD</div><div class="mini-sub">Çoklu para birimi</div></div>
-          <div class="mini-card"><div class="mini-title">Kurumsal</div><div class="mini-sub">Firma odaklı yapı</div></div>
+      <div class="hero__content">
+        <h1 class="hero__title">Firmaları keşfet · Dijital dünyalara gir</h1>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="/explore">Keşfe Başla</a>
         </div>
       </div>
     </section>
 
-    <section id="sectors" class="section">
-      <div class="section-head">
-        <h2>Sektörler</h2>
-        <div class="muted">Kaydır · Seç · Filtrele</div>
-      </div>
-      <div class="chips" id="sectorChips"></div>
-    </section>
-
-    <section id="firms" class="section">
-      <div class="section-head">
-        <h2>Firmalar</h2>
-        <button class="btn btn-ghost btn-small" id="refreshCompanies">Yenile</button>
+    <!-- SEKTÖR ŞERİDİ -->
+    <section class="strip">
+      <div class="strip__head">
+        <h2 class="strip__title">Sektörler</h2>
+        <div class="strip__hint">Yatay kaydır →</div>
       </div>
 
-      <div class="grid" id="companyGrid"></div>
+      <div class="chips" id="chips" aria-label="Sektörler"></div>
     </section>
 
-    <section id="rfq" class="section">
-      <div class="section-head">
-        <h2>RFQ & Teklif</h2>
-        <div class="muted">Tek form · Supabase rfqs tablosu</div>
+    <!-- DUYGU / GEÇİŞ (yazısız) -->
+    <section class="bridge" aria-hidden="true">
+      <div class="bridge__glass"></div>
+      <div class="bridge__orb bridge__orb--1"></div>
+      <div class="bridge__orb bridge__orb--2"></div>
+      <div class="bridge__orb bridge__orb--3"></div>
+    </section>
+
+    <!-- FİRMA KARTLARI -->
+    <section class="grid">
+      <div class="grid__head">
+        <h2 class="grid__title">Keşfet</h2>
+        <div class="grid__tools">
+          <input id="q" class="input" placeholder="Firma ara (opsiyonel)" />
+        </div>
       </div>
 
-      <form class="rfq" id="rfqForm">
-        <input name="full_name" placeholder="Ad Soyad" required />
-        <input name="email" placeholder="E-posta" type="email" required />
-        <input name="sector" placeholder="Sektör" />
-        <input name="city" placeholder="Şehir" />
-        <input name="company_name" placeholder="Firma (opsiyonel)" />
-        <textarea name="message" placeholder="RFQ mesajı (ne arıyorsun?)" rows="4" required></textarea>
-        <button class="btn btn-primary" type="submit">RFQ Gönder</button>
-        <div class="muted" id="rfqStatus"></div>
-      </form>
+      <div class="cards" id="cards"></div>
+
+      <div class="more">
+        <button class="btn btn--ghost" id="loadMore">Daha fazla yükle</button>
+      </div>
     </section>
 
-    <section id="plans" class="section">
-      <div class="section-head">
-        <h2>Satıcı üyelik paketleri</h2>
-        <div class="muted">/api/plans/home</div>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer__left">© 2025 TradePiGloball</div>
+      <div class="footer__right">
+        <a href="/terms">Kullanım</a>
+        <a href="/privacy">Gizlilik</a>
+        <a href="/kvkk">KVKK</a>
+        <a href="/contact">İletişim</a>
       </div>
-      <div class="grid" id="planGrid"></div>
-    </section>
+    </footer>
   </main>
-
-  <footer class="footer">
-    <div>© 2025 TradePiGloball</div>
-    <div class="muted">Kullanım Şartları · Gizlilik · KVKK · İletişim</div>
-  </footer>
 
   <script src="/main.js"></script>
 </body>
