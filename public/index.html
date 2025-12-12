@@ -4,12 +4,115 @@
   <meta charset="utf-8" />
   <title>TradePiGlobal · B2B Marketplace & Dijital Fuar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #f4f4fc, #e8ecff);
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .hero h1 {
+      max-width: 600px;
+      margin: auto;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .hero-buttons {
+      margin-top: 20px;
+    }
+    .btn-main, .btn-sub {
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin: 5px;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background: #ff7a3d;
+    }
+    .btn-sub { background: #ccc; color: black; }
+    .hero-info {
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* SEKTÖRLER */
+    .block-title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 20px;
+    }
+    .sektor-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+    }
+    .sector-chip {
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: none;
+      background: #eee;
+    }
+
+    /* EXPO */
+    .expo-area {
+      margin: 40px auto;
+      max-width: 900px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+    .expo-left, .expo-preview {
+      flex: 1;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    /* PLANLAR */
+    .plan-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+    .plan-card {
+      width: 250px;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+    }
+    .detay-btn {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: white;
+      background: #444;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- HERO ALANI -->
   <section class="hero">
     <h1>Global B2B ticaret ve dijital fuar tek platformda.</h1>
 
@@ -24,68 +127,36 @@
     </p>
   </section>
 
-  <!-- SEKTÖRLER -->
   <h2 class="block-title">Sektörlere göre B2B marketplace</h2>
-  <div class="sektor-row" data-sector-list>
-    <!-- sektörler JS ile otomatik dolacak -->
+
+  <div class="sektor-row">
+    <button class="sector-chip">Sanayi & Üretim</button>
+    <button class="sector-chip">Gıda & Tarım</button>
+    <button class="sector-chip">Tekstil & Konfeksiyon</button>
+    <button class="sector-chip">Elektronik & Cihazlar</button>
+    <button class="sector-chip">Yapı & İnşaat</button>
+    <button class="sector-chip">Mobilya & Dekorasyon</button>
+    <button class="sector-chip">Kimya & Plastikler</button>
+    <button class="sector-chip">Lojistik & Taşımacılık</button>
+    <button class="sector-chip">Enerji & Maden</button>
+    <button class="sector-chip">Sağlık & Medikal</button>
   </div>
 
-  <!-- EXPO ALANI -->
   <section class="expo-area">
-
     <div class="expo-left">
       <h3>Dijital fuar giriş alanı</h3>
       <p>Ziyaretçiler bu alandan 3D fuara geçer.</p>
       <a class="btn-main" href="/expo">Dijital Expo’ya Gir</a>
     </div>
-
     <div class="expo-preview">
       <h3>3D DIGITAL EXPO PREVIEW</h3>
       <p>Bu alan Unreal / Babylon ile eklenecek tam 3D preview içindir.</p>
     </div>
-
   </section>
 
-  <!-- PLANLAR -->
   <h2 class="block-title">Satıcı üyelik paketleri</h2>
+
   <div class="plan-grid">
-
-    <!-- PLAN KARTI 1 -->
-    <div class="plan-card" data-plan-card="1">
-      <h3 data-plan-name>Yükleniyor...</h3>
-      <p data-plan-desc></p>
-      <p data-plan-price></p>
-      <a class="detay-btn" href="/plans">Detay</a>
-    </div>
-
-    <!-- PLAN KARTI 2 -->
-    <div class="plan-card" data-plan-card="2">
-      <h3 data-plan-name>Yükleniyor...</h3>
-      <p data-plan-desc></p>
-      <p data-plan-price></p>
-      <a class="detay-btn" href="/plans">Detay</a>
-    </div>
-
-    <!-- PLAN KARTI 3 -->
-    <div class="plan-card" data-plan-card="3">
-      <h3 data-plan-name>Yükleniyor...</h3>
-      <p data-plan-desc></p>
-      <p data-plan-price></p>
-      <a class="detay-btn" href="/plans">Detay</a>
-    </div>
-
-  </div>
-
-  <div style="text-align:center; margin-top:20px;">
-    <a href="/plans" class="btn-sub">Tüm Paketleri Gör</a>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2025 TradePiGloball. Tüm hakları saklıdır.
-  </footer>
-
-  <!-- JAVASCRIPT -->
-  <script src="/main.js"></script>
-</body>
-</html>
+    <div class="plan-card">
+      <h3>Basic Fair 50</h3>
+      <p>50 slot · giriş seviyesi fuar alanı</p>
