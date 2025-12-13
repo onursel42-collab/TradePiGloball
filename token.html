@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Token</title>
+<style>
+  body{font-family:system-ui;margin:20px}
+  pre{white-space:pre-wrap;word-break:break-all;background:#f4f4f4;padding:12px;border-radius:10px}
+  button{padding:10px 14px;border:0;border-radius:10px}
+</style>
+</head>
+<body>
+  <h2>Access Token</h2>
+  <button id="copy">Kopyala</button>
+  <pre id="out">yükleniyor...</pre>
+
+  <script>
+    // Supabase localStorage anahtarını bulmaya çalış
+    const key = Object.keys(localStorage).find(k => k.includes("auth-token"));
+    const raw = key ? localStorage.getItem(key) : null;
+
+    let token = null;
+    try {
+      const obj = raw ? JSON.parse(raw) : null;
+      token = obj?.access_token || obj?.currentSession?.access_token || obj?.session?.access_token || null;
+    } catch(e){}
+
+    document.getElementById("out").textContent = token || "Token bulunamadı. Önce login ol.";
+    document.getElementById("copy").onclick = async () => {
+      if(!token) return alert("Token yok");
+      await navigator.clipboard.writeText(token);
+      alert("Kopyalandı ✅");
+    };
+  </script>
+</body>
+</html>
