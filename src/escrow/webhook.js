@@ -1,5 +1,5 @@
 import express from 'express';
-import { supabase } from '../supabase/client.js';
+import { supabase } from '../supabaseclient.js';
 
 export const escrowWebhookRouter = express.Router();
 
