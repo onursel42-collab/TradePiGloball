@@ -1,28 +1,16 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import { supabaseServer } from '../lib/supabaseServer.js';
 
 export async function ownerOnly(req, res, next) {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+  const auth = req.headers.authorization || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  if (!token) return res.status(401).json({ error: 'No token' });
 
-  if (!token) {
-    return res.status(401).json({ error: 'No token' });
-  }
+  const { data, error } = await supabaseServer.auth.getUser(token);
+  const user = data?.user;
+  if (error || !user) return res.status(401).json({ error: 'Invalid user' });
 
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-
-  if (error || !user) {
-    return res.status(401).json({ error: 'Invalid user' });
-  }
-
-  const { data, error: ownerError } = await supabase.rpc('is_owner');
-
-  if (ownerError || !data) {
-    return res.status(403).json({ error: 'Owner only' });
-  }
+  if (!process.env.OWNER_UUID) return res.status(500).json({ error: 'OWNER_UUID missing' });
+  if (user.id !== process.env.OWNER_UUID) return res.status(403).json({ error: 'Owner only' });
 
   req.owner = user;
   next();
