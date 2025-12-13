@@ -1,31 +1,22 @@
-import express from 'express';
-import { escrowWebhookRouter } from './escrow/webhook.js';
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
-app.get("/", (req, res) => {
-  res.status(200).send(`
-    <html>
-      <head><title>TradePiGloball</title></head>
-      <body style="font-family:Arial;padding:24px">
-        <h1>TradePiGloball ✅</h1>
-        <p>Site canlı. Frontend yakında.</p>
-        <p><a href="/health">Health Check</a></p>
-      </body>
-    </html>
-  `);
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("/health", (req, res) => res.status(200).json({ ok: true }));
+const PORT = process.env.PORT || 10000;
+const PUBLIC_DIR = path.join(__dirname, "..", "public");
 
-app.use(express.json());
-app.get("/validation-key.txt", (req, res) => {
-  res.setHeader("Content-Type", "text/plain; charset=utf-8");
-  res.status(200).send(process.env.PI_VALIDATION_KEY);
-});
-// Escrow webhook
-app.use('/webhooks/escrow', escrowWebhookRouter);
+app.use(express.static(PUBLIC_DIR));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`TradePiGloball backend running on port ${PORT}`);
+app.get("/health", (_, res) => res.send("ok"));
+
+app.get("*", (_, res) =>
+  res.sendFile(path.join(PUBLIC_DIR, "index.html"))
+);
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("TradePiGlobal running");
 });
