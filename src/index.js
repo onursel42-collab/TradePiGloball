@@ -13,9 +13,6 @@ const __dirname = path.dirname(__filename);
 // Repo kök dizini (src'nin bir üstü)
 const ROOT_DIR = path.resolve(__dirname, "..");
 
-// JSON body (webhook vs.)
-app.use(express.json());
-
 // 1) Health
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 
@@ -38,13 +35,16 @@ app.get("/validation-key.txt", async (req, res) => {
   }
 });
 
-// 3) Escrow webhook
+// 3) Escrow webhook (kendi raw body parser'ını kullanır)
 app.use("/webhooks/escrow", escrowWebhookRouter);
 
-// 4) Statik dosyaları kökten servis et (index.html, assets, varliklar, vs.)
+// 4) JSON body parser (webhook'tan sonra, diğer route'lar için)
+app.use(express.json());
+
+// 5) Statik dosyaları kökten servis et (index.html, assets, varliklar, vs.)
 app.use(express.static(ROOT_DIR, { extensions: ["html"] }));
 
-// 5) Ana sayfa: kökte index.html varsa onu bas
+// 6) Ana sayfa: kökte index.html varsa onu bas
 app.get("/", (req, res) => {
   const indexPath = path.join(ROOT_DIR, "index.html");
   res.sendFile(indexPath, (err) => {
