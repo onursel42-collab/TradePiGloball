@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Üyelik Paketleri — TradePiGloball</title>
+  <meta name="description" content="TradePiGloball üyelik paketleri ve detaylı fiyatlandırma bilgileri." />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .pricing-table {
+      margin: 40px 0;
+    }
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 200px repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .pricing-cell {
+      background: var(--card);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .pricing-cell.header {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .pricing-cell.feature {
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .pricing-cell.check {
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .pricing-highlight {
+      background: var(--accent-light) !important;
+    }
+    @media (max-width: 968px) {
+      .pricing-row {
+        grid-template-columns: 1fr;
+      }
+      .pricing-cell.feature {
+        font-size: 0.9rem;
+        padding: 12px;
+      }
+    }
+  </style>
+  <script defer src="../assets/js/main.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html" aria-label="TradePiGloball">
+        <svg class="logo-mark" viewBox="0 0 100 100" width="32" height="32" aria-hidden="true">
+          <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M26 70 L48 40 L74 70" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">TradePiGloball</span>
+      </a>
+
+      <nav class="nav">
+        <div class="nav-actions">
+          <a class="btn btn-outline" href="login.html">Giriş Yap</a>
+          <a class="btn btn-primary" href="signup.html">Firma Olarak Katıl</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 16px;">Üyelik Paketleri</h1>
+        <p class="section-lead" style="font-size: 1.15rem;">İşletmenizin ihtiyacına uygun paketi seçin ve global B2B pazarda yerinizi alın.</p>
+
+        <!-- Package Cards -->
+        <div class="cards" style="margin: 48px 0;">
+          <article class="card" id="basic">
+            <div class="card-badge">Temel</div>
+            <h3 class="card-title">Basic</h3>
+            <div style="margin: 16px 0;">
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">Ücretsiz</div>
+              <div style="color: var(--muted); font-size: 0.9rem;">Aylık komisyon: %5</div>
+            </div>
+            <ul class="card-benefits" style="margin: 24px 0;">
+              <li>✓ Platform erişimi ve temel profil</li>
+              <li>✓ 50 ürün yükleme limiti</li>
+              <li>✓ Kategori listelerinde görünürlük</li>
+              <li>✓ E-posta desteği (48 saat yanıt)</li>
+              <li>✓ Temel analitik raporlar</li>
+            </ul>
+            <a href="signup.html?plan=basic" class="btn btn-outline">Hemen Başla</a>
+          </article>
+
+          <article class="card featured" id="pro">
+            <div class="card-badge badge-pro">Popüler</div>
+            <h3 class="card-title">Pro</h3>
+            <div style="margin: 16px 0;">
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">299 TL<span style="font-size: 1rem; color: var(--muted);">/ay</span></div>
+              <div style="color: var(--muted); font-size: 0.9rem;">veya $49/ay · Komisyon: %3</div>
+            </div>
+            <ul class="card-benefits" style="margin: 24px 0;">
+              <li>✓ Gelişmiş profil ve showroom özelleştirme</li>
+              <li>✓ 500 ürün yükleme limiti</li>
+              <li>✓ Ana sayfada öne çıkan görünürlük</li>
+              <li>✓ Öncelikli destek (24 saat yanıt)</li>
+              <li>✓ Detaylı analitik ve raporlar</li>
+              <li>✓ Müşteri mesajlaşma sistemi</li>
+            </ul>
+            <a href="signup.html?plan=pro" class="btn btn-primary">Pro'ya Geç</a>
+          </article>
+
+          <article class="card" id="kurumsal">
+            <div class="card-badge">Premium</div>
+            <h3 class="card-title">Kurumsal</h3>
+            <div style="margin: 16px 0;">
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">999 TL<span style="font-size: 1rem; color: var(--muted);">/ay</span></div>
+              <div style="color: var(--muted); font-size: 0.9rem;">veya $199/ay · Komisyon: %2</div>
+            </div>
+            <ul class="card-benefits" style="margin: 24px 0;">
+              <li>✓ Sınırsız ürün yükleme</li>
+              <li>✓ Özel hesap yöneticisi</li>
+              <li>✓ API entegrasyonu ve otomatik senkronizasyon</li>
+              <li>✓ Premium görünürlük ve branding</li>
+              <li>✓ 7/24 öncelikli destek</li>
+              <li>✓ Özel eğitim ve onboarding</li>
+              <li>✓ Toplu ürün yükleme araçları</li>
+              <li>✓ Gelişmiş analitik ve BI dashboard</li>
+            </ul>
+            <a href="signup.html?plan=kurumsal" class="btn btn-outline">Kurumsal'a Geç</a>
+          </article>
+        </div>
+
+        <!-- Comparison Table -->
+        <div style="margin: 60px 0;">
+          <h2 class="section-title">Detaylı Karşılaştırma</h2>
+          <p class="section-lead">Tüm özellikler bir bakışta</p>
+
+          <div class="pricing-table">
+            <div class="pricing-row">
+              <div class="pricing-cell header">Özellik</div>
+              <div class="pricing-cell header">Basic</div>
+              <div class="pricing-cell header pricing-highlight">Pro</div>
+              <div class="pricing-cell header">Kurumsal</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Ürün Limiti</div>
+              <div class="pricing-cell">50</div>
+              <div class="pricing-cell pricing-highlight">500</div>
+              <div class="pricing-cell">Sınırsız</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Satış Komisyonu</div>
+              <div class="pricing-cell">%5</div>
+              <div class="pricing-cell pricing-highlight">%3</div>
+              <div class="pricing-cell">%2</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Profil Özelleştirme</div>
+              <div class="pricing-cell">Temel</div>
+              <div class="pricing-cell pricing-highlight">Gelişmiş</div>
+              <div class="pricing-cell">Premium</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Görünürlük</div>
+              <div class="pricing-cell">Standart</div>
+              <div class="pricing-cell pricing-highlight">Öne Çıkan</div>
+              <div class="pricing-cell">Premium</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Destek</div>
+              <div class="pricing-cell">E-posta (48s)</div>
+              <div class="pricing-cell pricing-highlight">Öncelikli (24s)</div>
+              <div class="pricing-cell">7/24 Özel</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Analitik</div>
+              <div class="pricing-cell">Temel</div>
+              <div class="pricing-cell pricing-highlight">Detaylı</div>
+              <div class="pricing-cell">BI Dashboard</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">API Entegrasyonu</div>
+              <div class="pricing-cell">—</div>
+              <div class="pricing-cell pricing-highlight">—</div>
+              <div class="pricing-cell check">✓</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Hesap Yöneticisi</div>
+              <div class="pricing-cell">—</div>
+              <div class="pricing-cell pricing-highlight">—</div>
+              <div class="pricing-cell check">✓</div>
+            </div>
+
+            <div class="pricing-row">
+              <div class="pricing-cell feature">Toplu Ürün Yükleme</div>
+              <div class="pricing-cell">—</div>
+              <div class="pricing-cell pricing-highlight">—</div>
+              <div class="pricing-cell check">✓</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pi Network Section -->
+        <div style="margin: 60px 0;">
+          <div class="contact" style="background: linear-gradient(135deg, var(--accent-light) 0%, var(--bg) 100%);">
+            <div>
+              <h3>💡 Yakında: Pi Network Entegrasyonu</h3>
+              <p>TradePiGloball, yakında Pi Network ile entegre olacak. Üyelik ödemelerinizi ve işlem ücretlerinizi Pi ile yapabileceksiniz.</p>
+              <p style="margin-top: 12px; font-size: 0.95rem; color: var(--muted);">
+                <strong>Avantajlar:</strong> Düşük işlem ücretleri, global erişim, anlık ödemeler
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div style="margin: 60px 0;">
+          <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+          <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="card">
+              <h4 style="margin: 0 0 8px; font-weight: 700;">Paket değiştirebilir miyim?</h4>
+              <p style="margin: 0; color: var(--muted);">Evet, istediğiniz zaman paketinizi yükseltebilir veya düşürebilirsiniz. Değişiklik hemen yansır.</p>
+            </div>
+            <div class="card">
+              <h4 style="margin: 0 0 8px; font-weight: 700;">Komisyon oranları ne zaman uygulanır?</h4>
+              <p style="margin: 0; color: var(--muted);">Komisyon oranları sadece başarılı satışlarda, ödeme tahsil edildiğinde uygulanır.</p>
+            </div>
+            <div class="card">
+              <h4 style="margin: 0 0 8px; font-weight: 700;">İptal politikası nedir?</h4>
+              <p style="margin: 0; color: var(--muted);">Aylık ödemeli paketlerde istediğiniz zaman iptal edebilirsiniz. İptal sonrası mevcut dönem sonuna kadar hizmetiniz devam eder.</p>
+            </div>
+            <div class="card">
+              <h4 style="margin: 0 0 8px; font-weight: 700;">Pi Network ödemeleri ne zaman başlayacak?</h4>
+              <p style="margin: 0; color: var(--muted);">Pi Network entegrasyonu 2024 Q2'de devreye girecek. Şu an için TL ve USD ile ödeme yapabilirsiniz.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="margin: 60px 0; text-align: center;">
+          <h3 style="margin: 0 0 16px; font-size: 1.75rem;">Hemen Başlayın</h3>
+          <p style="margin: 0 0 24px; color: var(--muted);">Ücretsiz Basic paketi ile başlayın, istediğiniz zaman yükseltin.</p>
+          <a href="signup.html" class="btn btn-primary large">Ücretsiz Kaydolun</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> TradePiGloball — Tüm hakları saklıdır</small>
+      <nav class="footer-nav">
+        <a href="../index.html">Ana Sayfa</a>
+        <a href="#privacy">Gizlilik</a>
+        <a href="#terms">Şartlar</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,174 +1,330 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TradePi Global — B2B Showrooms</title>
-  <meta name="description" content="Enterprise showroom platform — verified showrooms, scalable integrations, enterprise support." />
+  <title>TradePiGloball — Kurumsal B2B Marketplace Showroom Ağı</title>
+  <meta name="description" content="Üreticiler için vitrin. Alıcılar için doğrudan erişim. Premium B2B marketplace platformu." />
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="preload" href="assets/css/styles.css" as="style" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <script defer src="assets/js/rates.js"></script>
   <script defer src="assets/js/main.js"></script>
 </head>
 <body>
+  <!-- Sticky Header -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="/" aria-label="TradePi Global">
-        <svg class="logo-mark" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
+      <a class="logo" href="/" aria-label="TradePiGloball">
+        <svg class="logo-mark" viewBox="0 0 100 100" width="32" height="32" aria-hidden="true">
           <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" stroke-width="6"/>
           <path d="M26 70 L48 40 L74 70" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="logo-text">TradePi Global</span>
+        <span class="logo-text">TradePiGloball</span>
       </a>
+
+      <!-- Live Rates Widget -->
+      <div class="rates-widget" id="ratesWidget" aria-live="polite">
+        <span class="rate-item" id="rateTRY">TL: <strong>—</strong></span>
+        <span class="rate-item" id="rateUSD">USD: <strong>—</strong></span>
+        <span class="rate-item" id="ratePi">Pi: <strong>yakında</strong></span>
+      </div>
 
       <nav class="nav" id="nav">
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
           <span class="bar"></span>
-          <span class="sr-only">Toggle navigation</span>
+          <span class="sr-only">Menüyü Aç</span>
         </button>
         <ul class="nav-menu" id="navMenu">
-          <li><a href="#features">Why TradePi</a></li>
-          <li><a href="#memberships">Memberships</a></li>
-          <li><a href="#categories">Categories</a></li>
+          <li><a href="#features">Özellikler</a></li>
+          <li><a href="#memberships">Üyelikler</a></li>
+          <li><a href="#categories">Kategoriler</a></li>
         </ul>
         <div class="nav-actions">
-          <a class="btn btn-outline" href="/signin">Sign in</a>
-          <a class="btn btn-primary" href="#contact">Get started</a>
+          <a class="btn btn-outline" href="pages/login.html">Giriş Yap</a>
+          <a class="btn btn-primary" href="pages/signup.html">Firma Olarak Katıl</a>
         </div>
       </nav>
     </div>
   </header>
 
   <main>
+    <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <h1 class="hero-title">Enterprise showrooms for global trade</h1>
-          <p class="hero-sub">Verified partners. Scalable integrations. Enterprise-grade support — built to help you move more, faster.</p>
+          <h1 class="hero-title">Kurumsal B2B Marketplace Showroom Ağı</h1>
+          <p class="hero-sub">Üreticiler için vitrin. Alıcılar için doğrudan erişim.</p>
           <div class="hero-ctas">
-            <a class="btn btn-primary large" href="#memberships">Explore membership</a>
-            <a class="btn btn-ghost large" href="#categories">Browse categories</a>
+            <a class="btn btn-primary large" href="#memberships">Paketi İncele</a>
+            <a class="btn btn-ghost large" href="mailto:info@tradepigloball.com?subject=Demo%20Talep">Demo Talep Et</a>
           </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <!-- Subtle, performant SVG illustration -->
           <svg viewBox="0 0 600 400" class="hero-svg" preserveAspectRatio="xMidYMid slice">
             <defs>
-              <linearGradient id="g1" x1="0" x2="1">
-                <stop offset="0" stop-color="#eaf6ff"/>
-                <stop offset="1" stop-color="#f6fbff"/>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#e8f5ff"/>
+                <stop offset="1" stop-color="#f0f9ff"/>
               </linearGradient>
             </defs>
             <rect x="0" y="0" width="600" height="400" rx="18" fill="url(#g1)"/>
-            <g transform="translate(20,40)" fill="none" stroke="#bfe0ff" stroke-width="3" stroke-linecap="round">
-              <path d="M0 260 C120 130 240 260 360 160 C480 60 580 160 580 160" opacity="0.65"/>
+            <g transform="translate(30,50)" fill="none" stroke="#a5d8ff" stroke-width="2.5" stroke-linecap="round">
+              <path d="M0 240 C100 140 200 240 300 160 C400 80 500 160 540 140" opacity="0.5"/>
+              <path d="M0 260 C120 180 220 260 340 190 C440 120 520 180 540 170" opacity="0.5"/>
             </g>
-            <g transform="translate(80,60)">
-              <rect x="0" y="0" width="200" height="120" rx="9" fill="#fff" opacity="0.9" />
-              <rect x="220" y="30" width="210" height="120" rx="9" fill="#ffffff" opacity="0.9" />
+            <g transform="translate(80,80)">
+              <rect x="0" y="0" width="180" height="100" rx="10" fill="#fff" opacity="0.85" />
+              <rect x="200" y="40" width="200" height="120" rx="10" fill="#ffffff" opacity="0.85" />
+              <rect x="420" y="20" width="100" height="80" rx="10" fill="#fff" opacity="0.75" />
             </g>
           </svg>
         </div>
       </div>
     </section>
 
+    <!-- Membership Cards -->
     <section id="memberships" class="memberships section">
       <div class="container">
-        <h2 class="section-title">Trusted membership tiers</h2>
-        <p class="section-lead">Simple, corporate-grade memberships that convey trust and capability.</p>
+        <h2 class="section-title">Üyelik Paketleri</h2>
+        <p class="section-lead">İşletmenizin ihtiyacına uygun paket seçin.</p>
 
         <div class="cards">
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 2 L3 7 v7 c0 4 6 7 9 7 s9-3 9-7 V7 L12 2 z" fill="#2c7be5"/></svg>
-            </div>
-            <h3 class="card-title">Verified Showrooms</h3>
-            <p class="card-desc">Curated and verified partners to reduce risk and increase confidence.</p>
+          <article class="card membership-card">
+            <div class="card-badge">Temel</div>
+            <h3 class="card-title">Basic</h3>
+            <ul class="card-benefits">
+              <li>✓ Platform erişimi</li>
+              <li>✓ 50 ürün limiti</li>
+              <li>✓ E-posta desteği</li>
+            </ul>
+            <button class="btn btn-outline btn-modal" data-modal="modalBasic">Detayları Gör</button>
           </article>
 
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 1 L3 5 v6 c0 5 4 9 9 9 s9-4 9-9 V5 L12 1 z" fill="#00a99d"/></svg>
-            </div>
-            <h3 class="card-title">Enterprise Support</h3>
-            <p class="card-desc">Dedicated onboarding and integration support for scaled operations.</p>
+          <article class="card membership-card featured">
+            <div class="card-badge badge-pro">Popüler</div>
+            <h3 class="card-title">Pro</h3>
+            <ul class="card-benefits">
+              <li>✓ Gelişmiş görünürlük</li>
+              <li>✓ 500 ürün limiti</li>
+              <li>✓ Öncelikli destek</li>
+            </ul>
+            <button class="btn btn-primary btn-modal" data-modal="modalPro">Detayları Gör</button>
           </article>
 
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M2 12 L22 12 M12 2 L12 22" stroke="#5b6cff" stroke-width="2" stroke-linecap="round"/></svg>
-            </div>
-            <h3 class="card-title">Scalable Integrations</h3>
-            <p class="card-desc">APIs and partner-ready tools that scale with your business volume.</p>
+          <article class="card membership-card">
+            <div class="card-badge">Premium</div>
+            <h3 class="card-title">Kurumsal</h3>
+            <ul class="card-benefits">
+              <li>✓ Sınırsız ürün</li>
+              <li>✓ Özel hesap yöneticisi</li>
+              <li>✓ API entegrasyonu</li>
+            </ul>
+            <button class="btn btn-outline btn-modal" data-modal="modalKurumsal">Detayları Gör</button>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Categories Scroller -->
     <section id="categories" class="categories section">
       <div class="container">
-        <h2 class="section-title">Browse categories</h2>
-        <p class="section-lead">Quickly scan category types — horizontal, swipeable on mobile.</p>
+        <h2 class="section-title">Kategoriler</h2>
+        <p class="section-lead">B2B ticaret kategorilerine göz atın.</p>
 
         <div class="category-wrap">
-          <button class="cat-scroll btn-circle" data-dir="left" aria-label="Scroll categories left">‹</button>
+          <button class="cat-scroll" data-dir="left" aria-label="Kategorileri sola kaydır">‹</button>
           <div class="category-scroller" id="categoryScroller" tabindex="0" role="list">
-            <!-- Category items -->
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f0f6fb"/></svg>
-              <span>Electronics</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+              <span>Elektronik</span>
             </div>
-
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f7fbf6"/></svg>
-              <span>Furniture</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+              <span>Tekstil</span>
             </div>
-
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff6fb"/></svg>
-              <span>Apparel</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+              <span>Mobilya</span>
             </div>
-
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f6f7ff"/></svg>
-              <span>Industrial</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+              <span>Gıda</span>
             </div>
-
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fffaf6"/></svg>
-              <span>Beauty</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+              <span>Kozmetik</span>
             </div>
-
             <div class="category" role="listitem">
-              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f5fbff"/></svg>
-              <span>Automotive</span>
+              <div class="cat-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);"></div>
+              <span>Endüstriyel</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+              <span>Otomotiv</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></div>
+              <span>Sağlık</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);"></div>
+              <span>İnşaat</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);"></div>
+              <span>Teknoloji</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);"></div>
+              <span>Tarım</span>
+            </div>
+            <div class="category" role="listitem">
+              <div class="cat-icon" style="background: linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%);"></div>
+              <span>Eğitim</span>
             </div>
           </div>
-          <button class="cat-scroll btn-circle" data-dir="right" aria-label="Scroll categories right">›</button>
+          <button class="cat-scroll" data-dir="right" aria-label="Kategorileri sağa kaydır">›</button>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section section-compact">
+    <!-- How It Works -->
+    <section id="features" class="how-it-works section">
+      <div class="container">
+        <h2 class="section-title">Nasıl Çalışır?</h2>
+        <p class="section-lead">3 adımda başlayın.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <h3 class="step-title">1. Kayıt Olun</h3>
+            <p class="step-desc">Firmanızı platforma kaydedin</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h3 class="step-title">2. Ürünlerinizi Ekleyin</h3>
+            <p class="step-desc">Showroom'unuzu oluşturun</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+            <h3 class="step-title">3. Satış Yapın</h3>
+            <p class="step-desc">Global alıcılarla bağlantı kurun</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section section-compact">
       <div class="container">
         <div class="contact">
           <div>
-            <h3>Ready to scale?</h3>
-            <p>Speak with our enterprise team to align a rollout that fits your trade volume.</p>
+            <h3>Hemen Başlayın</h3>
+            <p>Platformumuza katılın ve global B2B ticarette yerinizi alın.</p>
           </div>
-          <div><a class="btn btn-primary" href="/contact">Contact sales</a></div>
+          <div><a class="btn btn-primary large" href="pages/signup.html">Ücretsiz Kaydolun</a></div>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <small>© <span id="year"></span> TradePi Global — All rights reserved</small>
+      <small>© <span id="year"></span> TradePiGloball — Tüm hakları saklıdır</small>
       <nav class="footer-nav">
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
+        <a href="#privacy">Gizlilik</a>
+        <a href="#terms">Şartlar</a>
       </nav>
     </div>
   </footer>
+
+  <!-- Modals for Membership Details -->
+  <div id="modalBasic" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalBasicTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Kapat">&times;</button>
+      <h2 id="modalBasicTitle">Basic Üyelik</h2>
+      <div class="modal-body">
+        <h3>Özellikler</h3>
+        <ul>
+          <li>Platform erişimi ve temel profil</li>
+          <li>50 ürün yükleme limiti</li>
+          <li>Kategori listelerinde görünürlük</li>
+          <li>E-posta desteği (48 saat yanıt)</li>
+          <li>Temel analitik raporlar</li>
+        </ul>
+        <h3>Komisyon & Ücretlendirme</h3>
+        <p><strong>Aylık:</strong> 0 TL (Ücretsiz)</p>
+        <p><strong>Satış Komisyonu:</strong> %5</p>
+        <p class="note">💡 Yakında: Pi Network ile ödeme desteği gelecek</p>
+        <a href="pages/memberships.html#basic" class="btn btn-primary">Tüm Detaylar</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalPro" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalProTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Kapat">&times;</button>
+      <h2 id="modalProTitle">Pro Üyelik</h2>
+      <div class="modal-body">
+        <h3>Özellikler</h3>
+        <ul>
+          <li>Gelişmiş profil ve showroom özelleştirme</li>
+          <li>500 ürün yükleme limiti</li>
+          <li>Ana sayfada öne çıkan görünürlük</li>
+          <li>Öncelikli destek (24 saat yanıt)</li>
+          <li>Detaylı analitik ve raporlar</li>
+          <li>Müşteri mesajlaşma sistemi</li>
+        </ul>
+        <h3>Komisyon & Ücretlendirme</h3>
+        <p><strong>Aylık:</strong> 299 TL veya $49</p>
+        <p><strong>Satış Komisyonu:</strong> %3</p>
+        <p class="note">💡 Yakında: Pi Network ile ödeme desteği gelecek</p>
+        <a href="pages/memberships.html#pro" class="btn btn-primary">Tüm Detaylar</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalKurumsal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalKurumsalTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Kapat">&times;</button>
+      <h2 id="modalKurumsalTitle">Kurumsal Üyelik</h2>
+      <div class="modal-body">
+        <h3>Özellikler</h3>
+        <ul>
+          <li>Sınırsız ürün yükleme</li>
+          <li>Özel hesap yöneticisi</li>
+          <li>API entegrasyonu ve otomatik senkronizasyon</li>
+          <li>Premium görünürlük ve branding</li>
+          <li>7/24 öncelikli destek</li>
+          <li>Özel eğitim ve onboarding</li>
+          <li>Toplu ürün yükleme araçları</li>
+          <li>Gelişmiş analitik ve BI dashboard</li>
+        </ul>
+        <h3>Komisyon & Ücretlendirme</h3>
+        <p><strong>Aylık:</strong> 999 TL veya $199</p>
+        <p><strong>Satış Komisyonu:</strong> %2</p>
+        <p><strong>Özel Anlaşma:</strong> Yüksek hacimli satıcılar için özel fiyatlandırma</p>
+        <p class="note">💡 Yakında: Pi Network ile ödeme desteği gelecek</p>
+        <a href="pages/memberships.html#kurumsal" class="btn btn-primary">Tüm Detaylar</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
