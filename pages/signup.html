@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Firma Olarak Katıl — TradePiGloball</title>
+  <meta name="description" content="TradePiGloball'a firma olarak katılın ve global B2B pazarda yerinizi alın." />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <style>
+    .auth-container {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .auth-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 560px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+    .auth-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+      text-align: center;
+    }
+    .auth-subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 0 32px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+    .form-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    .form-checkbox input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .form-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .form-link:hover {
+      text-decoration: underline;
+    }
+    .plan-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .plan-option {
+      position: relative;
+    }
+    .plan-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+    .plan-label {
+      display: block;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+    .plan-option input[type="radio"]:checked + .plan-label {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .plan-label strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .plan-label span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .plan-selector {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html" aria-label="TradePiGloball">
+        <svg class="logo-mark" viewBox="0 0 100 100" width="32" height="32" aria-hidden="true">
+          <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M26 70 L48 40 L74 70" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">TradePiGloball</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1 class="auth-title">Firma Olarak Katıl</h1>
+        <p class="auth-subtitle">Hesap oluşturun ve global B2B pazara girin</p>
+
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <!-- Plan Selection -->
+          <div class="form-group">
+            <label class="form-label">Paket Seçimi</label>
+            <div class="plan-selector">
+              <div class="plan-option">
+                <input type="radio" id="planBasic" name="plan" value="basic" checked />
+                <label for="planBasic" class="plan-label">
+                  <strong>Basic</strong>
+                  <span>Ücretsiz</span>
+                </label>
+              </div>
+              <div class="plan-option">
+                <input type="radio" id="planPro" name="plan" value="pro" />
+                <label for="planPro" class="plan-label">
+                  <strong>Pro</strong>
+                  <span>299 TL/ay</span>
+                </label>
+              </div>
+              <div class="plan-option">
+                <input type="radio" id="planKurumsal" name="plan" value="kurumsal" />
+                <label for="planKurumsal" class="plan-label">
+                  <strong>Kurumsal</strong>
+                  <span>999 TL/ay</span>
+                </label>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--muted); margin: 8px 0 0;">
+              <a href="memberships.html" class="form-link">Paketleri karşılaştır</a>
+            </p>
+          </div>
+
+          <!-- Company Info -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="companyName" class="form-label">Firma Adı *</label>
+              <input 
+                type="text" 
+                id="companyName" 
+                class="form-input" 
+                placeholder="Örnek Tic. Ltd. Şti."
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="taxNumber" class="form-label">Vergi Numarası *</label>
+              <input 
+                type="text" 
+                id="taxNumber" 
+                class="form-input" 
+                placeholder="1234567890"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Contact Person -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName" class="form-label">Ad *</label>
+              <input 
+                type="text" 
+                id="firstName" 
+                class="form-input" 
+                placeholder="Ahmet"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lastName" class="form-label">Soyad *</label>
+              <input 
+                type="text" 
+                id="lastName" 
+                class="form-input" 
+                placeholder="Yılmaz"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Email & Phone -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email" class="form-label">E-posta *</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="form-input" 
+                placeholder="ahmet@firma.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="form-label">Telefon *</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                class="form-input" 
+                placeholder="+90 555 123 45 67"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Industry -->
+          <div class="form-group">
+            <label for="industry" class="form-label">Sektör *</label>
+            <select id="industry" class="form-select" required>
+              <option value="">Sektör seçin</option>
+              <option value="elektronik">Elektronik</option>
+              <option value="tekstil">Tekstil</option>
+              <option value="mobilya">Mobilya</option>
+              <option value="gida">Gıda</option>
+              <option value="kozmetik">Kozmetik</option>
+              <option value="endustriyel">Endüstriyel</option>
+              <option value="otomotiv">Otomotiv</option>
+              <option value="saglik">Sağlık</option>
+              <option value="insaat">İnşaat</option>
+              <option value="teknoloji">Teknoloji</option>
+              <option value="tarim">Tarım</option>
+              <option value="egitim">Eğitim</option>
+              <option value="diger">Diğer</option>
+            </select>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password" class="form-label">Şifre *</label>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="••••••••"
+              required
+              minlength="8"
+              autocomplete="new-password"
+            />
+            <p style="font-size: 0.85rem; color: var(--muted); margin: 4px 0 0;">En az 8 karakter</p>
+          </div>
+
+          <!-- Terms -->
+          <label class="form-checkbox">
+            <input type="checkbox" id="terms" required />
+            <span style="font-size: 0.9rem; color: var(--muted);">
+              <a href="#terms" class="form-link">Kullanım Şartları</a> ve 
+              <a href="#privacy" class="form-link">Gizlilik Politikası</a>'nı okudum ve kabul ediyorum.
+            </span>
+          </label>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+            Hesap Oluştur
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; text-align: center; color: var(--muted); font-size: 0.95rem;">
+          Zaten hesabınız var mı?
+          <a href="login.html" class="form-link">Giriş yapın</a>
+        </div>
+
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+          <p style="margin: 0; font-size: 0.85rem; color: var(--muted);">
+            💡 <strong>Yakında:</strong> Pi Network ile kayıt olabileceksiniz
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> TradePiGloball — Tüm hakları saklıdır</small>
+      <nav class="footer-nav">
+        <a href="../index.html">Ana Sayfa</a>
+        <a href="memberships.html">Üyelikler</a>
+        <a href="#privacy">Gizlilik</a>
+        <a href="#terms">Şartlar</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Check for plan parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const planParam = urlParams.get('plan');
+    if (planParam && ['basic', 'pro', 'kurumsal'].includes(planParam)) {
+      const planInput = document.getElementById('plan' + planParam.charAt(0).toUpperCase() + planParam.slice(1));
+      if (planInput) planInput.checked = true;
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      
+      const formData = {
+        plan: document.querySelector('input[name="plan"]:checked').value,
+        companyName: document.getElementById('companyName').value,
+        taxNumber: document.getElementById('taxNumber').value,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        industry: document.getElementById('industry').value,
+        password: document.getElementById('password').value
+      };
+      
+      // This is a placeholder - in production, this would call your registration API
+      alert('Kayıt fonksiyonu şu an geliştirme aşamasında.\n\nFirma: ' + formData.companyName + '\nPaket: ' + formData.plan);
+      
+      // In production, you would do:
+      // fetch('/api/auth/register', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(formData)
+      // })
+      // .then(response => response.json())
+      // .then(data => {
+      //   if (data.success) {
+      //     window.location.href = '/welcome';
+      //   }
+      // });
+    }
+  </script>
+</body>
+</html>
