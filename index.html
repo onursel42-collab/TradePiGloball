@@ -11,32 +11,147 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="/" aria-label="TradePi Global">
-        <svg class="logo-mark" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
-          <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" stroke-width="6"/>
-          <path d="M26 70 L48 40 L74 70" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="logo-text">TradePi Global</span>
-      </a>
+  <header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href="/" aria-label="TradePi Global">
+      <span class="logo-badge"></span>
+      <span style="font-weight:900; letter-spacing:-.02em;">TradePiGlobal</span>
+    </a>
 
-      <nav class="nav" id="nav">
-        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
-          <span class="bar"></span>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="#features">Why TradePi</a></li>
-          <li><a href="#memberships">Memberships</a></li>
-          <li><a href="#categories">Categories</a></li>
-        </ul>
-        <div class="nav-actions">
-          <a class="btn btn-outline" href="/signin">Sign in</a>
-          <a class="btn btn-primary" href="#contact">Get started</a>
+    <nav class="nav" id="navMenu">
+      <a href="#why">Why TradePi</a>
+      <a href="#memberships">Memberships</a>
+      <a href="#categories">Categories</a>
+      <a class="btn btn-ghost" href="#signin">Sign in</a>
+      <a class="btn btn-primary" href="#get-started">Get started</a>
+    </nav>
+
+    <button class="btn btn-outline" id="navToggle" aria-label="Toggle navigation">Menu</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <h1>Verified B2B showrooms for global trade</h1>
+        <p>
+          TradePiGlobal is a <b>showroom-first</b> platform: manufacturers present verified catalogs,
+          buyers connect directly, and trust is built with clear tiers and validation.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#get-started">Start with a showroom</a>
+          <a class="btn btn-outline" href="#categories">Browse categories</a>
         </div>
-      </nav>
+
+        <div class="kpi-row">
+          <div class="kpi">
+            <b>Showroom-first</b>
+            <span>Not a noisy marketplace</span>
+          </div>
+          <div class="kpi">
+            <b>Verified tiers</b>
+            <span>Trust & capability levels</span>
+          </div>
+          <div class="kpi">
+            <b>Pi-ready</b>
+            <span>Planned Pi Network alignment</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="hero-side-inner">
+          <span class="pill">Live status: Online • tradepiglobal.co</span>
+
+          <div class="mock" aria-hidden="true">
+            <div class="mock-top">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span style="margin-left:6px; color: rgba(255,255,255,.65); font-weight:800; font-size:12px;">
+                Sample showroom preview
+              </span>
+            </div>
+            <div class="mock-body">
+              <div class="row">
+                <span class="tag">Supplier</span>
+                <span style="font-weight:900;">Anatolia Textiles</span>
+                <span style="margin-left:auto; color: rgba(255,255,255,.65); font-weight:800;">Verified</span>
+              </div>
+              <div class="row">
+                <span class="tag">MOQ</span>
+                <span style="color: rgba(255,255,255,.75); font-weight:800;">100 units</span>
+                <span class="tag" style="margin-left:auto;">RFQ</span>
+              </div>
+              <div class="row">
+                <span class="tag">Lead</span>
+                <span style="color: rgba(255,255,255,.75); font-weight:800;">7–12 days</span>
+                <span class="tag" style="margin-left:auto;">Catalog</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
-  </header>
+  </section>
+
+  <section class="section" id="why">
+    <div class="container">
+      <h2>Why TradePiGlobal</h2>
+      <p class="sub">Less noise, more trust. Built for real B2B workflows.</p>
+
+      <div class="cards">
+        <div class="card">
+          <b>Verified Showrooms</b>
+          <span>Curated partners and clearer credibility levels to reduce risk.</span>
+        </div>
+        <div class="card">
+          <b>Enterprise Support</b>
+          <span>Onboarding and integration support for serious suppliers & buyers.</span>
+        </div>
+        <div class="card">
+          <b>Scalable Integrations</b>
+          <span>APIs and partner-ready tools that scale with volume.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="categories">
+    <div class="container">
+      <h2>Browse categories</h2>
+      <p class="sub">Quick scan — swipe horizontally on mobile.</p>
+
+      <div class="scroller" role="list">
+        <div class="chip" role="listitem">Electronics</div>
+        <div class="chip" role="listitem">Furniture</div>
+        <div class="chip" role="listitem">Apparel</div>
+        <div class="chip" role="listitem">Industrial</div>
+        <div class="chip" role="listitem">Beauty</div>
+        <div class="chip" role="listitem">Automotive</div>
+        <div class="chip" role="listitem">Food & Beverage</div>
+        <div class="chip" role="listitem">Packaging</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="get-started">
+    <div class="container">
+      <h2>Get started</h2>
+      <p class="sub">Next: supplier onboarding + showroom template + RFQ flow.</p>
+      <a class="btn btn-primary" href="#get-started">Create your first showroom</a>
+    </div>
+  </section>
+
+  <section class="section" id="signin">
+    <div class="container">
+      <h2>Sign in</h2>
+      <p class="sub">Auth / panel comes next. For now, landing is live and validated.</p>
+    </div>
+  </section>
+
+  <div style="height:28px"></div>
+</main>
 
   <main>
     <section class="hero">
