@@ -27,7 +27,7 @@
       }
       return null;
     } catch (error) {
-      console.log('USD/TRY fetch failed, using fallback');
+      // Fallback silently for production
       return null;
     }
   }
@@ -75,7 +75,7 @@
   // Initialize and set up auto-refresh
   function init() {
     if (!rateTRY && !rateUSD && !ratePi) {
-      console.log('Rates widget not found on page');
+      // Widget not present on this page
       return;
     }
 

@@ -362,8 +362,24 @@
         password: document.getElementById('password').value
       };
       
+      const button = event.target.querySelector('button[type="submit"]');
+      
+      // Show loading state
+      button.disabled = true;
+      button.textContent = 'Hesap oluşturuluyor...';
+      
       // This is a placeholder - in production, this would call your registration API
-      alert('Kayıt fonksiyonu şu an geliştirme aşamasında.\n\nFirma: ' + formData.companyName + '\nPaket: ' + formData.plan);
+      setTimeout(() => {
+        button.disabled = false;
+        button.textContent = 'Hesap Oluştur';
+        
+        // Show message (in production, replace with proper notification component)
+        const message = document.createElement('div');
+        message.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #0ea5e9; color: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; max-width: 400px; text-align: center;';
+        message.innerHTML = '<strong>Geliştirme Modu</strong><br>Kayıt fonksiyonu yakında aktif olacak.<br><small style="opacity: 0.9;">Firma: ' + formData.companyName + ' · Paket: ' + formData.plan + '</small>';
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 4000);
+      }, 1500);
       
       // In production, you would do:
       // fetch('/api/auth/register', {

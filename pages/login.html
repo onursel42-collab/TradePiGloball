@@ -188,9 +188,24 @@
       
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      const button = event.target.querySelector('button[type="submit"]');
+      
+      // Show loading state
+      button.disabled = true;
+      button.textContent = 'Giriş yapılıyor...';
       
       // This is a placeholder - in production, this would call your authentication API
-      alert('Giriş fonksiyonu şu an geliştirme aşamasında.\n\nE-posta: ' + email);
+      setTimeout(() => {
+        button.disabled = false;
+        button.textContent = 'Giriş Yap';
+        
+        // Show message (in production, replace with proper notification component)
+        const message = document.createElement('div');
+        message.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #0ea5e9; color: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; animation: slideDown 0.3s ease;';
+        message.innerHTML = '<strong>Geliştirme Modu</strong><br>Giriş fonksiyonu yakında aktif olacak.';
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 3000);
+      }, 1000);
       
       // In production, you would do:
       // fetch('/api/auth/login', {
