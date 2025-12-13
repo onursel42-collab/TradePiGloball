@@ -1,22 +1,25 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import { router } from "./routes.js";
 
 const app = express();
+app.use(express.json());
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 10000;
-const PUBLIC_DIR = path.join(__dirname, "..", "public");
+// Repo root: src/..
+// Statik dosyaları root’tan servis ediyoruz (index.html + assets)
+const repoRoot = path.resolve(__dirname, "..");
+app.use("/assets", express.static(path.join(repoRoot, "assets")));
+app.use(express.static(repoRoot));
 
-app.use(express.static(PUBLIC_DIR));
+// Pages + API
+app.use(router);
 
-app.get("/health", (_, res) => res.send("ok"));
+// Root index.html’i ver
+app.get("/", (req, res) => res.sendFile(path.join(repoRoot, "index.html")));
 
-app.get("*", (_, res) =>
-  res.sendFile(path.join(PUBLIC_DIR, "index.html"))
-);
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("TradePiGlobal running");
-});
+const port = process.env.PORT || 10000;
+app.listen(port, () => console.log(`Listening on ${port}`));
