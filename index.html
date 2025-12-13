@@ -1,11 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>TradePiGloball</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TradePi Global — B2B Showrooms</title>
+  <meta name="description" content="Enterprise showroom platform — verified showrooms, scalable integrations, enterprise support." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="preload" href="assets/css/styles.css" as="style" />
+  <script defer src="assets/js/main.js"></script>
 </head>
 <body>
-  <canvas id="app"></canvas>
-  <script type="module" src="/src/main.js"></script>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="TradePi Global">
+        <svg class="logo-mark" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
+          <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M26 70 L48 40 L74 70" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">TradePi Global</span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="bar"></span>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#features">Why TradePi</a></li>
+          <li><a href="#memberships">Memberships</a></li>
+          <li><a href="#categories">Categories</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn btn-outline" href="/signin">Sign in</a>
+          <a class="btn btn-primary" href="#contact">Get started</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1 class="hero-title">Enterprise showrooms for global trade</h1>
+          <p class="hero-sub">Verified partners. Scalable integrations. Enterprise-grade support — built to help you move more, faster.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary large" href="#memberships">Explore membership</a>
+            <a class="btn btn-ghost large" href="#categories">Browse categories</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <!-- Subtle, performant SVG illustration -->
+          <svg viewBox="0 0 600 400" class="hero-svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#eaf6ff"/>
+                <stop offset="1" stop-color="#f6fbff"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="600" height="400" rx="18" fill="url(#g1)"/>
+            <g transform="translate(20,40)" fill="none" stroke="#bfe0ff" stroke-width="3" stroke-linecap="round">
+              <path d="M0 260 C120 130 240 260 360 160 C480 60 580 160 580 160" opacity="0.65"/>
+            </g>
+            <g transform="translate(80,60)">
+              <rect x="0" y="0" width="200" height="120" rx="9" fill="#fff" opacity="0.9" />
+              <rect x="220" y="30" width="210" height="120" rx="9" fill="#ffffff" opacity="0.9" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="memberships" class="memberships section">
+      <div class="container">
+        <h2 class="section-title">Trusted membership tiers</h2>
+        <p class="section-lead">Simple, corporate-grade memberships that convey trust and capability.</p>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 2 L3 7 v7 c0 4 6 7 9 7 s9-3 9-7 V7 L12 2 z" fill="#2c7be5"/></svg>
+            </div>
+            <h3 class="card-title">Verified Showrooms</h3>
+            <p class="card-desc">Curated and verified partners to reduce risk and increase confidence.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 1 L3 5 v6 c0 5 4 9 9 9 s9-4 9-9 V5 L12 1 z" fill="#00a99d"/></svg>
+            </div>
+            <h3 class="card-title">Enterprise Support</h3>
+            <p class="card-desc">Dedicated onboarding and integration support for scaled operations.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24"><path d="M2 12 L22 12 M12 2 L12 22" stroke="#5b6cff" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="card-title">Scalable Integrations</h3>
+            <p class="card-desc">APIs and partner-ready tools that scale with your business volume.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="categories" class="categories section">
+      <div class="container">
+        <h2 class="section-title">Browse categories</h2>
+        <p class="section-lead">Quickly scan category types — horizontal, swipeable on mobile.</p>
+
+        <div class="category-wrap">
+          <button class="cat-scroll btn-circle" data-dir="left" aria-label="Scroll categories left">‹</button>
+          <div class="category-scroller" id="categoryScroller" tabindex="0" role="list">
+            <!-- Category items -->
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f0f6fb"/></svg>
+              <span>Electronics</span>
+            </div>
+
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f7fbf6"/></svg>
+              <span>Furniture</span>
+            </div>
+
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff6fb"/></svg>
+              <span>Apparel</span>
+            </div>
+
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f6f7ff"/></svg>
+              <span>Industrial</span>
+            </div>
+
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fffaf6"/></svg>
+              <span>Beauty</span>
+            </div>
+
+            <div class="category" role="listitem">
+              <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#f5fbff"/></svg>
+              <span>Automotive</span>
+            </div>
+          </div>
+          <button class="cat-scroll btn-circle" data-dir="right" aria-label="Scroll categories right">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-compact">
+      <div class="container">
+        <div class="contact">
+          <div>
+            <h3>Ready to scale?</h3>
+            <p>Speak with our enterprise team to align a rollout that fits your trade volume.</p>
+          </div>
+          <div><a class="btn btn-primary" href="/contact">Contact sales</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> TradePi Global — All rights reserved</small>
+      <nav class="footer-nav">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>
